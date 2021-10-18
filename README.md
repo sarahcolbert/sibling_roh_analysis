@@ -87,6 +87,10 @@ plink --bfile ${cleaned_dir}/${input_prefix}_filtered --homozyg-window-snp 50 --
 ## Step 3: Calculate Froh and give descriptive statistics
 This will use R code 
 
+This will create files to be returned to us: 
+1) ${return_dir}/${input_prefix}_descriptive_roh_stats.txt
+2) ${return_dir}/${input_prefix}_descriptive_sample_stats.txt
+
 NTS: make script that does this
 ```
 ## load packages
