@@ -64,7 +64,7 @@ Genotype files must first be filtered to meet the following requirements:
 2) exclude SNPs with MAF < 5% 
 3) exclude individuals with >3% missing data
 
-NTS: make script that does this
+### For this and all the other code chunks I will make actual scripts, just putting it down like this now so I have it all in one place
 ```
 plink --bfile ${input_prefix} --maf 0.05 --geno 0.03 --mind 0.03 --make-bed --out ${cleaned_dir}/${input_prefix}_filtered
 ```
@@ -79,7 +79,6 @@ Continuous ROH SNPs can be identified using PLINK with the following parameters:
 6) homozyg-window-missing 5
 7) homozyg-window-het 1
 
-For this and all the other code chunks I will make actualy scripts, just putting it down like this now so I don't forget
 ```
 plink --bfile ${cleaned_dir}/${input_prefix}_filtered --homozyg-window-snp 50 --homozyg-snp 50  --homozyg-kb 1500  --homozyg-gap 1000  --homozyg-density 50 --homozyg-window-missing 5 --homozyg-window-het 1 --out ${out_dir}/${input_prefix}_roh
 ```
