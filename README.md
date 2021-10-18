@@ -36,7 +36,10 @@ working on this...not sure what will need to be in it
 
 
 ## Step 1: Defining siblings
-The analysis pipeline requires data on siblings. We follow the suggestion of Howe et al., which is to include "all siblings from families with one or more pairs of genotyped dizygotic siblings. For example, in a family with a pair of monozygotic twins and an additional sibling, include both MZ twins and the sibling. The inclusion of both MZ twins should (very) modestly improve power by accounting for variation in the phenotypic outcome. If siblings have not been previously identified in the dataset, we suggest using KING (http://people.virginia.edu/~wc9c/KING/manual.html) to infer siblings."
+The analysis pipeline requires data on siblings. We follow the suggestion of Howe et al., which is to include "all siblings from families with one or more pairs of genotyped dizygotic siblings. For example, in a family with a pair of monozygotic twins and an additional sibling, include both MZ twins and the sibling. The inclusion of both MZ twins should (very) modestly improve power by accounting for variation in the phenotypic outcome. If siblings have not been previously identified in the dataset, we suggest using [KING](http://people.virginia.edu/~wc9c/KING/manual.html) to infer siblings."
+
+
+**OLD**
 
 ## Pre-Step 0.1: Clone and set up working directory
 make some kind of configuration file...what kind of variables will we need?
