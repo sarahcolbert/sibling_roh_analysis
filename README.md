@@ -2,16 +2,28 @@
 This repository details a Standard Operating Procedure for the data analysts that will be performing the WFC runs of homozygosity analyses in individual cohorts. We provide a fully automated analysis pipeline that will analyze and format the results to be returned. We thank blabla for allowing us to adapt code and methods from their [sibling GWAS github](https://github.com/LaurenceHowe/SiblingGWAS). 
 
 
-## Prep-Step 1: Pipeline Prerequisites and Requirements 
+## Pre-check: Pipeline Prerequisites and Requirements 
 The data requirements for the pipeline are as follows:
 
-a) Sibling data (see Step x for how to define siblings).
+1) Sibling data (see Step x for how to define siblings).
 
-b) Genotype data in plink binary format (see Step x for information on input file requirements and scripts for file conversion).
+2) Genotype data in plink binary format (see Step x for information on input file requirements and scripts for file conversion).
 
-c) Complete covariate data (see Step x for information on what covariates should be included and the file format).
+3) Complete covariate data (see Step x for information on what covariates should be included and the file format).
 
-d) Phenotype data for various traits (see Step x for more information on phenotypes requested, coding phenotypes, and phenotype file format). 
+4) Phenotype data for various traits (see Step x for more information on phenotypes requested, coding phenotypes, and phenotype file format). 
+
+## Pre-Step 1: Downloading and running the pipeline
+
+Navigate to the directory where you want to download the repository. The repository can then be downloaded using git: <br>
+> git clone https://github.com/LaurenceHowe/SiblingGWAS/ <br>
+<br>
+Once the repository is downloaded, run the following command to check that files have downloaded properly: <br>
+
+> head ./SiblingGWAS/resources/parameters <br>
+
+<br>
+
 
 ## Pre-Step 0.1: Clone and set up working directory
 make some kind of configuration file...what kind of variables will we need?
