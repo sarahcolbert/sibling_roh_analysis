@@ -190,7 +190,10 @@ write.table(phenotype_data, "within_sibs_phenotype_data.txt", row.names=FALSE, q
 
 ## Step 6: Run within sibling models
 What will we need as covariates?? 
+
 even if trait is binary still use linear regression because the residual for each individual is continuous, correct? 
+
+Results to return: beta, se, p-val, standardized beta...anything else? 
 
 ```
 ## load packages
