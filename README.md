@@ -79,7 +79,7 @@ Continuous ROH SNPs can be identified using PLINK with the following parameters:
 6) homozyg-window-missing 5
 7) homozyg-window-het 1
 
-NTS: make script that does this
+For this and all the other code chunks I will make actualy scripts, just putting it down like this now so I don't forget
 ```
 plink --bfile ${cleaned_dir}/${input_prefix}_filtered --homozyg-window-snp 50 --homozyg-snp 50  --homozyg-kb 1500  --homozyg-gap 1000  --homozyg-density 50 --homozyg-window-missing 5 --homozyg-window-het 1 --out ${out_dir}/${input_prefix}_roh
 ```
@@ -125,39 +125,86 @@ total_inds <- length(froh_data$IID)
 half_sib_inds <- sum(froh_data$froh > 0.125)
 first_cous_inds <- sum(froh_data$froh > 0.0625)
 half_cous_inds <- sum(froh_data$froh > 0.03125)
+sample <- "${sample_name}"
 
 ## put descriptive sample stats in data table and save as file (this file will be returned to us)
-descript_sample_stats <- as.data.frame(cbind(total_inds, zero_inds, half_sib_inds, first_cous_inds, half_cous_inds))
+descript_sample_stats <- as.data.frame(cbind(sample,total_inds, zero_inds, half_sib_inds, first_cous_inds, half_cous_inds))
 write.table(descript_sample_stats, "${return_dir}/${input_prefix}_descriptive_sample_stats.txt",row.names = FALSE, quote = FALSE)
 ```
 
-# NOTES/OLD FRAMEWORK
+## Step 4: Calculate Froh within siblings
+Follow method from Clark et al. 
 
-## Pre-Step 0.1: Clone and set up working directory
-make some kind of configuration file...what kind of variables will we need?
-variables:
-* working directory
-* phenotype file(s?) (can offer code for gathering phenotypes if we need to..or some code for renaming phenos to be uniform? or is that too much to ask? I am fine changing pheno names in house)
-* covariates file: WHAT DO WE WANT AS COVS? (will we need to add code for scaling covariates?)
-* genotype files (hopefully plink format, but need to offer code for converting or merging? Do we need plink files not split by chr? That's what I was using for our ABCD analyses but can it work split up by chr?)
-* directories to be made
+NTS: make script that does this
+```
+## load packages
+library(tidyverse)
 
-## Pre-Step 0.2: Summary
-adapt from: https://github.com/LaurenceHowe/SiblingGWAS/wiki/2.0_summary
+## load data
+roh_data1 <- read.table("${out_dir}/${input_prefix}_roh.hom.indiv", header = TRUE)
+covariate_data <- read.table("${covariate_file.txt}", header = TRUE)
+## merge
+roh_data <- merge(roh_data1, covariate_data, by = "IID")
 
-## Step 1: Sibling identification
-I see three options: follow sibling identification method from sibling gwas, follow method from clark et al., or let individual cohorts submit however they already have sibs coded? Or we can come up with our own method?
+## calc froh
+roh_data$froh <- roh_data$KB/(2.77*10^6)
 
-## Step 2: QC and file prep (could make master script to run this and step 3 all at once)
-NTS: should be able to use most code from htcf /suri/projects/froh_abcd/white/code/4-prep_v2.bash
-exclude SNPs with >3% missingess or MAF < 5% AND exclude individuals with >3% missing data
+## filter to necessary columns
+froh_data <- roh_data %>% select(FID, IID, NSEG, KB, froh)
 
-## Step 3: Calculate ROH, Froh, Num segments, etc. using plink
-NTS: should be able to use most code from htcf /suri/projects/froh_abcd/white/code/5-calc_froh_clark_v2.R
+## calculate value of froh relative to family mean
+## make empty column to hold results
+froh_data$froh_sibs <- NA
+## use for loop to get value for each individual
+for(i in 1:length(froh_data$IID){
+  spec_FID <- froh_data$FID[i]
+  fam_vals <- froh_data %>% filter(FID=spec_FID)
+  froh_data$froh_sibs[i] <- froh_data$froh[i]-mean(fam_vals$froh)
+}
 
-## Step 4: Get descriptive statistics
-NTS: should be able to use most code from local ./Desktop/projects/froh_abcd/white/scripts/1-autozygosity_variables_distributions.Rmd
-We don't want any figures from the cohorts, correct? I'm assuming cohort specific figs won't be helpful and we'll just make figs after we meta-analyze. We just won't be able to make any figs like the violin plot type since that requires individual data points, right?
+write.table(froh_data, "within_sibs_froh_data.txt", row.names=FALSE, quote = FALSE)
+```
 
-## Step 5: Run models for phenotypes
-Will need to look at clark method a little more but can also use code from local ./Desktop/projects/froh_abcd/white/scripts/5-child_cog_clark.Rmd
+## Step 5: Calculate phenotype within siblings
+Follow method from Clark et al. 
+
+NTS: edit code to work for all phenotypes...probably going to have to use for loop and paste
+```
+## load packages
+library(tidyverse)
+
+## load data
+phenotype_data <- read.table("${phenotype_file.txt}", header = TRUE)
+
+## calculate value of phenotype (height as example) to family mean
+## make empty column to hold results
+phenotype_data$height_sibs <- NA
+## use for loop to get value for each individual
+for(i in 1:length(phenotype_data$IID){
+  spec_FID <- phenotype_data$FID[i]
+  fam_vals <- phenotype_data %>% filter(FID=spec_FID)
+  phenotype_data$height_sibs[i] <- phenotype_data$height[i]-mean(fam_vals$height)
+}
+
+write.table(phenotype_data, "within_sibs_phenotype_data.txt", row.names=FALSE, quote = FALSE)
+```
+
+## Step 6: Run within sibling models
+What will we need as covariates?? 
+even if trait is binary still use linear regression because the residual for each individual is continuous, correct? 
+
+```
+## load packages
+library(tidyverse)
+library(lmerTest)
+
+## load data
+froh_data <- read.table("within_sibs_froh_data.txt", header = TRUE)
+phenotype_data <- read.table("within_sibs_phenotype_data.txt", header = TRUE)
+## merge
+froh_phenotype_wsibs <- merge(froh_data, phenotype_data, by = "IID")
+
+## calculate the effect of FROH on height (as an example) within-full-siblings
+height_wsibs <- lmer(height_sibs ~ froh_sibs + covars, data = froh_phenotype_wsibs)
+```
+
