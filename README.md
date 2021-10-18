@@ -13,6 +13,11 @@ The data requirements for the pipeline are as follows:
 
 4) Phenotype data for various traits (see Step x for more information on phenotypes requested, coding phenotypes, and phenotype file format). 
 
+The software requirements for the pipeline are as follows:
+
+* Plink 1.9
+* R 
+
 ## Pre-Step 1: Downloading and running the pipeline
 
 Navigate to the directory where you want to download the repository. The repository can then be downloaded using git: <br>
@@ -24,6 +29,14 @@ Once the repository is downloaded, run the following command to check that files
 
 <br>
 
+
+## Pre-Step 2: Editing the config file
+
+working on this...not sure what will need to be in it 
+
+
+## Step 1: Defining siblings
+The analysis pipeline requires data on siblings. We follow the suggestion of Howe et al., which is to include "all siblings from families with one or more pairs of genotyped dizygotic siblings. For example, in a family with a pair of monozygotic twins and an additional sibling, include both MZ twins and the sibling. The inclusion of both MZ twins should (very) modestly improve power by accounting for variation in the phenotypic outcome. If siblings have not been previously identified in the dataset, we suggest using KING (http://people.virginia.edu/~wc9c/KING/manual.html) to infer siblings."
 
 ## Pre-Step 0.1: Clone and set up working directory
 make some kind of configuration file...what kind of variables will we need?
