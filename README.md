@@ -101,9 +101,6 @@ roh_data$froh <- roh_data$KB/(2.77*10^6)
 ## filter to necessary columns
 froh_data <- roh_data %>% select(IID, NSEG, KB, froh)
 
-## check how many individuals have froh = 0
-zero_inds <- sum(froh_data$froh==0)
-
 ## calculate minimum, maximum and mean for NSEG, KB and froh
 min_vals <- as.data.frame(apply(froh_data[,2:4], 2, FUN = min, na.rm = TRUE))
 colnames(min_vals)[1] <- "min"
@@ -112,9 +109,22 @@ colnames(mean_vals)[1] <- "mean"
 max_vals <- as.data.frame(apply(froh_data[,2:4], 2, FUN = max, na.rm = TRUE))
 colnames(max_vals)[1] <- "max"
 
-## put descriptive stats in data table and save as file (this file will be returned to us)
-descript_stats <- cbind(min_vals, max_vals, mean_vals)
-write.table(descript_stats, "${return_dir}/${input_prefix}_descriptive_stats.txt", row.names = TRUE, quote = FALSE)
+## put descriptive roh stats in data table and save as file (this file will be returned to us)
+descript_roh_stats <- cbind(min_vals, max_vals, mean_vals)
+write.table(descript_roh_stats, "${return_dir}/${input_prefix}_descriptive_roh_stats.txt", row.names = TRUE, quote = FALSE)
+
+## check how many individuals have froh = 0
+zero_inds <- sum(froh_data$froh==0)
+## check how many total individuals roh calls were performed for
+total_inds <- length(froh_data$IID)
+## check how many individuals are offspring of various relative relationships
+half_sib_inds <- sum(froh_data$froh > 0.125)
+first_cous_inds <- sum(froh_data$froh > 0.0625)
+half_cous_inds <- sum(froh_data$froh > 0.03125)
+
+## put descriptive sample stats in data table and save as file (this file will be returned to us)
+descript_sample_stats <- as.data.frame(cbind(total_inds, zero_inds, half_sib_inds, first_cous_inds, half_cous_inds))
+write.table(descript_sample_stats, "${return_dir}/${input_prefix}_descriptive_sample_stats.txt",row.names = FALSE, quote = FALSE)
 ```
 
 # NOTES/OLD FRAMEWORK
