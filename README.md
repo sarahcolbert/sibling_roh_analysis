@@ -21,11 +21,11 @@ The software requirements for the pipeline are as follows:
 ## Pre-Step 1: Downloading and running the pipeline
 
 Navigate to the directory where you want to download the repository. The repository can then be downloaded using git: <br>
-> git clone https://github.com/LaurenceHowe/SiblingGWAS/ <br>
+> git clone https://github.com/sarahcolbert/siblingRohAnalyses <br>
 <br>
 Once the repository is downloaded, run the following command to check that files have downloaded properly: <br>
 
-> head ./SiblingGWAS/resources/parameters <br>
+> head ./siblingRohAnalyses/resources/parameters <br>
 
 <br>
 
