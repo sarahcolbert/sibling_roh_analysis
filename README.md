@@ -1,22 +1,23 @@
 # Runs of homozygosity in the Within Family Consortium Analyses
-This repository details a Standard Operating Procedure for the data analysts that will be performing the WFC runs of homozygosity analyses in individual cohorts. We provide a fully automated analysis pipeline that will analyze and format the results to be returned. We thank blabla for allowing us to adapt code and methods from their [sibling GWAS github](https://github.com/LaurenceHowe/SiblingGWAS). 
+This repository details a Standard Operating Procedure for the data analysts that will be performing the WFC runs of homozygosity analyses in individual cohorts. We provide a fully automated analysis pipeline that will analyze and format the results to be returned. We thank blabla for allowing us to adapt code and methods from their [sibling GWAS github](https://github.com/LaurenceHowe/SiblingGWAS).
 
 
-## Pre-check: Pipeline Prerequisites and Requirements 
+## Pre-check: Pipeline Prerequisites and Requirements
 The data requirements for the pipeline are as follows:
 
-1) Sibling data (see Step x for how to define siblings).
+1) Sibling data (see Pre-Step 3 for how to define siblings).
 
-2) Genotype data in plink binary format (see Step x for information on input file requirements and scripts for file conversion).
+2) Genotype data in plink binary format (see Pre-Step 4 for information on input file requirements and scripts for file conversion).
 
-3) Complete covariate data (see Step x for information on what covariates should be included and the file format).
+3) Complete covariate data (see Pre-Step 4 for information on what covariates should be included and the file format).
 
-4) Phenotype data for various traits (see Step x for more information on phenotypes requested, coding phenotypes, and phenotype file format). 
+4) Phenotype data for various traits (see Pre-Step 4 for more information on phenotypes requested, coding phenotypes, and phenotype file format).
 
 The software requirements for the pipeline are as follows:
 
 * Plink 1.9
-* R 
+* R
+* KING (if siblings are not already defined)
 
 ## Pre-Step 1: Downloading and running the pipeline
 
@@ -32,14 +33,26 @@ Once the repository is downloaded, run the following command to check that files
 
 ## Pre-Step 2: Editing the config file
 
-working on this...not sure what will need to be in it 
+working on this...not sure what will need to be in it
 
 
-## Step 1: Defining siblings
-The analysis pipeline requires data on siblings. We follow the suggestion of Howe et al., which is to include "all siblings from families with one or more pairs of genotyped dizygotic siblings. For example, in a family with a pair of monozygotic twins and an additional sibling, include both MZ twins and the sibling. The inclusion of both MZ twins should (very) modestly improve power by accounting for variation in the phenotypic outcome. If siblings have not been previously identified in the dataset, we suggest using [KING](https://www.kingrelatedness.com/) to infer siblings." 
+## Pre-Step 3: Defining siblings
+The analysis pipeline requires data on siblings. We follow the suggestion of Howe et al., which is to include "all siblings from families with one or more pairs of genotyped dizygotic siblings. For example, in a family with a pair of monozygotic twins and an additional sibling, include both MZ twins and the sibling. The inclusion of both MZ twins should (very) modestly improve power by accounting for variation in the phenotypic outcome. If siblings have not been previously identified in the dataset, we suggest using [KING](https://www.kingrelatedness.com/) to infer siblings."
 
-We provide instruction for defining siblings [here](https://github.com/sarahcolbert/siblingRohAnalyses/ADD).
+Instructions for defining siblings are provided by Howe et al. [here](https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.1_Siblings).
 
+## Pre-Step 4: Input Files
+### Genotype data
+You will need genotype data in PLINK binary format. The pipeline requires the input (.bed, .bim, .fam) files to satisfy the following requirements:
+
+a) PLINK binary format (.bed .bim .fam) files. The first two columns must contain family IDs (FID) and individual IDs (IIDs). FIDs should be common between siblings (but unique between sets of siblings) and IIDs should be unique for each individual.
+
+b) add stuff as we need it
+
+### Covariate data
+A covariate file should be provided containing the following columns, if available:
+
+IID, age, sex, batch, first 10 genomic principal components, anything else? 
 
 # NOTES/OLD FRAMEWORK
 
@@ -67,9 +80,7 @@ NTS: should be able to use most code from htcf /suri/projects/froh_abcd/white/co
 
 ## Step 4: Get descriptive statistics
 NTS: should be able to use most code from local ./Desktop/projects/froh_abcd/white/scripts/1-autozygosity_variables_distributions.Rmd
-We don't want any figures from the cohorts, correct? I'm assuming cohort specific figs won't be helpful and we'll just make figs after we meta-analyze. We just won't be able to make any figs like the violin plot type since that requires individual data points, right? 
+We don't want any figures from the cohorts, correct? I'm assuming cohort specific figs won't be helpful and we'll just make figs after we meta-analyze. We just won't be able to make any figs like the violin plot type since that requires individual data points, right?
 
 ## Step 5: Run models for phenotypes
 Will need to look at clark method a little more but can also use code from local ./Desktop/projects/froh_abcd/white/scripts/5-child_cog_clark.Rmd
-
-
