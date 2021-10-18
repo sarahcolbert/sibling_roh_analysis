@@ -7,7 +7,7 @@ The data requirements for the pipeline are as follows:
 
 1) Sibling data (see Pre-Step 3 for how to define siblings).
 
-2) Genotype data in plink binary format (see Pre-Step 4 for information on input file requirements and scripts for file conversion).
+2) Called genotypes in plink binary format. Imputed data is not permitted. (see Pre-Step 4 for information on input file requirements and scripts for file conversion).
 
 3) Complete covariate data (see Pre-Step 4 for information on what covariates should be included and the file format).
 
@@ -16,7 +16,7 @@ The data requirements for the pipeline are as follows:
 The software requirements for the pipeline are as follows:
 
 * Plink 1.9
-* R
+* R (tidyverse installed, )
 * KING (if siblings are not already defined)
 
 ## Pre-Step 1: Downloading and running the pipeline
@@ -47,12 +47,75 @@ You will need genotype data in PLINK binary format. The pipeline requires the in
 
 a) PLINK binary format (.bed .bim .fam) files. The first two columns must contain family IDs (FID) and individual IDs (IIDs). FIDs should be common between siblings (but unique between sets of siblings) and IIDs should be unique for each individual.
 
-b) add stuff as we need it
+b) add requirements as needed.
 
 ### Covariate data
 A covariate file should be provided containing the following columns, if available:
+FID, IID, age, sex (male = 1, female = 0), batch, first 10 genomic principal components, anything else? 
 
-IID, age, sex, batch, first 10 genomic principal components, anything else? 
+### Phenotype data 
+how closely do we want to follow c and d here? https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.4_Phenotypes
+
+## OTHER STEPS- GOING TO ADD
+
+## Step 1: Prep plink files
+Genotype files must first be filtered to meet the following requirements:
+1) exclude SNPs with >3% missingess
+2) exclude SNPs with MAF < 5% 
+3) exclude individuals with >3% missing data
+
+NTS: make script that does this
+```
+plink --bfile ${input_prefix} --maf 0.05 --geno 0.03 --mind 0.03 --make-bed --out ${cleaned_dir}/${input_prefix}_filtered
+```
+
+## Step 2: ROH Calling
+Continuous ROH SNPs can be identified using PLINK with the following parameters:
+1) homozyg-window-snp 50
+2) homozyg-snp 50
+3) homozyg-kb 1500
+4) homozyg-gap 1000
+5) homozyg-density 50
+6) homozyg-window-missing 5
+7) homozyg-window-het 1
+
+NTS: make script that does this
+```
+plink --bfile ${cleaned_dir}/${input_prefix}_filtered --homozyg-window-snp 50 --homozyg-snp 50  --homozyg-kb 1500  --homozyg-gap 1000  --homozyg-density 50 --homozyg-window-missing 5 --homozyg-window-het 1 --out ${out_dir}/${input_prefix}_roh
+```
+
+## Step 3: Calculate Froh and give descriptive statistics
+This will use R code 
+
+NTS: make script that does this
+```
+## load packages
+library(tidyverse)
+
+## load data
+roh_data <- read.table("${out_dir}/${input_prefix}_roh.hom.indiv", header = TRUE)
+
+## calc froh
+roh_data$froh <- roh_data$KB/(2.77*10^6)
+
+## filter to necessary columns
+froh_data <- roh_data %>% select(IID, NSEG, KB, froh)
+
+## check how many individuals have froh = 0
+zero_inds <- sum(froh_data$froh==0)
+
+## calculate minimum, maximum and mean for NSEG, KB and froh
+min_vals <- as.data.frame(apply(froh_data[,2:4], 2, FUN = min, na.rm = TRUE))
+colnames(min_vals)[1] <- "min"
+mean_vals <- as.data.frame(apply(froh_data[,2:4], 2, FUN = mean, na.rm = TRUE))
+colnames(mean_vals)[1] <- "mean"
+max_vals <- as.data.frame(apply(froh_data[,2:4], 2, FUN = max, na.rm = TRUE))
+colnames(max_vals)[1] <- "max"
+
+## put descriptive stats in data table and save as file (this file will be returned to us)
+descript_stats <- cbind(min_vals, max_vals, mean_vals)
+write.table(descript_stats, "${return_dir}/${input_prefix}_descriptive_stats.txt", row.names = TRUE, quote = FALSE)
+```
 
 # NOTES/OLD FRAMEWORK
 
