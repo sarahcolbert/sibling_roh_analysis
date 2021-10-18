@@ -4,7 +4,14 @@ This repository details a Standard Operating Procedure for the data analysts tha
 
 ## Prep-Step 1: Pipeline Prerequisites and Requirements 
 The data requirements for the pipeline are as follows:
-a) Sibling
+
+a) Sibling data (see Step x for how to define siblings).
+
+b) Genotype data in plink binary format (see Step x for information on input file requirements and scripts for file conversion).
+
+c) Complete covariate data (see Step x for information on what covariates should be included and the file format).
+
+d) Phenotype data for various traits (see Step x for more information on phenotypes requested, coding phenotypes, and phenotype file format). 
 
 ## Pre-Step 0.1: Clone and set up working directory
 make some kind of configuration file...what kind of variables will we need?
