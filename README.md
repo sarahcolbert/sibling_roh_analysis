@@ -56,7 +56,7 @@ FID, IID, age, sex (male = 1, female = 0), batch, first 10 genomic principal com
 ### Phenotype data 
 how closely do we want to follow c and d here? https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.4_Phenotypes
 
-## OTHER STEPS- GOING TO ADD
+## OTHER PRE-STEPS- GOING TO ADD
 
 ## Step 1: Prep plink files
 Genotype files must first be filtered to meet the following requirements:
