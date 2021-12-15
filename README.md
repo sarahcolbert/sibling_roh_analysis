@@ -110,7 +110,11 @@ colnames(min_vals)[1] <- "min"
 mean_vals <- as.data.frame(apply(froh_data[,2:4], 2, FUN = mean, na.rm = TRUE))
 colnames(mean_vals)[1] <- "mean"
 max_vals <- as.data.frame(apply(froh_data[,2:4], 2, FUN = max, na.rm = TRUE))
-colnames(max_vals)[1] <- "max"
+colnames(max_vals)[1] <- "max" 
+##########
+########## ADD MEDIAN
+##########
+
 
 ## put descriptive roh stats in data table and save as file (this file will be returned to us)
 descript_roh_stats <- cbind(min_vals, max_vals, mean_vals)
