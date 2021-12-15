@@ -17,16 +17,14 @@ analyst_email="EMAIL"
 
 home_directory="DIRECTORY"
 
-bfile_raw="data_filtered"
-covariates="sibling-covariates.txt"
-phenotypes="sibling-phenotypes-updated.txt"
+${input_prefix}
+${cleaned_dir}
+${out_dir}
+${return_dir}
+${sample_name}
+${covariate_file.txt}
+${phenotype_file.txt}
 
-# Imputation quality scores
-# This should be a file with three columns, SNP, MAF and quality scores
-quality_scores="data_filtered.info"
-
-# Splitting data-set into chunks of e.g. 100,000 SNPs to run in batch
-chunks_snp_number="10000"
 
 # DO NOT MODIFY
 
