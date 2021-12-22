@@ -41,6 +41,8 @@ The analysis pipeline requires data on siblings. We follow the suggestion of How
 
 Instructions for defining siblings are provided by Howe et al. [here](https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.1_Siblings).
 
+*** provide example of what this file should look like
+
 ## Pre-Step 4: Input Files
 ### Genotype data
 You will need genotype data in PLINK binary format. The pipeline requires the input (.bed, .bim, .fam) files to satisfy the following requirements:
