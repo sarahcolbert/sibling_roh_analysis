@@ -31,5 +31,4 @@ $king -b $genotyped_data \
         --degree 2 \
 	--prefix $out/sibs \
 	--rplot \
-	--cpus 32 \
        	|& tee $out/sibs.txt
