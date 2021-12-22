@@ -71,4 +71,4 @@ sample <- Sys.getenv("input_prefix")
 
 ## put descriptive sample stats in data table and save as file (this file will be returned to us)
 descript_sample_stats <- as.data.frame(cbind(sample,total_inds, total_sib_groups, zero_inds, half_sib_inds, first_cous_inds, half_cous_inds))
-write.csv(descript_sample_stats, paste(Sys.getenv("output_dir"),Sys.getenv("input_prefix"),"_descriptive_sample_stats.csv", sep=""), row.names = TRUE)
+write.csv(descript_sample_stats, paste(Sys.getenv("output_dir"),Sys.getenv("input_prefix"),"_descriptive_sample_stats.csv", sep=""), row.names = FALSE)
