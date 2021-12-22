@@ -1,16 +1,23 @@
 ## load packages and data
 library(tidyverse)
+cat(paste("loading ",Sys.getenv("processed_dir"),Sys.getenv("input_prefix"),"_roh.hom.indiv", sep=""))
 roh_data1 <- read.table(paste(Sys.getenv("processed_dir"),Sys.getenv("input_prefix"),"_roh.hom.indiv", sep=""), header = TRUE)
+cat(paste("done loading ",Sys.getenv("processed_dir"),Sys.getenv("input_prefix"),"_roh.hom.indiv", sep=""))
+cat(paste("loading ",(Sys.getenv("covar_file")), sep=""))
 covar_data <- read.table(paste(Sys.getenv("covar_file")), header = TRUE)
+cat(paste("done loading ",(Sys.getenv("covar_file")), sep=""))
 
 ## merge
+cat("merging roh and covariate data")
 roh_data <- merge(roh_data1, covar_data, by = "IID")
+cat("done merging roh and covariate data")
 
 ######################################
 ##### CALCULATE FROH WITHIN SIBS #####
 ######################################
 
 ## calc froh
+cat("calculating Froh")
 roh_data$froh <- roh_data$KB/(2.77*10^6)
 
 ## filter to necessary columns
@@ -29,8 +36,11 @@ for(i in 1:length(froh_data$IID)){
   froh_data$froh_sibs[i] <- froh_data$froh[i]-mean(fam_vals$froh)
 }
 
+cat("done calculating Froh")
+
 ## save table with froh values just incase
 write.table(froh_data, paste(Sys.getenv("processed_dir"),"within_sibs_froh_data.txt", sep=""), row.names=FALSE, quote = FALSE)
+cat(paste("writing Froh estimates to ",Sys.getenv("processed_dir"),"within_sibs_froh_data.txt", sep=""))
 
 ################################
 ##### GET BASIC FROH STATS #####
