@@ -4,7 +4,7 @@
 ############ (I'm just doing this so we have ABCD data ready to test, but won't provide in our code since we link to the sibling GWAS github how to)
 ############################
 
-## see siblings_extra.bash
+## see 0-siblings_extra.bash
 
 
 #########################
@@ -21,23 +21,23 @@ export output_dir="${project_dir}output/"
 mkdir ${project_dir} ${processed_dir} ${output_dir}
 echo "created ${project_dir}"
 
-## get locations for data
+## give location for directory with plink files
 export data_dir="/scratch/aalab/suri/data/cleaned_data/" ## will make this $1
 echo "reading data from ${data_dir}"
-## get name of plink files
+## give name of plink files
 export input_prefix="abcd_eur_sibs" ## will make this $2
-## get location for covariate file
-export covar_file="/scratch/aalab/suri/data/raw_data/abcd_covariates_eur.txt"
+## give location for covariate file
+export covar_file="/scratch/aalab/suri/data/raw_data/abcd_covariates_eur.txt" ## will make this $3
+## give location for phenotype file 
+export pheno_file="/scratch/aalab/suri/data/raw_data/abcd_phenotypes_eur.txt" ## will make this $4
+
 
 ############################
 ##### QC AND CALL ROHS #####
 ############################
 
-## use plink to exclude SNPs with >3% missingess or MAF < 5% AND exclude individuals with >3% missing data
-plink --bfile ${data_dir}${input_prefix} --maf 0.05 --geno 0.03 --mind 0.03 --make-bed --out ${processed_dir}${input_prefix}_filtered
-
-## use plink to identify continuous ROH SNPs
-plink --bfile ${processed_dir}/${input_prefix}_filtered --homozyg-window-snp 50 --homozyg-snp 50  --homozyg-kb 1500  --homozyg-gap 1000  --homozyg-density 50 --homozyg-window-missing 5 --homozyg-window-het 1 --out ${processed_dir}/${input_prefix}_roh
+## use plink to perform qc and roh calling
+bash 1-qc_and_call.bash
 
 ######################################
 ##### CALCULATE FROH WITHIN SIBS #####
@@ -45,5 +45,12 @@ plink --bfile ${processed_dir}/${input_prefix}_filtered --homozyg-window-snp 50 
 ######################################
 
 ## use R to calculate froh
-Rscript calc_froh.R
+Rscript 2-calc_froh.R
 
+############################################
+##### CALCULATE PHENOTYPES WITHIN SIBS #####
+##### GET DESCRIPTIVE STATISTICS FOR PHENOTYPES
+############################################
+
+## use R to calculate froh
+Rscript 3-calc_phenos.R
