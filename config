@@ -27,5 +27,9 @@ export pheno_file="/path/to/phenotypes.txt"
 
 ## DO NOT MODIFY
 export processed_dir="${project_dir}processed_files/"
+mkdir ${processed_dir}
 export output_dir="${project_dir}output/"
+mkdir ${output_dir}
 export code_dir="${project_dir}code/"
+
+
