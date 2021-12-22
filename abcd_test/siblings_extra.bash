@@ -4,9 +4,9 @@
 ############ (I'm just doing this so we have ABCD data ready to test, but won't provide in our code since we link to the sibling GWAS github how to)
 ############################
 
-
+## get locations for data and software
 export king="/home/sarah.c/software/king"
-export genotyped_data="${data_dir}abc_abc1_white_no_hisp_sc-qc2.bed"
+export genotyped_data="/scratch/aalab/suri/data/raw_data/abc_abc1_white_no_hisp_sc-qc2.bed"
 export out="${project_dir}output"
 
 sbatch 1-king.sbatch
