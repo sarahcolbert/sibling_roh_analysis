@@ -23,13 +23,11 @@ The software requirements for the pipeline are as follows:
 
 Navigate to the directory where you want to download the repository. The repository can then be downloaded using git: <br>
 > git clone https://github.com/sarahcolbert/sibling_roh_analysis <br>
-<br>
-
 
 
 ## Pre-Step 2: Editing the config file
-
-working on this...not sure what will need to be in it
+To edit the config file navigate to the sibling_roh_analysis directory and edit the config file to include the required information. You can then run the config file using:  <br>
+> source ./config <br>
 
 
 ## Pre-Step 3: Defining siblings
