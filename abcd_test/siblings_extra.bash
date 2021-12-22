@@ -1,18 +1,3 @@
-#########################
-##### CONFIGURATION #####
-#########################
-
-## navigate to your projects directory
-
-## making project directory for analysis
-export WORKING_DIR="$PWD"
-export project_dir="${WORKING_DIR}/sibling_roh_analysis/" ## will make this $1
-mkdir ${project_dir} ${project_dir}output ${project_dir}log
-echo "created ${project_dir}"
-
-## get locations for data
-export data_dir="/scratch/aalab/suri/data/raw_data/" ## will make this $2
-
 ############################
 ##### CONFIRM SIBLINGS #####
 ##### NOT PART OF OUR CODE #####
@@ -33,7 +18,7 @@ $king -b $genotyped_data \
 	--prefix $out/sibs \
 	--rplot \
        	|& tee $out/sibs.txt
-	
+
 #Format sibling file from long to wide
 ##################### R CODE
 
@@ -87,7 +72,7 @@ output1<-final3[,c(1,2)]
 names(output1)<-c("FID", "IID")
 output2<-final3[,c(2,2)]
 names(output2)<-c("FID", "IID")
-write.table(output1, "./sibling_roh_analysis/output/Siblings-FID.fam", quote=F, row.names=F, col.names=F, sep=" ")	
+write.table(output1, "./sibling_roh_analysis/output/Siblings-FID.fam", quote=F, row.names=F, col.names=F, sep=" ")
 
 # R script to update FID, keeping the order of individuals the same as the original PLINK file.
 library(dplyr)
@@ -129,8 +114,3 @@ ordered2 <- ordered %>% select(FID,IID,V3,V4,V5,V6)
 
 # Output
 write.table(ordered2, "./sibling_roh_analysis/output/update.fam", quote=F, row.names=F, col.names=F, sep=" ")
-
-
-############################
-#####  #####
-############################
