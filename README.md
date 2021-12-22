@@ -73,56 +73,14 @@ bash ${code_dir}1-qc_and_call.bash
 
 
 
-## Step 3: Calculate Froh and give descriptive statistics
-This will use R code 
+## Step 3: Calculate Froh (within siblings) and give descriptive statistics
 
-This will create files to be returned to us: 
-1) ${return_dir}/${input_prefix}_descriptive_roh_stats.txt
-2) ${return_dir}/${input_prefix}_descriptive_sample_stats.txt
+Running the code below will calculate Froh for each individual, then calculate Froh within siblings and finally, create tables that describe the sample (which will be included in the return of results).
 
-NTS: make script that does this
+Before runnning you will need to make sure that you have R installed and your version of R should include the tidyverse package.
+
 ```
-## load packages
-library(tidyverse)
-
-## load data
-roh_data <- read.table("${out_dir}/${input_prefix}_roh.hom.indiv", header = TRUE)
-
-## calc froh
-roh_data$froh <- roh_data$KB/(2.77*10^6)
-
-## filter to necessary columns
-froh_data <- roh_data %>% select(IID, NSEG, KB, froh)
-
-## calculate minimum, maximum and mean for NSEG, KB and froh
-min_vals <- as.data.frame(apply(froh_data[,2:4], 2, FUN = min, na.rm = TRUE))
-colnames(min_vals)[1] <- "min"
-mean_vals <- as.data.frame(apply(froh_data[,2:4], 2, FUN = mean, na.rm = TRUE))
-colnames(mean_vals)[1] <- "mean"
-max_vals <- as.data.frame(apply(froh_data[,2:4], 2, FUN = max, na.rm = TRUE))
-colnames(max_vals)[1] <- "max" 
-##########
-########## ADD MEDIAN
-##########
-
-
-## put descriptive roh stats in data table and save as file (this file will be returned to us)
-descript_roh_stats <- cbind(min_vals, max_vals, mean_vals)
-write.table(descript_roh_stats, "${return_dir}/${input_prefix}_descriptive_roh_stats.txt", row.names = TRUE, quote = FALSE)
-
-## check how many individuals have froh = 0
-zero_inds <- sum(froh_data$froh==0)
-## check how many total individuals roh calls were performed for
-total_inds <- length(froh_data$IID)
-## check how many individuals are offspring of various relative relationships
-half_sib_inds <- sum(froh_data$froh > 0.125)
-first_cous_inds <- sum(froh_data$froh > 0.0625)
-half_cous_inds <- sum(froh_data$froh > 0.03125)
-sample <- "${sample_name}"
-
-## put descriptive sample stats in data table and save as file (this file will be returned to us)
-descript_sample_stats <- as.data.frame(cbind(sample,total_inds, zero_inds, half_sib_inds, first_cous_inds, half_cous_inds))
-write.table(descript_sample_stats, "${return_dir}/${input_prefix}_descriptive_sample_stats.txt",row.names = FALSE, quote = FALSE)
+Rscript ${code_dir}2-calc_froh.R
 ```
 
 ## Step 4: Calculate Froh within siblings
