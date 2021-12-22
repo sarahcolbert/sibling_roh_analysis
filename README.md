@@ -64,11 +64,14 @@ Continuous ROH SNPs are identified using PLINK with the following parameters:
 6) homozyg-window-missing 5
 7) homozyg-window-het 1
 
-Running the code below will perform QC and then use the QCed files to call ROHs
+Running the code below will perform QC and then use the QCed files to call ROHs.
+Before running you will need to make sure that you have plink 1.9 installed and that it can be called with the command "plink" as is done in the [1-qc_and_call.bash script](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/code/1-qc_and_call.bash).
 
 ```
 bash ${code_dir}1-qc_and_call.bash
 ```
+
+
 
 ## Step 3: Calculate Froh and give descriptive statistics
 This will use R code 
