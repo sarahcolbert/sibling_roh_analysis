@@ -13,7 +13,7 @@ analyst_email="EMAIL"
 
 # Please put the full path to this directory
 # e.g. if the config file path is "/home/Projects/sibling_roh_analysis/config"
-#then project_dir="/home/Projects/sibling_roh_analysis"
+#then project_dir="/home/Projects/sibling_roh_analysis/"
 export project_dir="/path/to/proj_dir/"
 
 ## put location for directory with plink files
