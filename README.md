@@ -5,7 +5,7 @@ This repository details a Standard Operating Procedure for the data analysts tha
 ## Pre-check: Pipeline Prerequisites and Requirements
 The data requirements for the pipeline are as follows:
 
-1) Sibling data (see Pre-Step 3 for how to define siblings).
+1) Sibling data (see Pre-Step 2 for how to define siblings).
 
 2) Called genotypes in plink binary format. Imputed data is not permitted. (see Pre-Step 4 for information on input file requirements and scripts for file conversion).
 
@@ -25,18 +25,14 @@ Navigate to the directory where you want to download the repository. The reposit
 > git clone https://github.com/sarahcolbert/sibling_roh_analysis <br>
 
 
-## Pre-Step 2: Editing the config file
-To edit the config file navigate to the sibling_roh_analysis directory and add the required information to the file. You can then run the config file using:  <br>
-> chmod u+x config
-> source ./config <br>
-
-
-## Pre-Step 3: Defining siblings
+## Pre-Step 2: Defining siblings
 The analysis pipeline requires data on siblings. We follow the suggestion of Howe et al., which is to include "all siblings from families with one or more pairs of genotyped dizygotic siblings. For example, in a family with a pair of monozygotic twins and an additional sibling, include both MZ twins and the sibling. The inclusion of both MZ twins should (very) modestly improve power by accounting for variation in the phenotypic outcome. If siblings have not been previously identified in the dataset, we suggest using [KING](https://www.kingrelatedness.com/) to infer siblings."
 
 Instructions for defining siblings are provided by Howe et al. [here](https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.1_Siblings).
 
-*** provide example of what this file should look like
+## Pre-Step 3: Editing the config file
+To edit the config file navigate to the sibling_roh_analysis directory and add the required information to the file. You can then run the config file using:  <br>
+> source ./config <br>
 
 ## Pre-Step 4: Input Files
 ### Genotype data
@@ -53,21 +49,13 @@ FID, IID, age, sex (male = 1, female = 0), batch, first 10 genomic principal com
 ### Phenotype data 
 how closely do we want to follow c and d here? https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.4_Phenotypes
 
-## OTHER PRE-STEPS- GOING TO ADD
-
-## Step 1: Prep plink files
+## Steps 1 + 2: QC and ROH Calling
 Genotype files must first be filtered to meet the following requirements:
 1) exclude SNPs with >3% missingess
 2) exclude SNPs with MAF < 5% 
 3) exclude individuals with >3% missing data
 
-### For this and all the other code chunks I will make actual scripts, just putting it down like this now so I have it all in one place
-```
-plink --bfile ${input_prefix} --maf 0.05 --geno 0.03 --mind 0.03 --make-bed --out ${cleaned_dir}/${input_prefix}_filtered
-```
-
-## Step 2: ROH Calling
-Continuous ROH SNPs can be identified using PLINK with the following parameters:
+Continuous ROH SNPs are identified using PLINK with the following parameters:
 1) homozyg-window-snp 50
 2) homozyg-snp 50
 3) homozyg-kb 1500
@@ -76,8 +64,10 @@ Continuous ROH SNPs can be identified using PLINK with the following parameters:
 6) homozyg-window-missing 5
 7) homozyg-window-het 1
 
+Running the code below will perform QC and then use the QCed files to call ROHs
+
 ```
-plink --bfile ${cleaned_dir}/${input_prefix}_filtered --homozyg-window-snp 50 --homozyg-snp 50  --homozyg-kb 1500  --homozyg-gap 1000  --homozyg-density 50 --homozyg-window-missing 5 --homozyg-window-het 1 --out ${out_dir}/${input_prefix}_roh
+bash ${code_dir}1-qc_and_call.bash
 ```
 
 ## Step 3: Calculate Froh and give descriptive statistics
