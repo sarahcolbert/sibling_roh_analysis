@@ -7,7 +7,7 @@
 ## get locations for data and software
 export king="/home/sarah.c/software/king"
 export genotyped_data="/scratch/aalab/suri/data/raw_data/abc_abc1_white_no_hisp_sc-qc2.bed"
-export out="${project_dir}output"
+export out="/scratch/aalab/suri/data/cleaned_data"
 
 sbatch 1-king.sbatch
 
@@ -26,7 +26,7 @@ $king -b $genotyped_data \
 require(data.table)
 
 #Read in file and restrict to siblings
-kin <- read.delim('./sibling_roh_analysis/output/sibs.kin0', header=T, as.is=T)
+kin <- read.delim('/scratch/aalab/suri/data/cleaned_data/sibs.kin0', header=T, as.is=T)
 
 # Restrict to full siblings
 kin2 <- kin[kin$InfType=='FS',]
@@ -72,13 +72,13 @@ output1<-final3[,c(1,2)]
 names(output1)<-c("FID", "IID")
 output2<-final3[,c(2,2)]
 names(output2)<-c("FID", "IID")
-write.table(output1, "./sibling_roh_analysis/output/Siblings-FID.fam", quote=F, row.names=F, col.names=F, sep=" ")
+write.table(output1, "/scratch/aalab/suri/data/cleaned_data/Siblings-FID.fam", quote=F, row.names=F, col.names=F, sep=" ")
 
 # R script to update FID, keeping the order of individuals the same as the original PLINK file.
 library(dplyr)
 
 # Input
-sibFID <- read.delim2("./sibling_roh_analysis/output/Siblings-FID.fam", header=F, sep=" ", as.is=T)
+sibFID <- read.delim2("/scratch/aalab/suri/data/cleaned_data/Siblings-FID.fam", header=F, sep=" ", as.is=T)
 plinkFAM <- read.delim2("/scratch/aalab/suri/data/raw_data/abc_abc1_white_no_hisp_sc-qc2.fam", header=F, sep=" ", as.is=T)
 
 # There are some duplicate IID with different FIDS in "./sibling_roh_analysis/output/Siblings-FID.fam"
@@ -113,4 +113,4 @@ ordered$id <- NULL
 ordered2 <- ordered %>% select(FID,IID,V3,V4,V5,V6)
 
 # Output
-write.table(ordered2, "./sibling_roh_analysis/output/update.fam", quote=F, row.names=F, col.names=F, sep=" ")
+write.table(ordered2, "/scratch/aalab/suri/data/cleaned_data/update.fam", quote=F, row.names=F, col.names=F, sep=" ")
