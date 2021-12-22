@@ -26,7 +26,8 @@ Navigate to the directory where you want to download the repository. The reposit
 
 
 ## Pre-Step 2: Editing the config file
-To edit the config file navigate to the sibling_roh_analysis directory and edit the config file to include the required information. You can then run the config file using:  <br>
+To edit the config file navigate to the sibling_roh_analysis directory and add the required information to the file. You can then run the config file using:  <br>
+> chmod u+x config
 > source ./config <br>
 
 
