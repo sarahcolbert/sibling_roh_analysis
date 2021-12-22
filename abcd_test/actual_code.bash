@@ -41,6 +41,7 @@ plink --bfile ${processed_dir}/${input_prefix}_filtered --homozyg-window-snp 50 
 
 ######################################
 ##### CALCULATE FROH WITHIN SIBS #####
+##### GET DESCRIPTIVE STATISTICS FOR SAMPLE OF SIBLINGS
 ######################################
 
 ## use R to calculate froh
