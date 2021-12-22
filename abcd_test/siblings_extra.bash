@@ -113,4 +113,4 @@ ordered$id <- NULL
 ordered2 <- ordered %>% select(FID,IID,V3,V4,V5,V6)
 
 # Output
-write.table(ordered2, "/scratch/aalab/suri/data/cleaned_data/update.fam", quote=F, row.names=F, col.names=F, sep=" ")
+write.table(ordered2, "/scratch/aalab/suri/data/cleaned_data/abcd_eur_sibs.fam", quote=F, row.names=F, col.names=F, sep=" ")
