@@ -83,40 +83,7 @@ Before runnning you will need to make sure that you have R installed and your ve
 Rscript ${code_dir}2-calc_froh.R
 ```
 
-## Step 4: Calculate Froh within siblings
-Follow method from Clark et al. 
-
-NTS: make script that does this
-```
-## load packages
-library(tidyverse)
-
-## load data
-roh_data1 <- read.table("${out_dir}/${input_prefix}_roh.hom.indiv", header = TRUE)
-covariate_data <- read.table("${covariate_file.txt}", header = TRUE)
-## merge
-roh_data <- merge(roh_data1, covariate_data, by = "IID")
-
-## calc froh
-roh_data$froh <- roh_data$KB/(2.77*10^6)
-
-## filter to necessary columns
-froh_data <- roh_data %>% select(FID, IID, NSEG, KB, froh)
-
-## calculate value of froh relative to family mean
-## make empty column to hold results
-froh_data$froh_sibs <- NA
-## use for loop to get value for each individual
-for(i in 1:length(froh_data$IID){
-  spec_FID <- froh_data$FID[i]
-  fam_vals <- froh_data %>% filter(FID=spec_FID)
-  froh_data$froh_sibs[i] <- froh_data$froh[i]-mean(fam_vals$froh)
-}
-
-write.table(froh_data, "within_sibs_froh_data.txt", row.names=FALSE, quote = FALSE)
-```
-
-## Step 5: Calculate phenotype within siblings
+## Step 4: Calculate phenotypes (within siblings)
 Follow method from Clark et al. 
 
 NTS: edit code to work for all phenotypes...probably going to have to use for loop and paste
