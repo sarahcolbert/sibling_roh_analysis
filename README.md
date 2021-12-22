@@ -24,11 +24,7 @@ The software requirements for the pipeline are as follows:
 Navigate to the directory where you want to download the repository. The repository can then be downloaded using git: <br>
 > git clone https://github.com/sarahcolbert/sibling_roh_analysis <br>
 <br>
-Once the repository is downloaded, run the following command to check that files have downloaded properly: <br>
 
-> head ./siblingRohAnalyses/resources/parameters <br>
-
-<br>
 
 
 ## Pre-Step 2: Editing the config file
