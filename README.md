@@ -51,7 +51,7 @@ A covariate file should be provided containing the following columns, if availab
 FID, IID, age, sex (male = 1, female = 0), batch, first 10 genomic principal components, anything else? 
 
 ### Phenotype data 
-We will analyse a wide range of medical, social and behavioral phenotypes based on previous findings in the literature and hypothesized relationships with autozygosity. The [analysis plan](https://docs.google.com/document/d/1weNXniAY8X03ZYm1k-TmZqH4j4h7vloHl_meiSpceII/edit#bookmark=id.6g7jjddbvmwt) outlines the phenotypes that we propose to include. 
+We will analyse a wide range of medical, social and behavioral phenotypes based on previous findings in the literature and hypothesized relationships with autozygosity. The [analysis plan](https://docs.google.com/document/d/1weNXniAY8X03ZYm1k-TmZqH4j4h7vloHl_meiSpceII/edit#bookmark=id.nu9tiucjoq87) outlines the phenotypes that we propose to include. 
 
 The code will ensure that analyses do not include families with missing phenotype data for at least one sibling. 
 
