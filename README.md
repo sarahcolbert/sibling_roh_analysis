@@ -51,7 +51,39 @@ A covariate file should be provided containing the following columns, if availab
 FID, IID, age, sex (male = 1, female = 0), batch, first 10 genomic principal components, anything else? 
 
 ### Phenotype data 
-how closely do we want to follow c and d here? https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.4_Phenotypes
+We will analyse a wide range of medical, social and behavioral phenotypes based on previous findings in the literature and hypothesized relationships with autozygosity. Below is the list of phenotypes that we propose to include: 
+Height
+BMI
+FEV1 (forced expiratory volume in 1 second)
+Educational attainment
+Performance on cognitive tests
+Smoking 
+Ever smoker
+Smoking intensity
+Age at initiation
+Alcohol consumption (Number of units per week)
+Alcohol dependence/alcohol use disorder
+General risk tolerance
+Depression/depressive symptoms
+Subjective well-being
+Neuroticism
+Attention deficit hyperactivity disorder (ADHD) symptoms 
+Autism spectrum disorder (ASD) symptoms 
+Anxiety symptoms 
+Behavioral problems
+Physical activity
+CRP*
+Systolic blood pressure
+HbA1c*
+Lipids*
+LDL*
+HDL*
+Triglycerides*
+
+* These phenotypes will be run as negative control analyses
+
+The code will ensure that analyses do not include families with missing phenotype data for at least one sibling. 
+
 
 ## Steps 1 + 2: QC and ROH Calling
 Genotype files must first be filtered to meet the following requirements:
@@ -111,6 +143,8 @@ write.table(phenotype_data, "within_sibs_phenotype_data.txt", row.names=FALSE, q
 
 ## Step 5: Run within sibling models
 What will we need as covariates?? 
+
+** will need to scale some variables
 
 Results to return: beta, se, p-val, standardized beta...anything else? 
 
