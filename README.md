@@ -1,5 +1,5 @@
 # NOTE TO SELF/TO DO:
-* pre-step 4: phenotype data
+* pre-step 4: phenotype data - ideas: make data frame with empty columns for all phenotypes we want and then will have individuals move their data into it?
 * steps 4 and 5
 
 # Runs of homozygosity in the Within Family Consortium Analyses
