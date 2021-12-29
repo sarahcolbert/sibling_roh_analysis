@@ -1,4 +1,4 @@
-"Column Name","Type","Description"
+"Phenotype Name","Type","Description"
 "Height","continuous","Individual's height measured in inches"
 "DPW","continuous","Average number of drinks an individual consumed per week in the past year"
 "EvrSmk","binary","Measures if an individual has ever been a regular smoker in their lifetime"
