@@ -51,63 +51,7 @@ A covariate file should be provided containing the following columns, if availab
 FID, IID, age, sex (male = 1, female = 0), batch, first 10 genomic principal components, anything else? 
 
 ### Phenotype data 
-We will analyse a wide range of medical, social and behavioral phenotypes based on previous findings in the literature and hypothesized relationships with autozygosity. Below is the list of phenotypes that we propose to include: 
-
-Height
-
-BMI
-
-FEV1 (forced expiratory volume in 1 second)
-
-Educational attainment
-
-Performance on cognitive tests
-
-Smoking 
-
-Ever smoker
-
-Smoking intensity
-
-Age at initiation
-
-Alcohol consumption (Number of units per week)
-
-Alcohol dependence/alcohol use disorder
-
-General risk tolerance
-
-Depression/depressive symptoms
-
-Subjective well-being
-
-Neuroticism
-
-Attention deficit hyperactivity disorder (ADHD) symptoms 
-
-Autism spectrum disorder (ASD) symptoms 
-
-Anxiety symptoms 
-
-Behavioral problems
-
-Physical activity
-
-CRP*
-
-Systolic blood pressure
-
-HbA1c*
-
-Lipids*
-
-LDL*
-
-HDL*
-
-Triglycerides*
-
-* These phenotypes will be run as negative control analyses
+We will analyse a wide range of medical, social and behavioral phenotypes based on previous findings in the literature and hypothesized relationships with autozygosity. The [analysis plan](https://docs.google.com/document/d/1weNXniAY8X03ZYm1k-TmZqH4j4h7vloHl_meiSpceII/edit#bookmark=id.6g7jjddbvmwt) outlines the phenotypes that we propose to include. 
 
 The code will ensure that analyses do not include families with missing phenotype data for at least one sibling. 
 
