@@ -48,22 +48,22 @@ b) add requirements as needed.
 
 ### Covariate data
 A covariate file should be provided containing the following columns, if available:
-FID, IID, age, sex (male = 1, female = 0), batch, first 10 genomic principal components, anything else? 
+IID, age, sex (male = 1, female = 0), batch, first 10 genomic principal components, anything else? 
 
 ### Phenotype data 
 We will analyse a wide range of medical, social and behavioral phenotypes based on previous findings in the literature and hypothesized relationships with autozygosity. The [analysis plan](https://docs.google.com/document/d/1weNXniAY8X03ZYm1k-TmZqH4j4h7vloHl_meiSpceII/edit#bookmark=id.nu9tiucjoq87) outlines the phenotypes that we propose to include.  
 
-The first two columns in the phenotype file should be FID and IID, then followed by the phenotypes available in your dataset. Column names do not matter. Missing data should be coded as NA. For example, your phenotype should look something like this:
+The first column in the phenotype file should be IID, then followed by the phenotypes available in your dataset. Column names for the phenotypes do not matter. Missing data should be coded as NA. For example, your phenotype file should look something like this:
 
 ```
-FID IID   Pheno1  Pheno2   Pheno3
-100 1001  7       21.6     0
-100 1002  3       24.3     1
-101 1011  9       17.7     1
-101 1012  12      19.8     1
-101 1013  12      19.3     0
-104 1041  8       NA       0
-104 1042  5       22.4     1
+IID   Pheno1  Pheno2   Pheno3
+1001  7       21.6     0
+1002  3       24.3     1
+1011  9       17.7     1
+1012  12      19.8     1
+1013  12      19.3     0
+1041  8       NA       0
+1042  5       22.4     1
 ```
 
 The code will ensure that analyses do not include families with missing phenotype data for at least one sibling (e.g., family 104 would be removed from the analyses which use pheno3). A csv file named pheno_descriptions_STUDYNAME.csv (replace STUDYNAME) should be returned that includes a description of the phenotypes in your dataset. Please format this csv file with quotes. We provide an [example](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/pheno_descriptions_STUDYNAME.csv) of what this might include. 
