@@ -35,3 +35,26 @@ sib_pheno_results <- phenotype_data
 sib_pheno_results[,3:num_phenos] <- NULL
 write.table(sib_pheno_results, paste(Sys.getenv("processed_dir"),"within_sibs_pheno_data.txt", sep=""), quote = FALSE, row.names=FALSE)
 
+#######################################
+## create descriptive tables for each phenotype that give number of individuals, number of families, and then other stats depending on if it is a binary or quantitative trait
+
+## create function that calculates standard error of the mean
+std_mean <- function(x) sd(x)/sqrt(length(x))
+
+k <- 4
+test1 <- phenotype_data %>% select(FID, IID,colnames(phenotype_data)[2+k], colnames(phenotype_data)[num_phenos+k])
+test2 <- test1 %>% drop_na()
+num_inds <- length(test2$IID)
+num_fams <- length(test2$FID)
+
+if(all(test2[,3] %in% c(0,1))){
+  ncase <- length(which(test2[,3]==1))
+  ncontrols <- length(which(test2[,3]==0)) 
+}else{
+  ncase <- NA
+  ncontrols <- NA
+  min2 <- min(test2[,3])
+  max2 <- max(test2[,3])
+  mean2 <- mean(test2[,3])
+  median2 <- median(test2[,3])
+  se2 <- std_mean(test2[,3])}
