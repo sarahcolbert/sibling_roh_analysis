@@ -41,15 +41,26 @@ write.table(sib_pheno_results, paste(Sys.getenv("processed_dir"),"within_sibs_ph
 ## create function that calculates standard error of the mean
 std_mean <- function(x) sd(x)/sqrt(length(x))
 
-k <- 4
-test1 <- phenotype_data %>% select(FID, IID,colnames(phenotype_data)[2+k], colnames(phenotype_data)[num_phenos+k])
-test2 <- test1 %>% drop_na()
-num_inds <- length(test2$IID)
-num_fams <- length(test2$FID)
+## create empty df to hold descriptive stats
+all_pheno_descrip <- data.frame(matrix(ncol = 10, nrow = 0))
+colnames(all_pheno_descrip) <- c("pheno_name", "num_inds", "num_fams", "ncase", "ncontrols", "min2", "max2", "mean2", "median2", "se2")
 
+## for each phenotype remove the NAs to get the number of IIDs and FIDs, as well as other stats
+for(k in 3:num_phenos){
+test1 <- phenotype_data %>% select(FID, IID,colnames(phenotype_data)[k], colnames(phenotype_data)[(num_phenos-2)+k])
+test2 <- test1 %>% drop_na()
+num_inds <- length(unique(test2$IID))
+num_fams <- length(unique(test2$FID))
+
+## assesses if trait is binary or quantitative and pulls the correct info depending
 if(all(test2[,3] %in% c(0,1))){
   ncase <- length(which(test2[,3]==1))
   ncontrols <- length(which(test2[,3]==0)) 
+  min2 <- NA
+  max2 <- NA
+  mean2 <- NA
+  median2 <- NA
+  se2 <- NA
 }else{
   ncase <- NA
   ncontrols <- NA
@@ -58,3 +69,11 @@ if(all(test2[,3] %in% c(0,1))){
   mean2 <- mean(test2[,3])
   median2 <- median(test2[,3])
   se2 <- std_mean(test2[,3])}
+
+pheno_name <- paste(colnames(test2)[3])
+pheno_descrip <- cbind(pheno_name, num_inds, num_fams, ncase, ncontrols, min2, max2, mean2, median2, se2)
+all_pheno_descrip <- rbind(all_pheno_descrip, pheno_descrip)
+}
+
+## write to file
+write.table(all_pheno_descrip, paste(Sys.getenv("output_dir"),Sys.getenv("input_prefix"),"_descriptive_pheno_stats.csv", sep=""), row.names = FALSE)
