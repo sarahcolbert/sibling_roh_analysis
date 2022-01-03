@@ -98,27 +98,10 @@ Rscript ${code_dir}2-calc_froh.R
 ```
 
 ## Step 4: Calculate phenotypes (within siblings)
-Follow method from Clark et al. 
+Follow method from Clark et al., this code is used to calculate phenotypes within siblings. This script will also create tables that describe the distribution of the phenotypes in the sample (which will be included in the return of results). 
 
-NTS: edit code to work for all phenotypes...probably going to have to use for loop and paste
 ```
-## load packages
-library(tidyverse)
-
-## load data
-phenotype_data <- read.table("${phenotype_file.txt}", header = TRUE)
-
-## calculate value of phenotype (height as example) to family mean
-## make empty column to hold results
-phenotype_data$height_sibs <- NA
-## use for loop to get value for each individual
-for(i in 1:length(phenotype_data$IID){
-  spec_FID <- phenotype_data$FID[i]
-  fam_vals <- phenotype_data %>% filter(FID=spec_FID)
-  phenotype_data$height_sibs[i] <- phenotype_data$height[i]-mean(fam_vals$height)
-}
-
-write.table(phenotype_data, "within_sibs_phenotype_data.txt", row.names=FALSE, quote = FALSE)
+Rscript ${code_dir}3-calc_phenos.R
 ```
 
 ## Step 5: Run within sibling models
