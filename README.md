@@ -1,3 +1,5 @@
+** NTS: delete abcd_test folder
+
 # Runs of homozygosity in the Within Family Consortium Analyses
 This repository details a Standard Operating Procedure for the data analysts that will be performing the WFC runs of homozygosity analyses in individual cohorts. We provide a fully automated analysis pipeline that will analyze and format the results to be returned. We thank blabla for allowing us to adapt code and methods from their [sibling GWAS github](https://github.com/LaurenceHowe/SiblingGWAS).
 
@@ -87,7 +89,9 @@ Before running you will need to make sure that you have plink 1.9 installed and 
 bash ${code_dir}1-qc_and_call.bash
 ```
 
-## Step 3: Calculate Froh (within siblings) and give descriptive statistics
+## Step 3: Calculate Froh (+ within siblings) and give descriptive statistics
+
+** NTS: froh = between families (aka normal) and froh_sibs = within siblings
 
 Running the code below will calculate Froh for each individual, then calculate Froh within siblings and finally, create tables that describe the sample (which will be included in the return of results).
 
@@ -105,11 +109,8 @@ Rscript ${code_dir}3-calc_phenos.R
 ```
 
 ## Step 5: Run within sibling models
-What will we need as covariates?? 
 
 ** will need to scale some variables
-
-Results to return: beta, se, p-val, standardized beta...anything else? 
 
 ```
 ## load packages
@@ -125,3 +126,7 @@ froh_phenotype_wsibs <- merge(froh_data, phenotype_data, by = "IID")
 ## calculate the effect of FROH on height (as an example) within-full-siblings
 height_wsibs <- lmer(height_sibs ~ froh_sibs + covars, data = froh_phenotype_wsibs)
 ```
+
+## Step 6: Run between family models
+
+** NTS: may need to prep the phenotype files before this
