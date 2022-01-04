@@ -1,5 +1,7 @@
 ** NTS: delete abcd_test folder
-** add note to repeat for dif ancestries...may need to incorporate that into code so they are named appropriately?
+
+** add note to repeat for dif ancestries...may need to incorporate that into naming for return of results?
+
 ** fix intro to give proper credit
 
 
