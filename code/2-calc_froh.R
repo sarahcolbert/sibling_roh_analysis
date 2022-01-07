@@ -24,7 +24,10 @@ roh_data$froh <- roh_data$KB/(2.77*10^6)
 froh_data2 <- roh_data %>% select(FID, IID, NSEG, KB, froh)
 
 ## remove any individuals that aren't in a sibling pair
-froh_data <- froh_data2[froh_data2$FID %in% froh_data2$FID[duplicated(froh_data2$FID)],]
+froh_data3 <- froh_data2[froh_data2$FID %in% froh_data2$FID[duplicated(froh_data2$FID)],]
+
+## remove any duplicate individuals
+froh_data <- froh_data3 %>% distinct(IID, .keep_all = TRUE)
 
 ## calculate value of froh relative to family mean
 ## make empty column to hold results
