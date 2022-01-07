@@ -4,15 +4,20 @@ library(tidyverse)
 ## load phenotype data
 pheno1 <- read.table(paste(Sys.getenv("pheno_file")), header = TRUE)
 ## clean phenotype data
-## remove duplicates
+## remove duplicate individuals
 pheno2 <- pheno1 %>% distinct(IID, .keep_all = TRUE)
 
+## load covariate data
+message(paste("loading ",(Sys.getenv("covar_file")), sep=""))
+covar_data <- read.table(paste(Sys.getenv("covar_file")), header = TRUE)
+message(paste("done loading ",(Sys.getenv("covar_file")), sep=""))
 
-## load FID and IID data from the sibglig roh file to merge with phenotype data
+## load FID and IID data from the sibling roh file to merge with phenotype data
 fam_file <- read.table(paste(Sys.getenv("processed_dir"),"within_sibs_froh_data.txt", sep=""), header = TRUE)
 fam_data <- fam_file %>% select(FID, IID)
 ## merge
 phenotype_data <- merge(fam_data, pheno2, by ="IID")
+all_data <- merge(phenotype_data, covar_data, by ="IID")
 
 ## calculate value of phenotype to family mean
 ## use for loop to go through each of the phenotype columns
