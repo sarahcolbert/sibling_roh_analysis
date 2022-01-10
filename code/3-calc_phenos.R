@@ -43,12 +43,10 @@ write.table(sib_pheno_results, paste(Sys.getenv("processed_dir"),"within_sibs_ph
 #######################################
 ## create descriptive tables for each phenotype that give number of individuals, number of families, and then other stats depending on if it is a binary or quantitative trait
 
-## create function that calculates standard error of the mean
-std_mean <- function(x) sd(x)/sqrt(length(x))
 
 ## create empty df to hold descriptive stats
 all_pheno_descrip <- data.frame(matrix(ncol = 10, nrow = 0))
-colnames(all_pheno_descrip) <- c("pheno_name", "num_inds", "num_fams", "ncase", "ncontrols", "mean_phen", "median_phen", "se_phen", "mean_age", "sd_age")
+colnames(all_pheno_descrip) <- c("pheno_name", "num_inds", "num_fams", "ncase", "ncontrols", "mean_phen", "median_phen", "sd_phen", "mean_age", "sd_age")
 
 ## for each phenotype remove the NAs to get the number of IIDs and FIDs, as well as other stats
 for(k in 3:num_phenos){
@@ -65,16 +63,16 @@ if(all(test2[,3] %in% c(0,1))){
   ncontrols <- length(which(test2[,3]==0)) 
   mean_phen <- NA
   median_phen <- NA
-  se_phen <- NA
+  sd_phen <- NA
 }else{
   ncase <- NA
   ncontrols <- NA
   mean_phen <- mean(test2[,3])
   median_phen <- median(test2[,3])
-  se_phen <- std_mean(test2[,3])}
+  sd_phen <- sd(test2[,3])}
 
 pheno_name <- paste(colnames(test2)[3])
-pheno_descrip <- cbind(pheno_name, num_inds, num_fams, ncase, ncontrols, mean_phen, median_phen, se_phen, mean_age, sd_age)
+pheno_descrip <- cbind(pheno_name, num_inds, num_fams, ncase, ncontrols, mean_phen, median_phen, sd_phen, mean_age, sd_age)
 all_pheno_descrip <- rbind(all_pheno_descrip, pheno_descrip)
 }
 
