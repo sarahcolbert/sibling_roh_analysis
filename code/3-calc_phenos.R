@@ -77,4 +77,4 @@ all_pheno_descrip <- rbind(all_pheno_descrip, pheno_descrip)
 }
 
 ## write to file
-write.csv(all_pheno_descrip, paste(Sys.getenv("output_dir"),Sys.getenv("input_prefix"),"_descriptive_pheno_stats.csv", sep=""), row.names = FALSE)
+write.csv(all_pheno_descrip, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_descriptive_pheno_stats.csv", sep=""), row.names = FALSE)
