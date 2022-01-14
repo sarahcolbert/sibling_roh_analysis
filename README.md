@@ -130,6 +130,7 @@ Rscript ${code_dir}3-calc_phenos.R
 ** will need to scale some variables
 
 ~~** NTS: may need to prep phenotype files more before this (so raw phenotypes work with btwn fam analysis) ~~
+
 wait to do this until phenotype appendix done
 
 ```
