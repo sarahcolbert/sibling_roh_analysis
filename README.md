@@ -124,9 +124,11 @@ Follow method from Clark et al., this code is used to calculate phenotypes withi
 Rscript ${code_dir}3-calc_phenos.R
 ```
 
-## Step 5: Run within sibling models
+## Step 5: Run within sibling models and between family models
 
 ** will need to scale some variables
+
+** NTS: may need to prep phenotype files more before this (so raw phenotypes work with btwn fam analysis)
 
 ```
 ## load packages
@@ -143,25 +145,8 @@ froh_phenotype_wsibs <- merge(df1, phenotype_data, by = "IID")
 
 ## calculate the effect of FROH on height (as an example) within-full-siblings
 height_wsibs <- lmer(height_sibs ~ froh_sibs + age + sex + PC1 + PC2 + Pc3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, data = froh_phenotype_wsibs)
+
+## calculate the effect of height (as an example) on FROH between families
+height_btwn <- lmer(froh ~ height + age + sex + PC1 + PC2 + Pc3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1|FID), data = froh_phenotype_wsibs)
 ```
 
-## Step 6: Run between family models
-
-** NTS: may need to prep the phenotype files before this
-
-```
-## load packages
-library(tidyverse)
-library(lmerTest)
-
-## load data
-froh_data <- read.table("within_sibs_froh_data.txt", header = TRUE)
-phenotype_data <- read.table("within_sibs_phenotype_data.txt", header = TRUE)
-covar_data <- read.table("[insert cov file]", header = TRUE)
-## merge
-df1 <- merge(froh_data, covar_data, by = "IID")
-froh_phenotype_wsibs <- merge(df1, phenotype_data, by = "IID")
-
-## calculate the effect of FROH on height (as an example) within-full-siblings
-height_wsibs <- lmer(froh ~ height + age + sex + PC1 + PC2 + Pc3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1|FID), data = froh_phenotype_wsibs)
-```
