@@ -50,8 +50,9 @@ a) PLINK binary format (.bed .bim .fam) files. The first two columns must contai
 b) add requirements as needed.
 
 ### Covariate data
-A covariate file should be provided containing the following columns, if available:
-IID, age, sex (male = 1, female = 0), first 10 genomic principal components
+A covariate file should be provided containing the following columns:
+IID, age (defined as 2022 (or 2021?) minus birth year), sex (male = 1, female = 0), first 10 genomic principal components.
+
 
 Column names should exactly match the example below:
 
