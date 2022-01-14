@@ -127,10 +127,10 @@ Rscript ${code_dir}3-calc_phenos.R
 
 ## Step 5: Run within sibling models and between family models
 
-** will need to scale some variables
+will need to scale some variables
 
-~~NTS: may need to prep phenotype files more before this (so raw phenotypes work with btwn fam analysis)</del>
-
+<strike>NTS: may need to prep phenotype files more before this (so raw phenotypes work with btwn fam analysis)</strike>
+  
 wait to do this until phenotype appendix done
 
 ```
