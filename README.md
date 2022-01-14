@@ -23,7 +23,7 @@ The data requirements for the pipeline are as follows:
 The software requirements for the pipeline are as follows:
 
 * Plink 1.9
-* R (tidyverse installed, )
+* R (tidyverse installed, lmerTest installed)
 * KING (if siblings are not already defined)
 
 ## Pre-Step 1: Downloading and running the pipeline
@@ -136,13 +136,32 @@ library(lmerTest)
 ## load data
 froh_data <- read.table("within_sibs_froh_data.txt", header = TRUE)
 phenotype_data <- read.table("within_sibs_phenotype_data.txt", header = TRUE)
+covar_data <- read.table("[insert cov file]", header = TRUE)
 ## merge
-froh_phenotype_wsibs <- merge(froh_data, phenotype_data, by = "IID")
+df1 <- merge(froh_data, covar_data, by = "IID")
+froh_phenotype_wsibs <- merge(df1, phenotype_data, by = "IID")
 
 ## calculate the effect of FROH on height (as an example) within-full-siblings
-height_wsibs <- lmer(height_sibs ~ froh_sibs + covars, data = froh_phenotype_wsibs)
+height_wsibs <- lmer(height_sibs ~ froh_sibs + age + sex + PC1 + PC2 + Pc3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, data = froh_phenotype_wsibs)
 ```
 
 ## Step 6: Run between family models
 
 ** NTS: may need to prep the phenotype files before this
+
+```
+## load packages
+library(tidyverse)
+library(lmerTest)
+
+## load data
+froh_data <- read.table("within_sibs_froh_data.txt", header = TRUE)
+phenotype_data <- read.table("within_sibs_phenotype_data.txt", header = TRUE)
+covar_data <- read.table("[insert cov file]", header = TRUE)
+## merge
+df1 <- merge(froh_data, covar_data, by = "IID")
+froh_phenotype_wsibs <- merge(df1, phenotype_data, by = "IID")
+
+## calculate the effect of FROH on height (as an example) within-full-siblings
+height_wsibs <- lmer(froh ~ height + age + sex + PC1 + PC2 + Pc3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1|FID), data = froh_phenotype_wsibs)
+```
