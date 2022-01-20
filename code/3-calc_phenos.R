@@ -13,30 +13,30 @@ covar_data <- read.table(paste(Sys.getenv("covar_file")), header = TRUE)
 message(paste("done loading ",(Sys.getenv("covar_file")), sep=""))
 
 ## load FID and IID data from the sibling roh file to merge with phenotype data
-fam_file <- read.table(paste(Sys.getenv("processed_dir"),"within_sibs_froh_data.txt", sep=""), header = TRUE)
-fam_data <- fam_file %>% select(FID, IID)
+fam_file <- read.table(paste(Sys.getenv("processed_dir"),"all_froh_data.txt", sep=""), header = TRUE)
+fam_data <- fam_file %>% drop_na(froh_sibs) %>% select(FID, IID)
 ## merge
-phenotype_data <- merge(fam_data, pheno2, by ="IID")
-all_data <- merge(phenotype_data, covar_data, by ="IID")
+phenotype_data_sibs <- merge(fam_data, pheno2, by ="IID")
+all_data <- merge(phenotype_data_sibs, covar_data, by ="IID")
 
 ## calculate value of phenotype to family mean
 ## use for loop to go through each of the phenotype columns
-num_phenos <- ncol(phenotype_data)
+num_phenos <- ncol(phenotype_data_sibs)
 for(j in 3:num_phenos){
   ## make empty column to hold results
-  phenotype_data$newcol <- NA
+  phenotype_data_sibs$newcol <- NA
   newcolnum <- which(colnames(phenotype_data)=="newcol")
   ## use for loop to get value for each individual
-for(i in 1:length(phenotype_data$IID)){
-  spec_FID <- phenotype_data$FID[i]
-  fam_vals <- phenotype_data %>% filter(FID==spec_FID)
-  phenotype_data$newcol[i] <- phenotype_data[i,j]-mean(fam_vals[,j])
+for(i in 1:length(phenotype_data_sibs$IID)){
+  spec_FID <- phenotype_data_sibs$FID[i]
+  fam_vals <- phenotype_data_sibs %>% filter(FID==spec_FID)
+  phenotype_data_sibs$newcol[i] <- phenotype_data_sibs[i,j]-mean(fam_vals[,j])
 }
-colnames(phenotype_data)[newcolnum] <- paste(colnames(phenotype_data)[j],"_sibs",sep="")
+colnames(phenotype_data_sibs)[newcolnum] <- paste(colnames(phenotype_data_sibs)[j],"_sibs",sep="")
 }
  
 ## write results to table so that easy to import for regression analysis
-sib_pheno_results <- phenotype_data
+sib_pheno_results <- phenotype_data_sibs
 sib_pheno_results[,3:num_phenos] <- NULL
 write.table(sib_pheno_results, paste(Sys.getenv("processed_dir"),"within_sibs_pheno_data.txt", sep=""), quote = FALSE, row.names=FALSE)
 
@@ -45,18 +45,18 @@ write.table(sib_pheno_results, paste(Sys.getenv("processed_dir"),"within_sibs_ph
 
 ## create empty df to hold descriptive stats
 all_pheno_descrip <- data.frame(matrix(ncol = 10, nrow = 0))
-colnames(all_pheno_descrip) <- c("pheno_name", "num_inds", "num_fams", "ncase", "ncontrols", "mean_phen", "median_phen", "sd_phen", "mean_age", "sd_age")
+colnames(all_pheno_descrip) <- c("pheno_name", "within_num_inds", "within_num_fams", "ncase", "ncontrols", "mean_phen", "median_phen", "sd_phen", "mean_age", "sd_age")
 
 ## add age to phenotype data
 id_age <- all_data %>% select(IID, age)
-phenotype_data2 <- merge(phenotype_data, id_age, by = "IID")
+phenotype_data_sibs2 <- merge(phenotype_data_sibs, id_age, by = "IID")
 
 ## for each phenotype remove the NAs to get the number of IIDs and FIDs, as well as other stats
 for(k in 3:num_phenos){
-test1 <- phenotype_data2 %>% select(FID, IID, age, colnames(phenotype_data2)[k], colnames(phenotype_data2)[(num_phenos-2)+k])
+test1 <- phenotype_data_sibs2 %>% select(FID, IID, age, colnames(phenotype_data_sibs2)[k], colnames(phenotype_data_sibs2)[(num_phenos-2)+k])
 test2 <- test1 %>% drop_na()
-num_inds <- length(unique(test2$IID))
-num_fams <- length(unique(test2$FID))
+within_num_inds <- length(unique(test2$IID))
+within_num_fams <- length(unique(test2$FID))
 mean_age <- mean(test2$age)
 sd_age <- sd(test2$age)  
   
@@ -75,7 +75,7 @@ if(all(test2[,4] %in% c(0,1))){
   sd_phen <- sd(test2[,4])}
 
 pheno_name <- paste(colnames(test2)[4])
-pheno_descrip <- cbind(pheno_name, num_inds, num_fams, ncase, ncontrols, mean_phen, median_phen, sd_phen, mean_age, sd_age)
+pheno_descrip <- cbind(pheno_name, within_num_inds, within_num_fams, ncase, ncontrols, mean_phen, median_phen, sd_phen, mean_age, sd_age)
 all_pheno_descrip <- rbind(all_pheno_descrip, pheno_descrip)
 }
 
