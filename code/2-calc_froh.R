@@ -47,7 +47,11 @@ all_froh_data <- merge(id_sibs_froh, roh_data, by = "IID", all = TRUE)
 
 ## save table with froh values just incase
 write.table(all_froh_data, paste(Sys.getenv("processed_dir"),"all_froh_data.txt", sep=""), row.names=FALSE, quote = FALSE)
-message(paste("wrote Froh estimates to ",Sys.getenv("processed_dir"),"within_sibs_froh_data.txt", sep=""))
+message(paste("wrote all Froh estimates to ",Sys.getenv("processed_dir"),"all_froh_data.txt", sep=""))
+
+## save table with froh values just incase
+write.table(froh_data, paste(Sys.getenv("processed_dir"),"within_sibs_froh_data.txt", sep=""), row.names=FALSE, quote = FALSE)
+message(paste("wrote within sibling Froh estimates to ",Sys.getenv("processed_dir"),"within_sibs_froh_data.txt", sep=""))
 
 ################################
 ##### GET BASIC FROH STATS #####
