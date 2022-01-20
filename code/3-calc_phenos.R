@@ -1,3 +1,7 @@
+###################################
+############## PREP ###############
+###################################
+
 ## load packages
 library(tidyverse)
 
@@ -12,6 +16,78 @@ message(paste("loading ",(Sys.getenv("covar_file")), sep=""))
 covar_data <- read.table(paste(Sys.getenv("covar_file")), header = TRUE)
 message(paste("done loading ",(Sys.getenv("covar_file")), sep=""))
 
+## load roh file data to merge with phenotype data
+fam_file <- read.table(paste(Sys.getenv("processed_dir"),"all_froh_data.txt", sep=""), header = TRUE)
+## merge froh and phenotype data for all individuals (between analysis)
+all_data_btwn <- merge(fam_file, pheno2, by ="IID")
+## also make dataframe that only has phenotype data
+id_fid_btwn <- all_data_btwn %>% select(IID, FID, age)
+pheno_data_btwn <- merge(id_fid_btwn, pheno2, by = "IID")
+
+## remove individuals that don't have within sibling froh values to create df to use in within analysis
+all_data_within <- all_data_btwn %>% drop_na(froh_sibs)
+## also make dataframe that only has phenotype data
+id_fid_within <- all_data_within %>% select(IID, FID, age)
+pheno_data_within <- merge(id_fid_within, pheno2, by = "IID")
+
+###################################
+### CALC STATS FOR BTWN SAMPLE ####
+###################################
+
+## create descriptive tables for each phenotype that give sample size and then other stats depending on if it is a binary or quantitative trait
+
+## create empty df to hold descriptive stats
+btwn_pheno_descrip <- data.frame(matrix(ncol = 10, nrow = 0))
+colnames(btwn_pheno_descrip) <- c("pheno_name", "sample_size", "ncase", "ncontrols", "mean_phen", "median_phen", "sd_phen", "mean_age", "sd_age")
+
+## for each phenotype remove the NAs to get the number of IIDs and FIDs, as well as other stats
+num_phenos_btwn <- ncol(pheno_data_btwn) ## will be used to calculate number of phenotypes
+for(k in 4:num_phenos_btwn){
+test1 <- pheno_data_btwn %>% select(FID, IID, age, colnames(pheno_data_btwn)[k])
+test2 <- test1 %>% drop_na()
+sample_size <- length(unique(test2$IID))
+mean_age <- mean(test2$age)
+sd_age <- sd(test2$age)  
+  
+## assesses if trait is binary or quantitative and pulls the correct info depending
+if(all(test2[,4] %in% c(0,1))){
+  ncase <- length(which(test2[,4]==1))
+  ncontrols <- length(which(test2[,4]==0)) 
+  mean_phen <- NA
+  median_phen <- NA
+  sd_phen <- NA
+}else{
+  ncase <- NA
+  ncontrols <- NA
+  mean_phen <- mean(test2[,4])
+  median_phen <- median(test2[,4])
+  sd_phen <- sd(test2[,4])}
+
+pheno_name <- paste(colnames(test2)[4])
+pheno_descrip <- cbind(pheno_name, sample_size, ncase, ncontrols, mean_phen, median_phen, sd_phen, mean_age, sd_age)
+btwn_pheno_descrip <- rbind(btwn_pheno_descrip, pheno_descrip)
+}
+
+## write to file
+write.csv(btwn_pheno_descrip, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_descriptive_pheno_stats_btwn.csv", sep=""), row.names = FALSE)
+
+
+
+
+################################################################################################
+################################################################################################
+################################################################################################
+################################################################################################
+################################################################################################
+################################################################################################
+
+##############################################################################################################################
+################################################################################################
+## still in development
+
+
+################################
+## old code
 ## load FID and IID data from the sibling roh file to merge with phenotype data
 fam_file <- read.table(paste(Sys.getenv("processed_dir"),"all_froh_data.txt", sep=""), header = TRUE)
 fam_data <- fam_file %>% drop_na(froh_sibs) %>% select(FID, IID)
