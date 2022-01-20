@@ -66,28 +66,18 @@ message ("writing table with Froh stats")
 descript_roh_stats <- cbind(min_vals, max_vals, mean_vals, med_vals)
 descript_roh_stats$n_indivs <- rep(length(froh_data$IID), length(descript_roh_stats$min))
 descript_roh_stats$n_sibgroups <- rep(length(unique(froh_data$FID)), length(descript_roh_stats$min))
+## check how many individuals have froh = 0
+zero_inds <- sum(froh_data$froh==0)
+descript_roh_stats$n_zero_inds <- rep(zero_inds, length(descript_roh_stats$min))
+## check how many individuals are offspring of various relative relationships
+half_sib_inds <- sum(froh_data$froh > 0.125)
+descript_roh_stats$n_half_sib_ind <- rep(half_sib_ind, length(descript_roh_stats$min))
+first_cous_inds <- sum(froh_data$froh > 0.0625)
+descript_roh_stats$n_first_cous_inds <- rep(first_cous_inds, length(descript_roh_stats$min))
+half_cous_inds <- sum(froh_data$froh > 0.03125)
+descript_roh_stats$n_half_cous_inds <- rep(half_cous_inds, length(descript_roh_stats$min))
+sec_cous_inds <- sum(froh_data$froh > 0.0156)
+descript_roh_stats$n_sec_cous_inds <- rep(sec_cous_inds, length(descript_roh_stats$min))
 
 write.csv(descript_roh_stats, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_descriptive_roh_stats.csv", sep=""), row.names = TRUE)
 message(paste("wrote table with Froh stats to ",Sys.getenv("output_dir"),Sys.getenv("output_name"),"_descriptive_roh_stats.csv", sep=""))
-
-############################
-##### GET SAMPLE STATS #####
-############################
-
-message ("writing table with sample's stats")
-## check how many individuals have froh = 0
-zero_inds <- sum(froh_data$froh==0)
-## check how many total individuals roh calls were performed for
-total_inds <- length(froh_data$IID)
-## check how many total sibling groups there are
-total_sib_groups <- length(unique(froh_data$FID))
-## check how many individuals are offspring of various relative relationships
-half_sib_inds <- sum(froh_data$froh > 0.125)
-first_cous_inds <- sum(froh_data$froh > 0.0625)
-half_cous_inds <- sum(froh_data$froh > 0.03125)
-sample <- Sys.getenv("input_prefix")
-
-## put descriptive sample stats in data table and save as file (this file will be returned to us)
-descript_sample_stats <- as.data.frame(cbind(sample,total_inds, total_sib_groups, zero_inds, half_sib_inds, first_cous_inds, half_cous_inds))
-write.csv(descript_sample_stats, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_descriptive_sample_stats.csv", sep=""), row.names = FALSE)
-message(paste("wrote table with sample's stats to ",Sys.getenv("output_dir"),Sys.getenv("output_name"),"_descriptive_sample_stats.csv", sep=""))
