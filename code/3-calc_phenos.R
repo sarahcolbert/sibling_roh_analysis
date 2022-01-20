@@ -43,14 +43,17 @@ write.table(sib_pheno_results, paste(Sys.getenv("processed_dir"),"within_sibs_ph
 #######################################
 ## create descriptive tables for each phenotype that give number of individuals, number of families, and then other stats depending on if it is a binary or quantitative trait
 
-
 ## create empty df to hold descriptive stats
 all_pheno_descrip <- data.frame(matrix(ncol = 10, nrow = 0))
 colnames(all_pheno_descrip) <- c("pheno_name", "num_inds", "num_fams", "ncase", "ncontrols", "mean_phen", "median_phen", "sd_phen", "mean_age", "sd_age")
 
+## add age to phenotype data
+id_age <- all_data %>% select(IID, age)
+phenotype_data2 <- merge(phenotype_data, id_age, by = "IID")
+
 ## for each phenotype remove the NAs to get the number of IIDs and FIDs, as well as other stats
 for(k in 3:num_phenos){
-test1 <- phenotype_data %>% select(FID, IID,colnames(phenotype_data)[k], colnames(phenotype_data)[(num_phenos-2)+k])
+test1 <- phenotype_data2 %>% select(FID, IID, age, colnames(phenotype_data2)[k], colnames(phenotype_data2)[(num_phenos-2)+k])
 test2 <- test1 %>% drop_na()
 num_inds <- length(unique(test2$IID))
 num_fams <- length(unique(test2$FID))
@@ -58,20 +61,20 @@ mean_age <- mean(test2$age)
 sd_age <- sd(test2$age)  
   
 ## assesses if trait is binary or quantitative and pulls the correct info depending
-if(all(test2[,3] %in% c(0,1))){
-  ncase <- length(which(test2[,3]==1))
-  ncontrols <- length(which(test2[,3]==0)) 
+if(all(test2[,4] %in% c(0,1))){
+  ncase <- length(which(test2[,4]==1))
+  ncontrols <- length(which(test2[,4]==0)) 
   mean_phen <- NA
   median_phen <- NA
   sd_phen <- NA
 }else{
   ncase <- NA
   ncontrols <- NA
-  mean_phen <- mean(test2[,3])
-  median_phen <- median(test2[,3])
-  sd_phen <- sd(test2[,3])}
+  mean_phen <- mean(test2[,4])
+  median_phen <- median(test2[,4])
+  sd_phen <- sd(test2[,4])}
 
-pheno_name <- paste(colnames(test2)[3])
+pheno_name <- paste(colnames(test2)[4])
 pheno_descrip <- cbind(pheno_name, num_inds, num_fams, ncase, ncontrols, mean_phen, median_phen, sd_phen, mean_age, sd_age)
 all_pheno_descrip <- rbind(all_pheno_descrip, pheno_descrip)
 }
