@@ -57,13 +57,13 @@ mean_vals <- as.data.frame(apply(select(froh_data, c("NSEG","froh")), 2, FUN = m
 colnames(mean_vals)[1] <- "mean"
 max_vals <- as.data.frame(apply(select(froh_data, c("NSEG","froh")), 2, FUN = max, na.rm = TRUE))
 colnames(max_vals)[1] <- "max" 
-med_vals <- as.data.frame(apply(select(froh_data, c("NSEG","froh")), 2, FUN = median, na.rm = TRUE))
-colnames(med_vals)[1] <- "median" 
-message("done calculating sample's minimum, maximum, mean and median for NSEG and Froh")
+sd_vals <- as.data.frame(apply(select(froh_data, c("NSEG","froh")), 2, FUN = sd, na.rm = TRUE))
+colnames(sd_vals)[1] <- "median" 
+message("done calculating sample's minimum, maximum, mean and standard deviation for NSEG and Froh")
 
 ## put descriptive roh stats in data table and save as file (this file will be returned to us)
 message ("writing table with Froh stats")
-descript_roh_stats <- cbind(min_vals, max_vals, mean_vals, med_vals)
+descript_roh_stats <- cbind(min_vals, max_vals, mean_vals, sd_vals)
 descript_roh_stats$n_indivs <- rep(length(froh_data$IID), length(descript_roh_stats$min))
 descript_roh_stats$n_sibgroups <- rep(length(unique(froh_data$FID)), length(descript_roh_stats$min))
 ## check how many individuals have froh = 0
