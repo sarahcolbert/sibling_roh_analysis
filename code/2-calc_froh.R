@@ -71,7 +71,7 @@ zero_inds <- sum(froh_data$froh==0)
 descript_roh_stats$n_zero_inds <- rep(zero_inds, length(descript_roh_stats$min))
 ## check how many individuals are offspring of various relative relationships
 half_sib_inds <- sum(froh_data$froh > 0.125)
-descript_roh_stats$n_half_sib_ind <- rep(half_sib_ind, length(descript_roh_stats$min))
+descript_roh_stats$n_half_sib_inds <- rep(half_sib_inds, length(descript_roh_stats$min))
 first_cous_inds <- sum(froh_data$froh > 0.0625)
 descript_roh_stats$n_first_cous_inds <- rep(first_cous_inds, length(descript_roh_stats$min))
 half_cous_inds <- sum(froh_data$froh > 0.03125)
