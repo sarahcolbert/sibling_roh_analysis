@@ -1,6 +1,6 @@
 ** NTS: delete abcd_test folder
 
-** add note to repeat for dif ancestries...may need to incorporate that into naming for return of results?
+** add note to repeat for dif ancestries
 
 ** fix intro to give proper credit
 
@@ -33,7 +33,7 @@ Navigate to the directory where you want to download the repository. The reposit
 
 
 ## Pre-Step 2: Defining siblings
-The analysis pipeline requires data on siblings. We follow the suggestion of Howe et al., which is to include "all siblings from families with one or more pairs of genotyped dizygotic siblings. For example, in a family with a pair of monozygotic twins and an additional sibling, include both MZ twins and the sibling. The inclusion of both MZ twins should (very) modestly improve power by accounting for variation in the phenotypic outcome. If siblings have not been previously identified in the dataset, we suggest using [KING](https://www.kingrelatedness.com/) to infer siblings."
+The within-sibling analysis requires data on siblings. If siblings have not been previously identified in the dataset, we suggest using [KING](https://www.kingrelatedness.com/) to infer siblings.
 
 Instructions for defining siblings are provided by Howe et al. [here](https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.1_Siblings).
 
@@ -107,8 +107,6 @@ bash ${code_dir}1-qc_and_call.bash
 ```
 
 ## Step 3: Calculate Froh (+ within siblings) and give descriptive statistics
-
-** NTS: froh = between families (aka normal) and froh_sibs = within siblings
 
 Running the code below will calculate Froh for each individual, then calculate Froh within siblings and finally, create tables that describe the sample (which will be included in the return of results).
 
