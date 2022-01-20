@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# General details
+
+# Please make sure this is alphanumeric (underscores allowed but no spaces)
+study_name="ABCD"
+
+# Please indicate the genetic ancestry of the sample
+study_ancestry="EUR"
+
+# Analyst's initials
+analyst_initials="SMCC"
+
+# Analyst's email address
+analyst_email="sarah.colbert@wustl.edu"
+
+# Please put the full path to this directory
+# e.g. if the config file path is "/home/Projects/sibling_roh_analysis/config"
+#then project_dir="/home/Projects/sibling_roh_analysis/"
+export project_dir="/scratch/aalab/suri/projects/sibling_roh_analysis/"
+
+## put location for directory with plink files
+export data_dir="/scratch/aalab/suri/data/cleaned_data/"
+## put prefix for plink files
+export input_prefix="abcd_eur_sibs"
+## put location for covariate file
+export covar_file="/scratch/aalab/suri/data/raw_data/abcd_covariates_eur.txt"
+## put location for phenotype file
+export pheno_file="/scratch/aalab/suri/data/raw_data/phenotypes.txt"
+
+## DO NOT MODIFY
+export processed_dir="${project_dir}processed_files/"
+mkdir ${processed_dir}
+export output_dir="${project_dir}output/"
+mkdir ${output_dir}
+export code_dir="${project_dir}code/"
+export today=$(date "+%Y%m%d")
+export output_name="${study_name}_${study_ancestry}_${analyst_initials}_${today}"
