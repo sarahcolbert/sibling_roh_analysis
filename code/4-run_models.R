@@ -60,7 +60,7 @@ for(k in 19:num_phenos_btwn){
       ## binary phenotype calculations
       ## Can just run logistic regression (Clark et al. equation 16)  
       pheno_model <- glmer(formula(paste(colnames(btwn_data1)[k],'~ froh + age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1 | FID)')), data = btwn_data1, family = binomial(link = 'logit'), control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))      
-     ## idea for next model to trypheno_model <- lmer(formula(paste('froh ~ ', colnames(btwn_data1)[k],'+ age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1 | FID)')), data = btwn_data1) 
+     ## idea for next model to try pheno_model <- lmer(formula(paste('froh ~ ', colnames(btwn_data1)[k],'+ age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1 | FID)')), data = btwn_data1) 
      ### !!!!!!!!!!!!!!!!! convergence issues
         ###  !!!!!!!!!!!!!  
     
