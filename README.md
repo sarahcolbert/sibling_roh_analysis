@@ -58,11 +58,11 @@ Column names should exactly match the example below:
 
 ```
 IID age sex PC1 PC2 PC3 PC4 PC5 PC6 PC7 PC8 PC9 PC10 
-1001 131 0 0.0067 0.0042 0.0019 -8e-04 -0.0043 0.0324 -2e-04 -0.0033 -0.0061 0.0118 
-1002 126 1 -0.0289 -0.0035 0.0034 0.0288 0.0021 -0.0187 -0.0013 -0.0054 0.005 0.0211 
-1011 112 1 0.0044 0.0022 -0.0141 -0.011 -0.0064 0.0248 -0.0157 0.008 0.0089 0.0028 
-1012 118 0 0.0122 0.0019 0.0034 -0.017 0.001 0.003 -0.0217 -0.0016 -0.0126 -3e-04 
-1013 114 0 0.007 5e-04 0.0157 0.0017 -0.0115 -0.0079 -0.0083 -0.017 0.0147 0.0227 
+1001 31 0 0.0067 0.0042 0.0019 -8e-04 -0.0043 0.0324 -2e-04 -0.0033 -0.0061 0.0118 
+1002 26 1 -0.0289 -0.0035 0.0034 0.0288 0.0021 -0.0187 -0.0013 -0.0054 0.005 0.0211 
+1011 12 1 0.0044 0.0022 -0.0141 -0.011 -0.0064 0.0248 -0.0157 0.008 0.0089 0.0028 
+1012 18 0 0.0122 0.0019 0.0034 -0.017 0.001 0.003 -0.0217 -0.0016 -0.0126 -3e-04 
+1013 14 0 0.007 5e-04 0.0157 0.0017 -0.0115 -0.0079 -0.0083 -0.017 0.0147 0.0227 
 ```
 
 ### Phenotype data 
@@ -145,7 +145,9 @@ froh_phenotype_wsibs <- merge(df1, phenotype_data, by = "IID")
 ## calculate the effect of FROH on height (as an example) within-full-siblings
 height_wsibs <- lmer(height_sibs ~ froh_sibs + age + sex + PC1 + PC2 + Pc3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, data = froh_phenotype_wsibs)
 
-## calculate the effect of height (as an example) on FROH between families
-height_btwn <- lmer(froh ~ height + age + sex + PC1 + PC2 + Pc3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1|FID), data = froh_phenotype_wsibs)
+## calculate the effect of height (as an example) on FROH between families 
+## regress phenotype on covariates
+## use residuals
+
 ```
 
