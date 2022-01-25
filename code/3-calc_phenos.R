@@ -72,69 +72,58 @@ btwn_pheno_descrip <- rbind(btwn_pheno_descrip, pheno_descrip)
 write.csv(btwn_pheno_descrip, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_descriptive_pheno_stats_btwn.csv", sep=""), row.names = FALSE)
 
 
+######################################
+#### CALC WITHIN PHENOTYPE VALUES ####
+######################################
 
-
-################################################################################################
-################################################################################################
-################################################################################################
-################################################################################################
-################################################################################################
-################################################################################################
-
-##############################################################################################################################
-################################################################################################
-## still in development
-
-
-################################
-## old code
-## load FID and IID data from the sibling roh file to merge with phenotype data
-fam_file <- read.table(paste(Sys.getenv("processed_dir"),"all_froh_data.txt", sep=""), header = TRUE)
-fam_data <- fam_file %>% drop_na(froh_sibs) %>% select(FID, IID)
-## merge
-phenotype_data_sibs <- merge(fam_data, pheno2, by ="IID")
-all_data <- merge(phenotype_data_sibs, covar_data, by ="IID")
+## copy dataframe
+within_sibs_phenos <- pheno_data_within
+num_phenos_within <- ncol(pheno_data_within) ## will be used to calculate number of phenotypes
 
 ## calculate value of phenotype to family mean
 ## use for loop to go through each of the phenotype columns
-num_phenos <- ncol(phenotype_data_sibs)
-for(j in 3:num_phenos){
+for(j in 4:num_phenos_within){
   ## make empty column to hold results
-  phenotype_data_sibs$newcol <- NA
-  newcolnum <- which(colnames(phenotype_data)=="newcol")
+  within_sibs_phenos$newcol <- NA
+  newcolumn <- which(colnames(within_sibs_phenos)=="newcol")
   ## use for loop to get value for each individual
-for(i in 1:length(phenotype_data_sibs$IID)){
-  spec_FID <- phenotype_data_sibs$FID[i]
-  fam_vals <- phenotype_data_sibs %>% filter(FID==spec_FID)
-  phenotype_data_sibs$newcol[i] <- phenotype_data_sibs[i,j]-mean(fam_vals[,j])
+for(i in 1:length(within_sibs_phenos$IID)){
+  spec_FID <- within_sibs_phenos$FID[i]
+  fam_vals <- within_sibs_phenos %>% filter(FID==spec_FID)
+  ## calculate residual phenotype value
+  within_sibs_phenos$newcol[i] <- within_sibs_phenos[i,j]-mean(fam_vals[,j])
+  ## this will change an individuals value to NA if any of their sibs are missing data
+  within_sibs_phenos[i,j] <- ifelse(any(is.na(fam_vals[,j])), NA, within_sibs_phenos[i,j]) 
 }
-colnames(phenotype_data_sibs)[newcolnum] <- paste(colnames(phenotype_data_sibs)[j],"_sibs",sep="")
+colnames(within_sibs_phenos)[newcolumn] <- paste(colnames(within_sibs_phenos)[j],"_sibs",sep="")
 }
  
 ## write results to table so that easy to import for regression analysis
-sib_pheno_results <- phenotype_data_sibs
-sib_pheno_results[,3:num_phenos] <- NULL
+sib_pheno_results <- within_sibs_phenos
+sib_pheno_results[,4:num_phenos_within] <- NULL
 write.table(sib_pheno_results, paste(Sys.getenv("processed_dir"),"within_sibs_pheno_data.txt", sep=""), quote = FALSE, row.names=FALSE)
 
-#######################################
-## create descriptive tables for each phenotype that give number of individuals, number of families, and then other stats depending on if it is a binary or quantitative trait
+## also save results to df with updated NAs for phenotypes not in relation to siblings
+within_sample_phenos <- within_sibs_phenos
+within_sample_phenos[,num_phenos_within+1:ncol(within_sample_phenos)] <- NULL
+
+######################################
+#### CALC STATS FOR WITHIN SAMPLE ####
+######################################
+
+## create descriptive tables for each phenotype that give sample size and then other stats depending on if it is a binary or quantitative trait
 
 ## create empty df to hold descriptive stats
-all_pheno_descrip <- data.frame(matrix(ncol = 10, nrow = 0))
-colnames(all_pheno_descrip) <- c("pheno_name", "within_num_inds", "within_num_fams", "ncase", "ncontrols", "mean_phen", "median_phen", "sd_phen", "mean_age", "sd_age")
-
-## add age to phenotype data
-id_age <- all_data %>% select(IID, age)
-phenotype_data_sibs2 <- merge(phenotype_data_sibs, id_age, by = "IID")
+within_pheno_descrip <- data.frame(matrix(ncol = 11, nrow = 0))
 
 ## for each phenotype remove the NAs to get the number of IIDs and FIDs, as well as other stats
-for(k in 3:num_phenos){
-test1 <- phenotype_data_sibs2 %>% select(FID, IID, age, colnames(phenotype_data_sibs2)[k], colnames(phenotype_data_sibs2)[(num_phenos-2)+k])
+for(k in 4:num_phenos_within){
+test1 <- within_sample_phenos %>% select(FID, IID, age, colnames(within_sample_phenos)[k])
 test2 <- test1 %>% drop_na()
-within_num_inds <- length(unique(test2$IID))
-within_num_fams <- length(unique(test2$FID))
+sample_size <- length(unique(test2$IID))
 mean_age <- mean(test2$age)
 sd_age <- sd(test2$age)  
+nfams <- length(unique(test2$FID))  
   
 ## assesses if trait is binary or quantitative and pulls the correct info depending
 if(all(test2[,4] %in% c(0,1))){
@@ -151,9 +140,10 @@ if(all(test2[,4] %in% c(0,1))){
   sd_phen <- sd(test2[,4])}
 
 pheno_name <- paste(colnames(test2)[4])
-pheno_descrip <- cbind(pheno_name, within_num_inds, within_num_fams, ncase, ncontrols, mean_phen, median_phen, sd_phen, mean_age, sd_age)
-all_pheno_descrip <- rbind(all_pheno_descrip, pheno_descrip)
+pheno_descrip <- cbind(pheno_name, sample_size, nfams, ncase, ncontrols, mean_phen, median_phen, sd_phen, mean_age, sd_age)
+within_pheno_descrip <- rbind(within_pheno_descrip, pheno_descrip)
 }
 
 ## write to file
-write.csv(all_pheno_descrip, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_descriptive_pheno_stats.csv", sep=""), row.names = FALSE)
+write.csv(within_pheno_descrip, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_descriptive_pheno_stats_within.csv", sep=""), row.names = FALSE)
+
