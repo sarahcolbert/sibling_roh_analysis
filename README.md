@@ -23,7 +23,7 @@ The data requirements for the pipeline are as follows:
 The software requirements for the pipeline are as follows:
 
 * Plink 1.9
-* R (tidyverse installed, lmerTest installed)
+* R (tidyverse, lmerTest and modelr installed)
 * KING (if siblings are not already defined)
 
 ## Pre-Step 1: Downloading and running the pipeline
