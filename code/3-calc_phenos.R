@@ -71,6 +71,9 @@ btwn_pheno_descrip <- rbind(btwn_pheno_descrip, pheno_descrip)
 ## write to file
 write.csv(btwn_pheno_descrip, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_descriptive_pheno_stats_btwn.csv", sep=""), row.names = FALSE)
 
+## write results to table so that easy to import for regression analysis
+all_pheno_results <- pheno_data_btwn
+write.table(all_pheno_results, paste(Sys.getenv("processed_dir"),"btwn_sibs_pheno_data.txt", sep=""), quote = FALSE, row.names=FALSE)
 
 ######################################
 #### CALC WITHIN PHENOTYPE VALUES ####
