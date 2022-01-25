@@ -55,3 +55,12 @@ btwn_data1 <- btwn_data
 ####### Step 4: save results
 summary(resids_model)
 }
+
+                                    
+                                    
+###################################
+######## WITHIN ANALYSIS ##########
+###################################
+                                
+## MAKE SURE TO REMOVE PHENOTYPES WITH < 250 FAMILIES                                    
+                                    
