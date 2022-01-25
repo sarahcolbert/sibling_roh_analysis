@@ -58,9 +58,10 @@ for(k in 19:num_phenos_btwn){
   ## determine if binary or continuous phenotype
     if(all(btwn_data1[k] %in% c(0,1))){
       ## binary phenotype calculations
-      ## Can just run logistic regression (Clark et al. equation 6)  
+      ## Can just run logistic regression (Clark et al. equation 16)  
       pheno_model <- glmer(formula(paste(colnames(btwn_data1)[k],'~ froh + age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1 | FID)')), data = btwn_data1, family = binomial(link = 'logit'), control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))      
-        ### !!!!!!!!!!!!!!!!! convergence issues
+     ## idea for next model to trypheno_model <- lmer(formula(paste('froh ~ ', colnames(btwn_data1)[k],'+ age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1 | FID)')), data = btwn_data1) 
+     ### !!!!!!!!!!!!!!!!! convergence issues
         ###  !!!!!!!!!!!!!  
     
             }else{
