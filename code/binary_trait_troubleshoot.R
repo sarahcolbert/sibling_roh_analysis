@@ -4,6 +4,7 @@
 
 ## load packages
 library(tidyverse)
+library(predictmeans)
 library(modelr)
 library(lmerTest)
 
@@ -51,14 +52,19 @@ for(k in 19:num_phenos_btwn){
   ## determine if binary or continuous phenotype
     if((btwn_data1[k]==0 | btwn_data1[k]==1)){
       ## binary phenotype calculations
-      ## Can just run logistic regression (Clark et al. equation 16)
-      pheno_model <- glmer(formula(paste(colnames(btwn_data1)[k],'~ froh + age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1 | FID)')), data = btwn_data1, family = binomial(link = 'logit'), control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+      ## run linear regression regressing froh on the phenotype
+      pheno_model <- lmer(formula(paste('froh ~ ', colnames(btwn_data1)[k],'+ age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1 | FID)')), data = btwn_data1)
+      ## create base model to use for permutations
+      base_model <- lmer(froh ~ age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1 | FID), data = btwn_data1)
+      ## run permutations
+      perm_results<- permlmer(base_model, pheno_model, nperm=10000, plot=FALSE, seed=58)
       ## save coefficients
       phenotype <- colnames(btwn_data1)[k]
       beta <- summary(pheno_model)$coefficients[2,1]
       se <- summary(pheno_model)$coefficients[2,2]
       p <- summary(pheno_model)$coefficients[2,4]
-      type <- "logistic"
+      perm_p <- perm_results[2,9]
+      type <- "linear_flipped"
             }else{
               ## continuous phenotypes calculations
               ####### Step 1: regress phenotypes on covariates to get residuals (Clark et al. equation 11)
@@ -72,14 +78,16 @@ for(k in 19:num_phenos_btwn){
               beta <- summary(resids_model)$coefficients[2,1]
               se <- summary(resids_model)$coefficients[2,2]
               p <- summary(resids_model)$coefficients[2,4]
+              perm_p <- NA
               type <- "linear"
                }
     ## save results
-    results <- as.data.frame(cbind(phenotype, beta, se, p, type))
+    results <- as.data.frame(cbind(phenotype, beta, se, p, perm_p, type))
     all_results <- rbind(all_results, results)
           }
 
-write.table(all_results, "all_results_test.txt", row.names = FALSE)
+write.table(all_results, "all_results_test2.txt", row.names = FALSE)
+
 
 ###################################
 ######## WITHIN ANALYSIS ##########
