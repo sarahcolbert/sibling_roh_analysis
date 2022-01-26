@@ -1,5 +1,3 @@
-** NTS: delete abcd_test folder
-
 ** fix intro to give proper credit
 
 
@@ -57,15 +55,15 @@ IID, age (defined as 2022 (or 2021?) minus birth year), sex (male = 1, female = 
 Column names should exactly match the example below:
 
 ```
-IID age sex PC1 PC2 PC3 PC4 PC5 PC6 PC7 PC8 PC9 PC10 
-1001 31 0 0.0067 0.0042 0.0019 -8e-04 -0.0043 0.0324 -2e-04 -0.0033 -0.0061 0.0118 
-1002 26 1 -0.0289 -0.0035 0.0034 0.0288 0.0021 -0.0187 -0.0013 -0.0054 0.005 0.0211 
-1011 12 1 0.0044 0.0022 -0.0141 -0.011 -0.0064 0.0248 -0.0157 0.008 0.0089 0.0028 
-1012 18 0 0.0122 0.0019 0.0034 -0.017 0.001 0.003 -0.0217 -0.0016 -0.0126 -3e-04 
-1013 14 0 0.007 5e-04 0.0157 0.0017 -0.0115 -0.0079 -0.0083 -0.017 0.0147 0.0227 
+IID age sex PC1 PC2 PC3 PC4 PC5 PC6 PC7 PC8 PC9 PC10
+1001 31 0 0.0067 0.0042 0.0019 -8e-04 -0.0043 0.0324 -2e-04 -0.0033 -0.0061 0.0118
+1002 26 1 -0.0289 -0.0035 0.0034 0.0288 0.0021 -0.0187 -0.0013 -0.0054 0.005 0.0211
+1011 12 1 0.0044 0.0022 -0.0141 -0.011 -0.0064 0.0248 -0.0157 0.008 0.0089 0.0028
+1012 18 0 0.0122 0.0019 0.0034 -0.017 0.001 0.003 -0.0217 -0.0016 -0.0126 -3e-04
+1013 14 0 0.007 5e-04 0.0157 0.0017 -0.0115 -0.0079 -0.0083 -0.017 0.0147 0.0227
 ```
 
-### Phenotype data 
+### Phenotype data
 We will analyse a wide range of medical, social and behavioral phenotypes based on previous findings in the literature and hypothesized relationships with autozygosity. The [analysis plan](https://docs.google.com/document/d/1weNXniAY8X03ZYm1k-TmZqH4j4h7vloHl_meiSpceII/edit#bookmark=id.nu9tiucjoq87) outlines the phenotypes that we propose to include.  
 
 The first column in the phenotype file should be IID, then followed by the phenotypes available in your dataset. Column names for the phenotypes do not matter. Missing data should be coded as NA. For example, your phenotype file should look something like this:
@@ -81,13 +79,13 @@ IID   Pheno1  Pheno2   Pheno3
 1042  5       22.4     1
 ```
 
-The code will ensure that analyses do not include families with missing phenotype data for at least one sibling (e.g., family 104 would be removed from the analyses which use pheno3). A csv file named pheno_descriptions_STUDYNAME.csv (replace STUDYNAME) should be returned that includes a description of the phenotypes in your dataset. Please format this csv file with quotes. We provide an [example](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/pheno_descriptions_STUDYNAME.csv) of what this might include. 
+The code will ensure that analyses do not include families with missing phenotype data for at least one sibling (e.g., family 104 would be removed from the analyses which use pheno3). A csv file named pheno_descriptions_STUDYNAME.csv (replace STUDYNAME) should be returned that includes a description of the phenotypes in your dataset. Please format this csv file with quotes. We provide an [example](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/pheno_descriptions_STUDYNAME.csv) of what this might include.
 
 
 ## Steps 1 + 2: QC and ROH Calling
 Genotype files must first be filtered to meet the following requirements:
 1) exclude SNPs with >3% missingess
-2) exclude SNPs with MAF < 5% 
+2) exclude SNPs with MAF < 5%
 3) exclude individuals with >3% missing data
 
 Continuous ROH SNPs are identified using PLINK with the following parameters:
@@ -117,7 +115,7 @@ Rscript ${code_dir}2-calc_froh.R
 ```
 
 ## Step 4: Calculate phenotypes (within siblings)
-Follow method from Clark et al., this code is used to calculate phenotypes within siblings. This script will also create tables that describe the distribution of the phenotypes in the sample (which will be included in the return of results). 
+Follow method from Clark et al., this code is used to calculate phenotypes within siblings. This script will also create tables that describe the distribution of the phenotypes in the sample (which will be included in the return of results).
 
 ```
 Rscript ${code_dir}3-calc_phenos.R
@@ -145,9 +143,8 @@ froh_phenotype_wsibs <- merge(df1, phenotype_data, by = "IID")
 ## calculate the effect of FROH on height (as an example) within-full-siblings
 height_wsibs <- lmer(height_sibs ~ froh_sibs + age + sex + PC1 + PC2 + Pc3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, data = froh_phenotype_wsibs)
 
-## calculate the effect of height (as an example) on FROH between families 
+## calculate the effect of height (as an example) on FROH between families
 ## regress phenotype on covariates
 ## use residuals
 
 ```
-
