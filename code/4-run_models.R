@@ -105,7 +105,7 @@ for(k in 19:num_phenos_within){
   ## scale froh and covariates
   within_data3 <- within_data2 %>% mutate_at(c("froh_sibs", "age", "PC1", "PC2", "PC3", "PC4", "PC5", "PC6", "PC7", "PC8", "PC9", "PC10"), scale)
   ## already calculated within sibling values (Clark et al. equations 17 and 18) so just run regression
-  pheno_model <- lmer(formula(paste(colnames(within_data3)[k],'~ froh_sibs + age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1 | FID)')), data = within_data3)
+  pheno_model <- lm(formula(paste(colnames(within_data3)[k],'~ froh_sibs + age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10')), data = within_data3)
       ## save coefficients
       phenotype <- colnames(within_data3)[k]
       beta <- summary(pheno_model)$coefficients[2,1]
