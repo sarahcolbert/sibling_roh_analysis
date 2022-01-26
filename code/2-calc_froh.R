@@ -57,16 +57,16 @@ message(paste("wrote within sibling Froh estimates to ",Sys.getenv("processed_di
 ##### GET BASIC FROH STATS #####
 ################################
 
-## calculate samples minimum, maximum, mean and median for NSEG and froh
-message("calculating sample's minimum, maximum, mean and median for NSEG and Froh")
+## calculate samples minimum, maximum, mean and standard deviation for NSEG and froh
+message("calculating sample's minimum, maximum, mean and standard deviation for NSEG and Froh")
 min_vals <- as.data.frame(apply(select(all_froh_data, c("NSEG","froh")), 2, FUN = min, na.rm = TRUE))
 colnames(min_vals)[1] <- "min"
 mean_vals <- as.data.frame(apply(select(all_froh_data, c("NSEG","froh")), 2, FUN = mean, na.rm = TRUE))
 colnames(mean_vals)[1] <- "mean"
 max_vals <- as.data.frame(apply(select(all_froh_data, c("NSEG","froh")), 2, FUN = max, na.rm = TRUE))
-colnames(max_vals)[1] <- "max" 
+colnames(max_vals)[1] <- "max"
 sd_vals <- as.data.frame(apply(select(all_froh_data, c("NSEG","froh")), 2, FUN = sd, na.rm = TRUE))
-colnames(sd_vals)[1] <- "median" 
+colnames(sd_vals)[1] <- "sd"
 message("done calculating sample's minimum, maximum, mean and standard deviation for NSEG and Froh")
 
 ## put descriptive roh stats in data table and save as file (this file will be returned to us)
