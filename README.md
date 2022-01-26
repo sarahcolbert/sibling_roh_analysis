@@ -82,7 +82,7 @@ IID   Pheno1  Pheno2   Pheno3
 The code will ensure that analyses do not include families with missing phenotype data for at least one sibling (e.g., family 104 would be removed from the analyses which use pheno3). A csv file named pheno_descriptions_STUDYNAME.csv (replace STUDYNAME) should be returned that includes a description of the phenotypes in your dataset. Please format this csv file with quotes. We provide an [example](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/pheno_descriptions_STUDYNAME.csv) of what this might include.
 
 
-## Steps 1 + 2: QC and ROH Calling
+## Steps 1: QC and ROH Calling
 Genotype files must first be filtered to meet the following requirements:
 1) exclude SNPs with >3% missingess
 2) exclude SNPs with MAF < 5%
@@ -104,7 +104,7 @@ Before running you will need to make sure that you have plink 1.9 installed and 
 bash ${code_dir}1-qc_and_call.bash
 ```
 
-## Step 3: Calculate Froh (+ within siblings) and give descriptive statistics
+## Step 2: Calculate Froh (+ within siblings) and give descriptive statistics
 
 Running the code below will calculate Froh for each individual, then calculate Froh within siblings and finally, create tables that describe the sample (which will be included in the return of results).
 
@@ -114,14 +114,14 @@ Before runnning you will need to make sure that you have R installed and your ve
 Rscript ${code_dir}2-calc_froh.R
 ```
 
-## Step 4: Calculate phenotypes (within siblings)
+## Step 3: Calculate phenotypes (within siblings)
 Follow method from Clark et al., this code is used to calculate phenotypes within siblings. This script will also create tables that describe the distribution of the phenotypes in the sample (which will be included in the return of results).
 
 ```
 Rscript ${code_dir}3-calc_phenos.R
 ```
 
-## Step 5: Run within sibling models and between family models
+## Step 4: Run within sibling models and between family models
 
 will need to scale some variables
 
