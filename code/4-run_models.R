@@ -57,7 +57,7 @@ for(k in 19:num_phenos_btwn){
       beta <- summary(pheno_model)$coefficients[2,1]
       se <- summary(pheno_model)$coefficients[2,2]
       p <- summary(pheno_model)$coefficients[2,4]
-      type <- "logistic"
+      type <- "btwn_logistic"
             }else{
               ## continuous phenotypes calculations
               ####### Step 1: regress phenotypes on covariates to get residuals (Clark et al. equation 11)
@@ -71,7 +71,7 @@ for(k in 19:num_phenos_btwn){
               beta <- summary(resids_model)$coefficients[2,1]
               se <- summary(resids_model)$coefficients[2,2]
               p <- summary(resids_model)$coefficients[2,4]
-              type <- "linear"
+              type <- "btwn_linear"
                }
     ## save results
     results <- as.data.frame(cbind(phenotype, beta, se, p, type))
@@ -111,8 +111,9 @@ for(k in 19:num_phenos_within){
       beta <- summary(pheno_model)$coefficients[2,1]
       se <- summary(pheno_model)$coefficients[2,2]
       p <- summary(pheno_model)$coefficients[2,4]
+      type <- "within"
     ## save results
-    results <- as.data.frame(cbind(phenotype, beta, se, p))
+    results <- as.data.frame(cbind(phenotype, beta, se, p, type))
     all_results_within <- rbind(all_results_within, results)
     }else{}
           }
