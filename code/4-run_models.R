@@ -110,7 +110,7 @@ for(k in 19:num_phenos_within){
       phenotype <- colnames(within_data3)[k]
       beta <- summary(pheno_model)$coefficients[2,1]
       se <- summary(pheno_model)$coefficients[2,2]
-      p <- summary(pheno_model)$coefficients[2,5]
+      p <- summary(pheno_model)$coefficients[2,4]
     ## save results
     results <- as.data.frame(cbind(phenotype, beta, se, p))
     all_results_within <- rbind(all_results_within, results)
