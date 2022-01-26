@@ -116,7 +116,6 @@ for(k in 19:num_phenos_within){
     all_results_within <- rbind(all_results_within, results)
     }else{}
           }
-all_results_within
 
 ## write results to csv file to be returned
 ## write.csv(all_results_within, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_within_fam_analysis_results.csv", sep=""), row.names = FALSE)
