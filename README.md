@@ -44,7 +44,7 @@ a) PLINK binary format (.bed .bim .fam) files.
 
 b) The first two columns must contain family IDs (FID) and individual IDs (IIDs). 
 
-b) FIDs should be common between siblings (but unique between sets of siblings) and IIDs should be unique for each individual.
+c) FIDs should be common between siblings (but unique between sets of siblings) and IIDs should be unique for each individual.
 
 ### Covariate data
 A covariate file should be provided containing the following columns:
