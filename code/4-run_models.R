@@ -133,7 +133,7 @@ message(paste("Calculating betafroh in within sibling models for",colnames(withi
     }else{
     message(paste("WARNING:", colnames(within_data1)[k], " was not analyzed because phenotype data was not available for > 250 families", sep = ""))
     ## save coefficients
-    phenotype <- NA
+    phenotype <- colnames(within_data3)[k]
     beta <- NA
     se <- NA
     p <- NA
@@ -144,8 +144,8 @@ message(paste("Calculating betafroh in within sibling models for",colnames(withi
     }
           }
 
-message(paste("Regressions complete and writing results to ", Sys.getenv("output_dir"),Sys.getenv("output_name"),"_within_fam_analysis_results.csv", sep = ""))
+message(paste("Regressions complete and writing results to ", Sys.getenv("output_dir"),Sys.getenv("output_name"),"_within_sibs_analysis_results.csv", sep = ""))
 
 
 ## write results to csv file to be returned
-write.csv(all_results_within, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_within_fam_analysis_results.csv", sep=""), row.names = FALSE)
+write.csv(all_results_within, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_within_sibs_analysis_results.csv", sep=""), row.names = FALSE)
