@@ -16,9 +16,9 @@ covar_data <- read.table(paste(Sys.getenv("covar_file")), header = TRUE)
 message(paste("done loading ",(Sys.getenv("covar_file")), sep=""))
 
 ## load roh file data to merge with phenotype data
-message(paste("loading ",(Sys.getenv("processed_dir"),"all_froh_data.txt", sep="""))
+message(paste("loading ",Sys.getenv("processed_dir"),"all_froh_data.txt", sep=""))
 fam_file <- read.table(paste(Sys.getenv("processed_dir"),"all_froh_data.txt", sep=""), header = TRUE)
-message(paste("done loading ",(Sys.getenv("processed_dir"),"all_froh_data.txt", sep="""))
+message(paste("done loading ",Sys.getenv("processed_dir"),"all_froh_data.txt", sep=""))
 
 ## clean phenotype data
 ## remove duplicate individuals
