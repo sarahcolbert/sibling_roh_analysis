@@ -1,8 +1,5 @@
-** fix intro to give proper credit
-
-
 # Runs of homozygosity in the Within Family Consortium Analyses
-This repository details a Standard Operating Procedure for the data analysts that will be performing the WFC runs of homozygosity analyses in individual cohorts. We provide a fully automated analysis pipeline that will analyze and format the results to be returned. We thank blabla for allowing us to adapt code and methods from their [sibling GWAS github](https://github.com/LaurenceHowe/SiblingGWAS).
+This repository details a Standard Operating Procedure for the data analysts that will be performing the WFC runs of homozygosity analyses in individual cohorts. We provide a fully automated analysis pipeline that will analyze and format the results to be returned. We thank Howe et al. for allowing us to adapt code and methods from their [sibling GWAS github](https://github.com/LaurenceHowe/SiblingGWAS).
 
 The following analyses should be repeated for each subsample of genetic ancestry available in your sample. Please be sure to indicate the genetic ancestry of your sample in the config file (see Pre-Step 3).
 
