@@ -33,16 +33,18 @@ The within-sibling analysis requires data on siblings. If siblings have not been
 Instructions for defining siblings are provided by Howe et al. [here](https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.1_Siblings).
 
 ## Pre-Step 3: Editing the config file
-To edit the config file navigate to the sibling_roh_analysis directory and add the required information to the file. You can then run the config file using:  <br>
+Navigate to the sibling_roh_analysis directory and edit the config file by adding the required information. You can then run the config file using:  <br>
 > source ./config <br>
 
 ## Pre-Step 4: Input Files
 ### Genotype data
-You will need genotype data in PLINK binary format. The pipeline requires the input (.bed, .bim, .fam) files to satisfy the following requirements:
+You will need genotype data in PLINK binary format. The pipeline requires the input files to satisfy the following requirements:
 
-a) PLINK binary format (.bed .bim .fam) files. The first two columns must contain family IDs (FID) and individual IDs (IIDs). FIDs should be common between siblings (but unique between sets of siblings) and IIDs should be unique for each individual.
+a) PLINK binary format (.bed .bim .fam) files. 
 
-b) add requirements as needed.
+b) The first two columns must contain family IDs (FID) and individual IDs (IIDs). 
+
+b) FIDs should be common between siblings (but unique between sets of siblings) and IIDs should be unique for each individual.
 
 ### Covariate data
 A covariate file should be provided containing the following columns:
