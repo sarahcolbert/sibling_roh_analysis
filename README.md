@@ -78,7 +78,7 @@ IID   Pheno1  Pheno2   Pheno3
 1042  5       22.4     1
 ```
 
-A csv file named pheno_descriptions_STUDYNAME.csv (replace STUDYNAME) should be returned that includes a description of the phenotypes in your dataset. Please format this csv file with quotes. We provide an [example](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/pheno_descriptions_STUDYNAME.csv) of what this might include.
+A csv file named pheno_descriptions_STUDYNAME.csv (replace STUDYNAME) should be returned that includes a description of the phenotypes in your dataset. This should include the column name of the phenotype, which phenotype in the analysis plan it corresponds to and any derivations from the preferred coding we outline. Please format this csv file with quotes. 
 
 
 ## Steps 1: QC and ROH Calling
