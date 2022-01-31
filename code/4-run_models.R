@@ -99,7 +99,7 @@ write.csv(all_results_btwn, paste(Sys.getenv("output_dir"),Sys.getenv("output_na
 ######## WITHIN ANALYSIS ##########
 ###################################
 
-message("Starting between family analysis")
+message("Starting within family analysis")
 
 ## copy df
 within_data1 <- within_data

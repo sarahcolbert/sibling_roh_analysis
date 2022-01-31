@@ -40,9 +40,9 @@ Navigate to the sibling_roh_analysis directory and edit the config file by addin
 ### Genotype data
 You will need genotype data in PLINK binary format. The pipeline requires the input files to satisfy the following requirements:
 
-a) PLINK binary format (.bed .bim .fam) files. 
+a) PLINK binary format (.bed .bim .fam) files.
 
-b) The first two columns must contain family IDs (FID) and individual IDs (IIDs). 
+b) The first two columns must contain family IDs (FID) and individual IDs (IIDs).
 
 c) FIDs should be common between siblings (but unique between sets of siblings) and IIDs should be unique for each individual.
 
@@ -114,7 +114,7 @@ Rscript ${code_dir}2-calc_froh.R
 ```
 
 ## Step 3: Calculate phenotypes (within siblings)
-Follow method from Clark et al., this code is used to calculate phenotypes within siblings. This script will also create tables that describe the distribution of the phenotypes in the sample (which will be included in the return of results).
+Following the method from Clark et al., this code is used to calculate trait residuals relative to family means which will be used in the within sibling analysis. This script will also clean the phenotype data for both analyses and create tables that describe the distribution of the phenotypes in the sample (which will be included in the return of results).
 
 ```
 Rscript ${code_dir}3-calc_phenos.R
