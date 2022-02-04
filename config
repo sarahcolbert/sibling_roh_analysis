@@ -8,8 +8,8 @@ study_name="Blank"
 # Please indicate the genetic ancestry of the sample
 study_ancestry="Blank"
 
-# Analyst's name
-analyst_name="NAME"
+# Analyst's initials
+analyst_initials="INITIALS"
 
 # Analyst's email address
 analyst_email="EMAIL"
