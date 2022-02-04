@@ -105,7 +105,7 @@ bash ${code_dir}1-qc_and_call.bash
 
 ## Step 2: Calculate Froh (+ within siblings) and give descriptive statistics
 
-Running the code below will calculate Froh for each individual, then calculate Froh within siblings and finally, create tables that describe the sample (which will be included in the return of results).
+Running the code below will calculate Froh for each individual, then calculate Froh within siblings (relative to the family mean) and finally, create tables that describe the sample (which will be included in the return of results).
 
 Before runnning you will need to make sure that you have R installed and your version of R should include the tidyverse package.
 
@@ -114,14 +114,14 @@ Rscript ${code_dir}2-calc_froh.R
 ```
 
 ## Step 3: Calculate phenotypes (within siblings)
-Following the method from Clark et al., this code is used to calculate trait residuals relative to family means which will be used in the within sibling analysis. This script will also clean the phenotype data for both analyses and create tables that describe the distribution of the phenotypes in the sample (which will be included in the return of results).
+Following the method from Clark et al., this code is used to calculate trait residuals relative to family means which will be used in the within sibling analysis. This script will also clean the phenotype data for both the within- and between-sibling analyses and create tables that describe the distribution of the phenotypes in the sample (which will be included in the return of results).
 
 ```
 Rscript ${code_dir}3-calc_phenos.R
 ```
 
 ## Step 4: Run within sibling models and between family models
-Following the methods from Clark et al, this code is used to estimate the effect size estimates of Froh for all phenotypes using both within sibling and between family models. Please check the log output after running this code so that any warnings or errors can be reported. You do not need to report warnings that note the number of families was too small for analysis.
+Following the methods from Clark et al, this code is used to estimate the associations between Froh and all phenotypes using both within sibling and between family models. Please check the log output after running this code so that any warnings or errors can be reported. You do not need to report warnings that note the number of families was too small for analysis.
 ```
 Rscript ${code_dir}4-run_models.R
 ```
