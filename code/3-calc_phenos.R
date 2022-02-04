@@ -115,7 +115,7 @@ message("Step 1: Calculating trait residuals...")
 for(m in 15:ncol(within_data1)){
   ## copy df and remove NAs for the phenotype
   within_data2 <- within_data1 %>% drop_na(paste(colnames(within_data1[m])))
-  ## scale froh and covariates
+  ## scale covariates
   within_data3 <- within_data2 %>% mutate_at(c("age", "PC1", "PC2", "PC3", "PC4", "PC5", "PC6", "PC7", "PC8", "PC9", "PC10"), scale)
   ## determine if binary or continuous phenotype
     if(all(within_data3[m]==0 | within_data3[m]==1)){
