@@ -117,10 +117,10 @@ message(paste("Calculating betafroh in within sibling models for",colnames(withi
   within_data2 <- within_data1 %>% drop_na(paste(colnames(within_data1[k])))
   ## only run analysis if there's more than 250 families
   if(length(unique(within_data2$FID))>250){
-  ## scale froh and covariates
-  within_data3 <- within_data2 %>% mutate_at(c("froh_sibs", "age", "PC1", "PC2", "PC3", "PC4", "PC5", "PC6", "PC7", "PC8", "PC9", "PC10"), scale)
+  ## keep within_data2 but copy
+  within_data3 <- within_data2
   ## already calculated within sibling values (Clark et al. equations 17 and 18) so just run regression
-  pheno_model <- lm(formula(paste(colnames(within_data3)[k],'~ froh_sibs_resids')), data = within_data3)
+  pheno_model <- lm(formula(paste(colnames(within_data3)[k],'~ froh_sibs')), data = within_data3)
       ## save coefficients
       phenotype <- colnames(within_data3)[k]
       beta <- summary(pheno_model)$coefficients[2,1]
