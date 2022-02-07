@@ -4,7 +4,6 @@
 
 message("Loading packages")
 library(tidyverse)
-library(modelr)
 library(lmerTest)
 message("Done loading packages")
 
@@ -76,7 +75,8 @@ message(paste("Calculating betafroh in between family models for",colnames(btwn_
               ####### Step 1: regress phenotypes on covariates to get residuals (Clark et al. equation 11)
               pheno_model <- lmer(formula(paste(colnames(btwn_data1)[k],'~ age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1 | FID)')), data = btwn_data1)
               ####### Step 2: pull residuals from the model
-              pheno_resids <- add_residuals(btwn_data1, pheno_model, var = "resids")
+              pheno_resids <- btwn_data1
+              pheno_resids$resids <- pheno_model$resids
               ####### Step 3: regress residuals on froh (Clark et al. equation 13a)
               resids_model <- lm(resids ~ froh, data = pheno_resids)
               ####### Step 4: save coefficients

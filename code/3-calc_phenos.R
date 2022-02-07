@@ -5,7 +5,6 @@
 ## load packages
 library(tidyverse)
 library(lmerTest)
-library(modelr)
 
 ## load phenotype data
 message(paste("Loading ",(Sys.getenv("pheno_file")), sep=""))
@@ -131,7 +130,8 @@ for(m in 15:ncol(within_data1)){
               ####### Step 1: regress phenotypes on covariates to get residuals (Clark et al. equation 11)
               resids_model <- lm(formula(paste(colnames(within_data3)[m],'~ age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10')), data = within_data3)
               ####### Step 2: pull residuals from the model
-              pheno_resids <- add_residuals(within_data3, resids_model, var = "newcol")
+              pheno_resids <- within_data3
+              pheno_resids$newcol <- resids_model$resid
               cont_resids <- pheno_resids %>% select(IID, newcol)
               ## add residual to residuals dataframe
               trait_residuals_within <- merge(trait_residuals_within, cont_resids, by = "IID", all = TRUE)

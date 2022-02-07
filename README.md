@@ -18,7 +18,9 @@ The data requirements for the pipeline are as follows:
 The software requirements for the pipeline are as follows:
 
 * Plink 1.9
-* R (tidyverse, lmerTest and modelr installed)
+* R $\geq$ 3.3
+  * [tidyverse](https://github.com/tidyverse/tidyverse)
+  * [lmerTest](https://cran.r-project.org/web/packages/lmerTest/index.html)
 * KING (if siblings are not already defined)
 
 ## Pre-Step 1: Downloading and running the pipeline
@@ -78,7 +80,7 @@ IID   Pheno1  Pheno2   Pheno3
 1042  5       22.4     1
 ```
 
-A csv file named pheno_descriptions_STUDYNAME.csv (replace STUDYNAME) should be returned that includes a description of the phenotypes in your dataset. This should include the column name of the phenotype, which phenotype in the analysis plan it corresponds to and any derivations from the preferred coding we outline. Please format this csv file with quotes. 
+A csv file named pheno_descriptions_STUDYNAME.csv (replace STUDYNAME) should be returned that includes a description of the phenotypes in your dataset. This should include the column name of the phenotype, which phenotype in the analysis plan it corresponds to and any derivations from the preferred coding we outline. Please format this csv file with quotes.
 
 
 ## Steps 1: QC and ROH Calling
