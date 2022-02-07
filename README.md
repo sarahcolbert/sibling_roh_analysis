@@ -18,7 +18,7 @@ The data requirements for the pipeline are as follows:
 The software requirements for the pipeline are as follows:
 
 * Plink 1.9
-* R $\geq$ 3.3
+* R >= 3.3
   * [tidyverse](https://github.com/tidyverse/tidyverse)
   * [lmerTest](https://cran.r-project.org/web/packages/lmerTest/index.html)
 * KING (if siblings are not already defined)
