@@ -9,7 +9,7 @@ The data requirements for the pipeline are as follows:
 
 1) Sibling data (see Pre-Step 2 for how to define siblings).
 
-2) Called genotypes in plink binary format. Imputed data is not permitted. (see Pre-Step 4 for information on input file requirements and scripts for file conversion).
+2) Called genotypes in plink binary format. <strong>Imputed data is not permitted.</strong> (see Pre-Step 4 for information on input file requirements and scripts for file conversion).
 
 3) Complete covariate data (see Pre-Step 4 for information on what covariates should be included and the file format).
 
