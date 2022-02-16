@@ -126,9 +126,10 @@ Rscript ${code_dir}3-calc_phenos.R
 ```
 
 ## Step 4: Run within sibling models and between family models
-Following the methods from Clark et al, this code is used to estimate the associations between Froh and all phenotypes using both within sibling and between family models. Please check the log output after running this code so that any warnings or errors can be reported. You do not need to report warnings that note the number of families was too small for analysis.
+Following the methods from Clark et al, this code is used to estimate the associations between Froh (and F_GRM) and all phenotypes using both within sibling and between family models. Please check the log output after running this code so that any warnings or errors can be reported. You do not need to report warnings that note the number of families was too small for analysis.
 ```
-Rscript ${code_dir}4-run_models.R
+Rscript ${code_dir}4-run_froh_models.R
+Rscript ${code_dir}4-run_fgrm_models.R
 ```
 
 ## Step 5: Return your results
