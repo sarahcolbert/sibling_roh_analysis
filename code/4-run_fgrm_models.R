@@ -11,10 +11,6 @@ message(paste("Loading ",Sys.getenv("processed_dir"),"within_sibs_fgrm_data.txt"
 fgrm_data <- read.table(paste(Sys.getenv("processed_dir"),"within_sibs_fgrm_data.txt", sep=""), header = TRUE)
 message(paste("Done loading ",Sys.getenv("processed_dir"),"within_sibs_fgrm_data.txt", sep=""))
 
-message(paste("Loading ",Sys.getenv("processed_dir"),"within_sibs_fgrm_data.txt", sep=""))
-fgrm_data <- read.table(paste(Sys.getenv("processed_dir"),"within_sibs_fgrm_data.txt", sep=""), header = TRUE)
-message(paste("Done loading ",Sys.getenv("processed_dir"),"within_sibs_fgrm_data.txt", sep=""))
-
 message("Loading within and between phenotype data...")
 within_phenotype_data <- read.table(paste(Sys.getenv("processed_dir"),"within_sibs_pheno_data.txt", sep=""), header = TRUE) %>% select(-age,-FID)
 btwn_phenotype_data <- read.table(paste(Sys.getenv("processed_dir"),"btwn_sibs_pheno_data.txt", sep=""), header = TRUE) %>% select(-age,-FID)

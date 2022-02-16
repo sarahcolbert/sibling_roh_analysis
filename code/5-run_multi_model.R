@@ -11,6 +11,12 @@ message(paste("Loading ",Sys.getenv("processed_dir"),"within_sibs_froh_data.txt"
 froh_data <- read.table(paste(Sys.getenv("processed_dir"),"within_sibs_froh_data.txt", sep=""), header = TRUE)
 message(paste("Done loading ",Sys.getenv("processed_dir"),"within_sibs_froh_data.txt", sep=""))
 
+message(paste("Loading ",Sys.getenv("processed_dir"),"within_sibs_fgrm_data.txt", sep=""))
+fgrm_data <- read.table(paste(Sys.getenv("processed_dir"),"within_sibs_fgrm_data.txt", sep=""), header = TRUE)
+message(paste("Done loading ",Sys.getenv("processed_dir"),"within_sibs_fgrm_data.txt", sep=""))
+
+both_data <- merge(froh_data, fgrm_data, by = c("FID", "IID"))
+
 message("Loading within and between phenotype data...")
 within_phenotype_data <- read.table(paste(Sys.getenv("processed_dir"),"within_sibs_pheno_data.txt", sep=""), header = TRUE) %>% select(-age,-FID)
 btwn_phenotype_data <- read.table(paste(Sys.getenv("processed_dir"),"btwn_sibs_pheno_data.txt", sep=""), header = TRUE) %>% select(-age,-FID)
@@ -24,13 +30,13 @@ message(paste("Done loading ",(Sys.getenv("covar_file")), sep=""))
 message("Cleaning data...")
 
 ## combine covariate and froh data
-froh_covar <- merge(froh_data, covar_data, by="IID")
+both_covar <- merge(both_data, covar_data, by="IID")
 
 ## make df for between analysis
-btwn_data <- merge(froh_covar, btwn_phenotype_data, by="IID")
+btwn_data <- merge(both_covar, btwn_phenotype_data, by="IID")
 
 ## make df for within analysis
-within_data <- merge(froh_covar, within_phenotype_data, by="IID")
+within_data <- merge(both_covar, within_phenotype_data, by="IID")
 
 message("Done cleaning data")
 
@@ -55,13 +61,13 @@ message(paste("Calculating betafroh in between family models for",colnames(btwn_
   ## copy df and remove NAs for the phenotype
   btwn_data3 <- btwn_data %>% drop_na(paste(colnames(btwn_data[k])))
   ## scale froh and covariates
-  btwn_data1 <- btwn_data3 %>% mutate_at(c("froh", "age", "PC1", "PC2", "PC3", "PC4", "PC5", "PC6", "PC7", "PC8", "PC9", "PC10"), scale)
+  btwn_data1 <- btwn_data3 %>% mutate_at(c("froh", "fgrm", "age", "PC1", "PC2", "PC3", "PC4", "PC5", "PC6", "PC7", "PC8", "PC9", "PC10"), scale)
   ## determine if binary or continuous phenotype
     if(all(btwn_data1[k]==0 | btwn_data1[k]==1)){
     message(paste("Reading",colnames(btwn_data)[k], "as a binary trait and running logistic regression", sep=" "))
       ## binary phenotype calculations
       ## Can just run logistic regression (Clark et al. equation 16)
-      pheno_model <- glmer(formula(paste(colnames(btwn_data1)[k],'~ froh + age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1 | FID)')), data = btwn_data1, family = binomial(link = 'logit'), control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+      pheno_model <- glmer(formula(paste(colnames(btwn_data1)[k],'~ froh + fgrm + age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1 | FID)')), data = btwn_data1, family = binomial(link = 'logit'), control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
       ## save coefficients
       phenotype <- colnames(btwn_data1)[k]
       beta <- summary(pheno_model)$coefficients[2,1]
@@ -77,7 +83,7 @@ message(paste("Calculating betafroh in between family models for",colnames(btwn_
               pheno_resids <- btwn_data1
               pheno_resids$resids <- resid(summary(pheno_model))
               ####### Step 3: regress residuals on froh (Clark et al. equation 13a)
-              resids_model <- lm(resids ~ froh, data = pheno_resids)
+              resids_model <- lm(resids ~ froh + fgrm, data = pheno_resids)
               ####### Step 4: save coefficients
               phenotype <- colnames(btwn_data1)[k]
               beta <- summary(resids_model)$coefficients[2,1]
@@ -89,10 +95,10 @@ message(paste("Calculating betafroh in between family models for",colnames(btwn_
     results <- as.data.frame(cbind(phenotype, beta, se, p, type))
     all_results_btwn <- rbind(all_results_btwn, results)
           }
-message(paste("Regressions complete and writing results to ", Sys.getenv("output_dir"),Sys.getenv("output_name"),"_btwn_fam_froh_analysis_results.csv", sep = ""))
+message(paste("Regressions complete and writing results to ", Sys.getenv("output_dir"),Sys.getenv("output_name"),"_btwn_fam_multi_analysis_results.csv", sep = ""))
 
 ## write results to csv file to be returned
-write.csv(all_results_btwn, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_btwn_fam_froh_analysis_results.csv", sep=""), row.names = FALSE)
+write.csv(all_results_btwn, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_btwn_fam_multi_analysis_results.csv", sep=""), row.names = FALSE)
 
 ###################################
 ######## WITHIN ANALYSIS ##########
@@ -119,7 +125,7 @@ message(paste("Calculating betafroh in within sibling models for",colnames(withi
   ## keep within_data2 but copy
   within_data3 <- within_data2
   ## already calculated within sibling values (Clark et al. equations 17 and 18) so just run regression
-  pheno_model <- lm(formula(paste(colnames(within_data3)[k],'~ froh_sibs')), data = within_data3)
+  pheno_model <- lm(formula(paste(colnames(within_data3)[k],'~ froh_sibs + fgrm_sibs')), data = within_data3)
       ## save coefficients
       phenotype <- colnames(within_data3)[k]
       beta <- summary(pheno_model)$coefficients[2,1]
@@ -143,8 +149,8 @@ message(paste("Calculating betafroh in within sibling models for",colnames(withi
     }
           }
 
-message(paste("Regressions complete and writing results to ", Sys.getenv("output_dir"),Sys.getenv("output_name"),"_within_sibs_froh_analysis_results.csv", sep = ""))
+message(paste("Regressions complete and writing results to ", Sys.getenv("output_dir"),Sys.getenv("output_name"),"_within_sibs_multi_analysis_results.csv", sep = ""))
 
 
 ## write results to csv file to be returned
-write.csv(all_results_within, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_within_sibs_froh_analysis_results.csv", sep=""), row.names = FALSE)
+write.csv(all_results_within, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_within_sibs_multi_analysis_results.csv", sep=""), row.names = FALSE)
