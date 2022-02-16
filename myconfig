@@ -28,6 +28,9 @@ export covar_file="/scratch/aalab/suri/data/raw_data/abcd_covariates_eur.txt"
 ## put location for phenotype file
 export pheno_file="/scratch/aalab/suri/data/raw_data/abcd_test_phenotypes.txt"
 
+## put the path to your gcta executable file
+export gcta="/home/sarah.c/software/gcta_v1.94.0Beta_linux_kernel_2_x86_64/gcta_v1.94.0Beta_linux_kernel_2_x86_64_static"
+
 ## DO NOT MODIFY
 export processed_dir="${project_dir}processed_files/"
 mkdir ${processed_dir}

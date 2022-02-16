@@ -18,6 +18,7 @@ The data requirements for the pipeline are as follows:
 The software requirements for the pipeline are as follows:
 
 * Plink 1.9
+* [GCTA](https://yanglab.westlake.edu.cn/software/gcta/#Overview)
 * R >= 3.3
   * [tidyverse](https://github.com/tidyverse/tidyverse)
   * [lmerTest](https://cran.r-project.org/web/packages/lmerTest/index.html)
@@ -83,7 +84,7 @@ IID   Pheno1  Pheno2   Pheno3
 A csv file named pheno_descriptions_STUDYNAME.csv (replace STUDYNAME) should be returned that includes a description of the phenotypes in your dataset. This should include the column name of the phenotype, which phenotype in the analysis plan it corresponds to and any derivations from the preferred coding we outline. Please format this csv file with quotes.
 
 
-## Steps 1: QC and ROH Calling
+## Step 1: QC and ROH Calling
 Genotype files must first be filtered to meet the following requirements:
 1) exclude SNPs with >3% missingess
 2) exclude SNPs with MAF < 5%
@@ -98,8 +99,10 @@ Continuous ROH SNPs are identified using PLINK with the following parameters:
 6) homozyg-window-missing 5
 7) homozyg-window-het 1
 
-Running the code below will perform QC and then use the QCed files to call ROHs.
-Before running you will need to make sure that you have plink 1.9 installed and that it can be called with the command "plink" as is done in the [1-qc_and_call.bash script](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/code/1-qc_and_call.bash).
+F_GRM is calculated using the --ibc flag in GCTA. F_GRM = Fhat3 in the output.
+
+Running the code below will perform QC and then use the QCed files to call ROHs and calculate F_GRM.
+Before running you will need to make sure that you have installed GCTA and plink1.9 and that it can be called with the command "plink" as is done in the [1-qc_and_call.bash script](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/code/1-qc_and_call.bash).
 
 ```
 bash ${code_dir}1-qc_and_call.bash
