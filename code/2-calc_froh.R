@@ -3,6 +3,11 @@ library(tidyverse)
 message(paste("Loading ",Sys.getenv("processed_dir"),Sys.getenv("input_prefix"),"_roh.hom.indiv", sep=""))
 roh_data1 <- read.table(paste(Sys.getenv("processed_dir"),Sys.getenv("input_prefix"),"_roh.hom.indiv", sep=""), header = TRUE)
 message(paste("Done loading ",Sys.getenv("processed_dir"),Sys.getenv("input_prefix"),"_roh.hom.indiv", sep=""))
+
+message(paste("Loading ",Sys.getenv("processed_dir"),Sys.getenv("input_prefix"),"_ibc.ibc", sep=""))
+fgrm_data1 <- read.table(paste(Sys.getenv("processed_dir"),Sys.getenv("input_prefix"),"_ibc.ibc", sep=""), header = TRUE)
+message(paste("Done loading ",Sys.getenv("processed_dir"),Sys.getenv("input_prefix"),"_ibc.ibc", sep=""))
+
 message(paste("Loading ",(Sys.getenv("covar_file")), sep=""))
 covar_data <- read.table(paste(Sys.getenv("covar_file")), header = TRUE)
 message(paste("Done loading ",(Sys.getenv("covar_file")), sep=""))
@@ -11,6 +16,11 @@ message(paste("Done loading ",(Sys.getenv("covar_file")), sep=""))
 message("Merging roh and covariate data")
 roh_data <- merge(roh_data1, covar_data, by = "IID")
 message("Done merging roh and covariate data")
+
+## merge
+message("Merging fgrm and covariate data")
+fgrm_data2 <- merge(fgrm_data1, covar_data, by = "IID")
+message("Done merging fgrm and covariate data")
 
 ######################################
 ##### CALCULATE FROH WITHIN SIBS #####
@@ -53,38 +63,82 @@ message(paste("Wrote all Froh estimates to ",Sys.getenv("processed_dir"),"all_fr
 write.table(froh_data, paste(Sys.getenv("processed_dir"),"within_sibs_froh_data.txt", sep=""), row.names=FALSE, quote = FALSE)
 message(paste("Wrote within sibling Froh estimates to ",Sys.getenv("processed_dir"),"within_sibs_froh_data.txt", sep=""))
 
+
+######################################
+##### CALCULATE FGRM WITHIN SIBS #####
+######################################
+
+message("Calculating Fgrm")
+## filter to necessary columns
+fgrm_data3 <- fgrm_data2 %>% select(FID, IID, Fhat3) %>% rename(fgrm=Fhat3)
+
+## remove any individuals that aren't in a sibling pair
+fgrm_data4 <- fgrm_data3[fgrm_data3$FID %in% fgrm_data3$FID[duplicated(fgrm_data3$FID)],]
+
+## remove any duplicate individuals
+fgrm_data <- fgrm_data4 %>% distinct(IID, .keep_all = TRUE)
+
+## calculate value of froh relative to family mean
+## make empty column to hold results
+fgrm_data$fgrm_sibs <- NA
+## use for loop to get value for each individual
+for(i in 1:length(fgrm_data$IID)){
+  spec_FID <- fgrm_data$FID[i]
+  fam_vals <- fgrm_data %>% filter(FID==spec_FID)
+  fgrm_data$fgrm_sibs[i] <- fgrm_data$fgrm[i]-mean(fam_vals$fgrm)
+}
+
+message("Done calculating Fgrm")
+
+## combine info for all individuals
+id_sibs_fgrm <- fgrm_data %>% select(IID, fgrm_sibs)
+all_fgrm_data <- merge(id_sibs_fgrm, fgrm_data2, by = "IID", all = TRUE)
+
+## save table with froh values just incase
+write.table(all_fgrm_data, paste(Sys.getenv("processed_dir"),"all_fgrm_data.txt", sep=""), row.names=FALSE, quote = FALSE)
+message(paste("Wrote all Froh estimates to ",Sys.getenv("processed_dir"),"all_fgrm_data.txt", sep=""))
+
+## save table with froh values just incase
+write.table(fgrm_data, paste(Sys.getenv("processed_dir"),"within_sibs_fgrm_data.txt", sep=""), row.names=FALSE, quote = FALSE)
+message(paste("Wrote within sibling Froh estimates to ",Sys.getenv("processed_dir"),"within_sibs_fgrm_data.txt", sep=""))
+
+
 ################################
 ##### GET BASIC FROH STATS #####
 ################################
 
+all_fgrm_data2 <- all_fgrm_data %>% select("IID", "fgrm_sibs", "Fhat3") %>% rename(fgrm=Fhat3)
+
+all_data <- merge(all_froh_data, all_fgrm_data2, by =c("IID"))
+
 ## calculate samples minimum, maximum, mean and standard deviation for NSEG and froh
 message("Calculating sample's minimum, maximum, mean and standard deviation for NSEG and Froh")
-min_vals <- as.data.frame(apply(select(all_froh_data, c("NSEG","froh")), 2, FUN = min, na.rm = TRUE))
+min_vals <- as.data.frame(apply(select(all_data, c("NSEG","froh","fgrm")), 2, FUN = min, na.rm = TRUE))
 colnames(min_vals)[1] <- "min"
-mean_vals <- as.data.frame(apply(select(all_froh_data, c("NSEG","froh")), 2, FUN = mean, na.rm = TRUE))
+mean_vals <- as.data.frame(apply(select(all_data, c("NSEG","froh","fgrm")), 2, FUN = mean, na.rm = TRUE))
 colnames(mean_vals)[1] <- "mean"
-max_vals <- as.data.frame(apply(select(all_froh_data, c("NSEG","froh")), 2, FUN = max, na.rm = TRUE))
+max_vals <- as.data.frame(apply(select(all_data, c("NSEG","froh","fgrm")), 2, FUN = max, na.rm = TRUE))
 colnames(max_vals)[1] <- "max"
-sd_vals <- as.data.frame(apply(select(all_froh_data, c("NSEG","froh")), 2, FUN = sd, na.rm = TRUE))
+sd_vals <- as.data.frame(apply(select(all_data, c("NSEG","froh","fgrm")), 2, FUN = sd, na.rm = TRUE))
 colnames(sd_vals)[1] <- "sd"
 message("Done calculating sample's minimum, maximum, mean and standard deviation for NSEG and Froh")
 
 ## put descriptive roh stats in data table and save as file (this file will be returned to us)
 message ("Writing table with Froh stats")
 descript_roh_stats <- cbind(min_vals, max_vals, mean_vals, sd_vals)
-descript_roh_stats$n_indivs <- rep(length(all_froh_data$IID), length(descript_roh_stats$min))
+descript_roh_stats$n_indivs <- rep(length(all_data$IID), length(descript_roh_stats$min))
 descript_roh_stats$n_sibgroups <- rep(length(unique(froh_data$FID)), length(descript_roh_stats$min))
 ## check how many individuals have froh = 0
-zero_inds <- sum(all_froh_data$froh==0)
+zero_inds <- sum(all_data$froh==0)
 descript_roh_stats$n_zero_inds <- rep(zero_inds, length(descript_roh_stats$min))
 ## check how many individuals are offspring of various relative relationships
-half_sib_inds <- sum(all_froh_data$froh > 0.125)
+half_sib_inds <- sum(all_data$froh > 0.125)
 descript_roh_stats$n_half_sib_inds <- rep(half_sib_inds, length(descript_roh_stats$min))
-first_cous_inds <- sum(all_froh_data$froh > 0.0625)
+first_cous_inds <- sum(all_data$froh > 0.0625)
 descript_roh_stats$n_first_cous_inds <- rep(first_cous_inds, length(descript_roh_stats$min))
-half_cous_inds <- sum(all_froh_data$froh > 0.03125)
+half_cous_inds <- sum(all_data$froh > 0.03125)
 descript_roh_stats$n_half_cous_inds <- rep(half_cous_inds, length(descript_roh_stats$min))
-sec_cous_inds <- sum(all_froh_data$froh > 0.0156)
+sec_cous_inds <- sum(all_data$froh > 0.0156)
 descript_roh_stats$n_sec_cous_inds <- rep(sec_cous_inds, length(descript_roh_stats$min))
 
 write.csv(descript_roh_stats, paste(Sys.getenv("output_dir"),Sys.getenv("output_name"),"_descriptive_roh_stats.csv", sep=""), row.names = TRUE)

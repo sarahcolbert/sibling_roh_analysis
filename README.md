@@ -110,9 +110,9 @@ bash ${code_dir}1-qc_and_call.bash
 
 ## Step 2: Calculate Froh (+ within siblings) and give descriptive statistics
 
-Running the code below will calculate Froh for each individual, then calculate Froh within siblings (relative to the family mean) and finally, create tables that describe the sample (which will be included in the return of results).
+Running the code below will calculate Froh for each individual, then calculate Froh and F_GRM within siblings (relative to the family mean) and finally, create tables that describe the sample (which will be included in the return of results).
 
-Before runnning you will need to make sure that you have R installed and your version of R should include the tidyverse package.
+Before running you will need to make sure that you have R installed and your version of R should include the tidyverse package.
 
 ```
 Rscript ${code_dir}2-calc_froh.R
