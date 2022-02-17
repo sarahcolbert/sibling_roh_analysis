@@ -28,8 +28,8 @@ export covar_file="/path/to/covariates.txt"
 ## put location for phenotype file
 export pheno_file="/path/to/phenotypes.txt"
 
-## put the path to your gcta executable file
-export gcta="/path/to/gcta_v1.94.0Beta_linux_kernel_2_x86_64/gcta_v1.94.0Beta_linux_kernel_2_x86_64_static"
+## put the path to your plink executable file
+export plink="/path/to/plink"
 
 ## DO NOT MODIFY
 export processed_dir="${project_dir}processed_files/"

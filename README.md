@@ -17,8 +17,7 @@ The data requirements for the pipeline are as follows:
 
 The software requirements for the pipeline are as follows:
 
-* Plink 1.9
-* [GCTA](https://yanglab.westlake.edu.cn/software/gcta/#Overview)
+* Plink 1.9 (if you are running into bugs make sure you are using the [newest stable version available](https://www.cog-genomics.org/plink2/))
 * R >= 3.3
   * [tidyverse](https://github.com/tidyverse/tidyverse)
   * [lmerTest](https://cran.r-project.org/web/packages/lmerTest/index.html)
@@ -102,7 +101,7 @@ Continuous ROH SNPs are identified using PLINK with the following parameters:
 F_GRM is calculated using the --ibc flag in GCTA. F_GRM = Fhat3 in the output.
 
 Running the code below will perform QC and then use the QCed files to call ROHs and calculate F_GRM.
-Before running you will need to make sure that you have installed GCTA and plink1.9 and that it can be called with the command "plink" as is done in the [1-qc_and_call.bash script](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/code/1-qc_and_call.bash).
+Before running you will need to make sure that you have installed PLINK 1.9 and that you specified the location of the executable file during configuration [1-qc_and_call.bash script](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/code/1-qc_and_call.bash).
 
 ```
 bash ${code_dir}1-qc_and_call.bash
