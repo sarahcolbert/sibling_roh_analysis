@@ -125,14 +125,20 @@ Following the method from Clark et al., this code is used to calculate trait res
 Rscript ${code_dir}3-calc_phenos.R
 ```
 
-## Step 4: Run within sibling models and between family models
+## Step 4: Run within sibling models and between family models for Froh and F_GRM separately
 Following the methods from Clark et al, this code is used to estimate the associations between Froh (and F_GRM) and all phenotypes using both within sibling and between family models. Please check the log output after running this code so that any warnings or errors can be reported. You do not need to report warnings that note the number of families was too small for analysis.
 ```
 Rscript ${code_dir}4-run_froh_models.R
 Rscript ${code_dir}4-run_fgrm_models.R
 ```
 
-## Step 5: Return your results
+## Step 5: Run within sibling models and between family models for both Froh and F_GRM
+
+```
+Rscript ${code_dir}5-run_multi_models.R
+```
+
+## Step 6: Return your results
 To prepare a folder with the files to be uploaded to the box link that has been sent to you, please use the following code inside the sibling_roh_analysis directory:
 ```
 tar -zcvf ${output_name}.tar.gz ${output_dir}

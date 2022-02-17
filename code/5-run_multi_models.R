@@ -53,11 +53,11 @@ btwn_data1 <- btwn_data
 num_phenos_btwn <- ncol(btwn_data1)
 
 ## create empty df to hold regression estimates
-all_results_btwn <- data.frame(matrix(ncol = 5, nrow = 0))
+all_results_btwn <- data.frame(matrix(ncol = 8, nrow = 0))
 
 ## loop through phenotypes
-for(k in 19:num_phenos_btwn){
-message(paste("Calculating betafroh in between family models for",colnames(btwn_data)[k], sep=" "))
+for(k in 21:num_phenos_btwn){
+message(paste("Calculating betafroh and betafgrm in between family models for",colnames(btwn_data)[k], sep=" "))
   ## copy df and remove NAs for the phenotype
   btwn_data3 <- btwn_data %>% drop_na(paste(colnames(btwn_data[k])))
   ## scale froh and covariates
@@ -70,9 +70,12 @@ message(paste("Calculating betafroh in between family models for",colnames(btwn_
       pheno_model <- glmer(formula(paste(colnames(btwn_data1)[k],'~ froh + fgrm + age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10 + (1 | FID)')), data = btwn_data1, family = binomial(link = 'logit'), control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
       ## save coefficients
       phenotype <- colnames(btwn_data1)[k]
-      beta <- summary(pheno_model)$coefficients[2,1]
-      se <- summary(pheno_model)$coefficients[2,2]
-      p <- summary(pheno_model)$coefficients[2,4]
+      beta_froh <- summary(resids_model)$coefficients[2,1]
+      se_froh <- summary(resids_model)$coefficients[2,2]
+      p_froh <- summary(resids_model)$coefficients[2,4]
+      beta_fgrm <- summary(resids_model)$coefficients[3,1]
+      se_fgrm <- summary(resids_model)$coefficients[3,2]
+      p_fgrm <- summary(resids_model)$coefficients[3,4]
       type <- "btwn_logistic"
             }else{
             message(paste("Reading",colnames(btwn_data)[k], "as a continuous trait and running linear regression", sep=" "))
@@ -86,13 +89,16 @@ message(paste("Calculating betafroh in between family models for",colnames(btwn_
               resids_model <- lm(resids ~ froh + fgrm, data = pheno_resids)
               ####### Step 4: save coefficients
               phenotype <- colnames(btwn_data1)[k]
-              beta <- summary(resids_model)$coefficients[2,1]
-              se <- summary(resids_model)$coefficients[2,2]
-              p <- summary(resids_model)$coefficients[2,4]
+              beta_froh <- summary(resids_model)$coefficients[2,1]
+              se_froh <- summary(resids_model)$coefficients[2,2]
+              p_froh <- summary(resids_model)$coefficients[2,4]
+              beta_fgrm <- summary(resids_model)$coefficients[3,1]
+              se_fgrm <- summary(resids_model)$coefficients[3,2]
+              p_fgrm <- summary(resids_model)$coefficients[3,4]
               type <- "btwn_linear"
                }
     ## save results
-    results <- as.data.frame(cbind(phenotype, beta, se, p, type))
+    results <- as.data.frame(cbind(phenotype, beta_froh, se_froh, p_froh, beta_fgrm, se_fgrm, p_fgrm, type))
     all_results_btwn <- rbind(all_results_btwn, results)
           }
 message(paste("Regressions complete and writing results to ", Sys.getenv("output_dir"),Sys.getenv("output_name"),"_btwn_fam_multi_analysis_results.csv", sep = ""))
@@ -113,11 +119,11 @@ within_data1 <- within_data
 num_phenos_within <- ncol(within_data1)
 
 ## create empty df to hold regression estimates
-all_results_within <- data.frame(matrix(ncol = 4, nrow = 0))
+all_results_within <- data.frame(matrix(ncol = 8, nrow = 0))
 
 ## loop through phenotypes
-for(k in 19:num_phenos_within){
-message(paste("Calculating betafroh in within sibling models for",colnames(within_data1)[k], sep=" "))
+for(k in 21:num_phenos_within){
+message(paste("Calculating betafroh and betafgrm in within sibling models for",colnames(within_data1)[k], sep=" "))
   ## copy df and remove NAs for the phenotype
   within_data2 <- within_data1 %>% drop_na(paste(colnames(within_data1[k])))
   ## only run analysis if there's more than 250 families
@@ -127,24 +133,30 @@ message(paste("Calculating betafroh in within sibling models for",colnames(withi
   ## already calculated within sibling values (Clark et al. equations 17 and 18) so just run regression
   pheno_model <- lm(formula(paste(colnames(within_data3)[k],'~ froh_sibs + fgrm_sibs')), data = within_data3)
       ## save coefficients
-      phenotype <- colnames(within_data3)[k]
-      beta <- summary(pheno_model)$coefficients[2,1]
-      se <- summary(pheno_model)$coefficients[2,2]
-      p <- summary(pheno_model)$coefficients[2,4]
+      phenotype <- colnames(btwn_data1)[k]
+      beta_froh <- summary(resids_model)$coefficients[2,1]
+      se_froh <- summary(resids_model)$coefficients[2,2]
+      p_froh <- summary(resids_model)$coefficients[2,4]
+      beta_fgrm <- summary(resids_model)$coefficients[3,1]
+      se_fgrm <- summary(resids_model)$coefficients[3,2]
+      p_fgrm <- summary(resids_model)$coefficients[3,4]
       type <- "within"
     ## save results
-    results <- as.data.frame(cbind(phenotype, beta, se, p, type))
+    results <- as.data.frame(cbind(phenotype, beta_froh, se_froh, p_froh, beta_fgrm, se_fgrm, p_fgrm, type))
     all_results_within <- rbind(all_results_within, results)
     }else{
     message(paste("WARNING:", colnames(within_data1)[k], " was not analyzed because phenotype data was not available for > 250 families", sep = ""))
     ## save coefficients
     phenotype <- colnames(within_data3)[k]
-    beta <- NA
-    se <- NA
-    p <- NA
+    beta_froh <- NA
+    se_froh <- NA
+    p_froh <- NA
+    beta_fgrm <- NA
+    se_fgrm <- NA
+    p_fgrm <- NA
     type <- "error: results not available because Nfam < 250"
     ## save results
-    results <- as.data.frame(cbind(phenotype, beta, se, p, type))
+    results <- as.data.frame(cbind(phenotype, beta_froh, se_froh, p_froh, beta_fgrm, se_fgrm, p_fgrm, type))
     all_results_within <- rbind(all_results_within, results)
     }
           }
