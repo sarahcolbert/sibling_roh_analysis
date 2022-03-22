@@ -140,6 +140,6 @@ Rscript ${code_dir}5-run_multi_models.R
 ## Step 6: Return your results
 To prepare a folder with the files to be uploaded to the box link that has been sent to you, please use the following code inside the sibling_roh_analysis directory:
 ```
-tar -zcvf ${output_name}.tar.gz ${output_dir}
+tar -zcvf ${output_name}_results.tar.gz ${output_dir}
 ```
 This will create a compressed file, following the naming scheme "STUDY_NAME_ANCESTRY_ANALYST_INITIALS_DATE_results.tar.gz", containing a directory with the results to return.
