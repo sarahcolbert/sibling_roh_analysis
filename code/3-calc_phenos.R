@@ -118,14 +118,18 @@ for(m in 15:ncol(within_data1)){
   within_data3 <- within_data2 %>% mutate_at(c("age", "PC1", "PC2", "PC3", "PC4", "PC5", "PC6", "PC7", "PC8", "PC9", "PC10"), scale)
   ## determine if binary or continuous phenotype
     if(all(within_data3[m]==0 | within_data3[m]==1)){
-    message(paste("Reading",colnames(within_data3)[m], "as a binary trait so will not calculate trait residuals", sep=" "))
-      ## binary phenotype stays the same
-      within_data3$newcol <- within_data3[,m]
-      binary_resids <- within_data3 %>% select(IID, newcol)
-      ## add binary phenotype value to "residuals" column
-      trait_residuals_within <- merge(trait_residuals_within, binary_resids, by = "IID", all = TRUE)
+    message(paste("Reading",colnames(within_data3)[m], "as a binary trait and will use logistic regression calculate trait residuals", sep=" "))
+    ## binary phenotypes calculations
+    ####### Step 1: regress phenotypes on covariates to get residuals (Clark et al. equation 11)
+    resids_modelb <- glmer(formula(paste(colnames(within_data3)[m],'~ age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10')), data = within_data3, family = binomial(link='logit'), control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+    ####### Step 2: pull residuals from the model
+    pheno_residsb <- within_data3
+    pheno_residsb$newcol <- resids_modelb$resid
+    binary_resids <- pheno_residsb %>% select(IID, newcol)
+    ## add residual to residuals dataframe
+    trait_residuals_within <- merge(trait_residuals_within, binary_resids, by = "IID", all = TRUE)
             }else{
-            message(paste("Reading",colnames(within_data3)[m], "as a continuous trait and calculating trait residuals", sep=" "))
+            message(paste("Reading",colnames(within_data3)[m], "as a continuous trait and will use linear regression to calculate trait residuals", sep=" "))
               ## continuous phenotypes calculations
               ####### Step 1: regress phenotypes on covariates to get residuals (Clark et al. equation 11)
               resids_model <- lm(formula(paste(colnames(within_data3)[m],'~ age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10')), data = within_data3)
