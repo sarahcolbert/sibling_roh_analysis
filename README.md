@@ -63,6 +63,8 @@ IID age sex PC1 PC2 PC3 PC4 PC5 PC6 PC7 PC8 PC9 PC10
 1012 18 0 0.0122 0.0019 0.0034 -0.017 0.001 0.003 -0.0217 -0.0016 -0.0126 -3e-04
 1013 14 0 0.007 5e-04 0.0157 0.0017 -0.0115 -0.0079 -0.0083 -0.017 0.0147 0.0227
 ```
+Please reach out to us at sarah.colbert@wustl.edu or emma.c.johnson@wustl.edu if you have additional covariates you would like to include for your sample.
+
 
 ### Phenotype data
 We will analyse a wide range of medical, social and behavioral phenotypes based on previous findings in the literature and hypothesized relationships with autozygosity. The [analysis plan](https://docs.google.com/document/d/1weNXniAY8X03ZYm1k-TmZqH4j4h7vloHl_meiSpceII/edit#bookmark=id.nu9tiucjoq87) outlines the phenotypes that we propose to include.  
@@ -80,7 +82,7 @@ IID   Pheno1  Pheno2   Pheno3
 1042  5       22.4     1
 ```
 
-A csv file named pheno_descriptions_STUDYNAME.csv (replace STUDYNAME) should be returned that includes a description of the phenotypes in your dataset. This should include the column name of the phenotype, which phenotype in the analysis plan it corresponds to and any derivations from the preferred coding we outline. Please format this csv file with quotes.
+A csv file named pheno_descriptions_STUDYNAME.csv (replace STUDYNAME) should be returned that includes a description of the phenotypes in your dataset. This should include the column name of the phenotype, which phenotype in the analysis plan it corresponds to and any derivations from the preferred coding we outline in the analysis plan google doc. Please format this csv file with quotes.
 
 
 ## Step 1: QC and ROH Calling
