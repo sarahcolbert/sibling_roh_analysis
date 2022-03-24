@@ -78,7 +78,7 @@ fgrm_data4 <- fgrm_data3[fgrm_data3$FID %in% fgrm_data3$FID[duplicated(fgrm_data
 ## remove any duplicate individuals
 fgrm_data <- fgrm_data4 %>% distinct(IID, .keep_all = TRUE)
 
-## calculate value of froh relative to family mean
+## calculate value of fgrm relative to family mean
 ## make empty column to hold results
 fgrm_data$fgrm_sibs <- NA
 ## use for loop to get value for each individual
@@ -94,11 +94,11 @@ message("Done calculating Fgrm")
 id_sibs_fgrm <- fgrm_data %>% select(IID, fgrm_sibs)
 all_fgrm_data <- merge(id_sibs_fgrm, fgrm_data2, by = "IID", all = TRUE)
 
-## save table with froh values just incase
+## save table with fgrm values just incase
 write.table(all_fgrm_data, paste(Sys.getenv("processed_dir"),"all_fgrm_data.txt", sep=""), row.names=FALSE, quote = FALSE)
 message(paste("Wrote all Froh estimates to ",Sys.getenv("processed_dir"),"all_fgrm_data.txt", sep=""))
 
-## save table with froh values just incase
+## save table with fgrm values just incase
 write.table(fgrm_data, paste(Sys.getenv("processed_dir"),"within_sibs_fgrm_data.txt", sep=""), row.names=FALSE, quote = FALSE)
 message(paste("Wrote within sibling Froh estimates to ",Sys.getenv("processed_dir"),"within_sibs_fgrm_data.txt", sep=""))
 
@@ -112,7 +112,7 @@ all_fgrm_data2 <- all_fgrm_data %>% select("IID", "fgrm_sibs", "Fhat3") %>% rena
 all_data <- merge(all_froh_data, all_fgrm_data2, by =c("IID"))
 
 ## calculate samples minimum, maximum, mean and standard deviation for NSEG and froh
-message("Calculating sample's minimum, maximum, mean and standard deviation for NSEG and Froh")
+message("Calculating sample's minimum, maximum, mean and standard deviation for NSEG, Froh and Fgrm")
 min_vals <- as.data.frame(apply(select(all_data, c("NSEG","froh","fgrm")), 2, FUN = min, na.rm = TRUE))
 colnames(min_vals)[1] <- "min"
 mean_vals <- as.data.frame(apply(select(all_data, c("NSEG","froh","fgrm")), 2, FUN = mean, na.rm = TRUE))
@@ -121,7 +121,7 @@ max_vals <- as.data.frame(apply(select(all_data, c("NSEG","froh","fgrm")), 2, FU
 colnames(max_vals)[1] <- "max"
 sd_vals <- as.data.frame(apply(select(all_data, c("NSEG","froh","fgrm")), 2, FUN = sd, na.rm = TRUE))
 colnames(sd_vals)[1] <- "sd"
-message("Done calculating sample's minimum, maximum, mean and standard deviation for NSEG and Froh")
+message("Done calculating sample's minimum, maximum, mean and standard deviation for NSEG, Froh and Fgrm")
 
 ## put descriptive roh stats in data table and save as file (this file will be returned to us)
 message ("Writing table with Froh stats")
