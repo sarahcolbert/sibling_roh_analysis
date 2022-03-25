@@ -25,8 +25,11 @@ The software requirements for the pipeline are as follows:
 
 ## Pre-Step 1: Downloading and running the pipeline
 
-Navigate to the directory where you want to download the repository. The repository can then be downloaded using git: <br>
-> git clone https://github.com/sarahcolbert/sibling_roh_analysis <br>
+Navigate to the directory where you want to download the repository. The repository can then be downloaded using git:
+
+```
+git clone https://github.com/sarahcolbert/sibling_roh_analysis
+```
 
 
 ## Pre-Step 2: Defining siblings
@@ -35,8 +38,11 @@ The within-sibling analysis requires data on siblings. If siblings have not been
 Instructions for defining siblings are provided by Howe et al. [here](https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.1_Siblings).
 
 ## Pre-Step 3: Editing the config file
-Navigate to the sibling_roh_analysis directory and edit the config file by adding the required information. You can then run the config file using:  <br>
-> source ./config <br>
+Navigate to the sibling_roh_analysis directory and edit the config file by adding the required information. You can then run the config file using:
+
+```
+source ./config
+```
 
 ## Pre-Step 4: Input Files
 ### Genotype data
