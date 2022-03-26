@@ -21,6 +21,7 @@ The software requirements for the pipeline are as follows:
 * R >= 3.3
   * [tidyverse](https://github.com/tidyverse/tidyverse)
   * [lmerTest](https://cran.r-project.org/web/packages/lmerTest/index.html)
+  * [data.table](https://cran.r-project.org/web/packages/data.table/index.html)
 * KING (if siblings are not already defined)
 
 ## Pre-Step 1: Downloading and running the pipeline
