@@ -62,7 +62,7 @@ fi
 if [ "$arg" = "requirements" ] || [ "$arg" = "all" ] || [ "$arg" = "skipsib" ]
 then
 	section_message "requirements"
-    Rscript ${code_dir}checks/packages.R
+    Rscript ${project_dir}checks/code/packages.R
     echo "Checking Plink version"
     plinkv=`${plink} | awk 'NR==1{print $1,$2}'`
     if echo ${plinkv} | grep -q '1.9' ; then
@@ -77,7 +77,7 @@ fi
 if [ "$arg" = "genetics" ] || [ "$arg" = "all" ] || [ "$arg" = "skipsib" ]
 then
 	section_message "genetics"
-	Rscript resources/checks/genetic_data.R
+	Rscript ${project_dir}checks/code/genetic_data.R
 fi
 
 #Generate relatedness checks
@@ -85,12 +85,10 @@ fi
 if [ "$arg" = "rel" ] || [ "$arg" = "all" ]
 then
 	section_message "Relatedness checks"
-	plink \
-	--bfile ${bfile_raw} \
-	--extract ${snplist} \
-	--genome \
-	--rel-check \
-	--out ${section_01_dir}/rel
+	${plink} \
+	--bfile ${data_dir}${input_prefix} \
+	--genome rel-check \
+	--out ${project_dir}checks/results/relatedness
 fi
 
 #Sibling checks
@@ -98,8 +96,8 @@ fi
 if [ "$arg" = "siblings" ] || [ "$arg" = "all" ]
 then
 	section_message "Sibling checks"
-	Rscript resources/siblings/checks.R \
-		${section_01_dir}/rel.genome
+	Rscript ${project_dir}checks/code/siblings.R \
+		${project_dir}checks/results/relatedness.genome
 fi
 
 #Check covariate file
@@ -107,11 +105,9 @@ fi
 if [ "$arg" = "covariates" ] || [ "$arg" = "all" ] || [ "$arg" = "skipsib" ]
 then
 	section_message "covariates"
-	Rscript resources/checks/covariates.R \
-		${covariates} \
-		${bfile_raw}.fam \
-		${phenotypes} \
-		${covariate_list}
+	Rscript ${project_dir}checks/code/covariates.R \
+		${data_dir}${covar_file} \
+		${data_dir}${input_prefix}.fam
 fi
 
 #Check phenotype file
