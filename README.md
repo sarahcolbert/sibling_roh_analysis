@@ -46,6 +46,9 @@ source ./config
 ```
 
 ## Pre-Step 4: Input Files
+
+In  Pre-Step 5 we provide instructions for running a script that will check to make sure these and other files meet our requirements, but please first use this information to check your data to the best of your ability.
+
 ### Genotype data
 You will need genotype data in PLINK binary format. The pipeline requires the input files to satisfy the following requirements:
 
@@ -74,7 +77,7 @@ Please reach out to us at sarah.colbert@wustl.edu or emma.c.johnson@wustl.edu if
 
 
 ### Phenotype data
-We will analyse a wide range of medical, social and behavioral phenotypes based on previous findings in the literature and hypothesized relationships with autozygosity. The [analysis plan](https://docs.google.com/document/d/1weNXniAY8X03ZYm1k-TmZqH4j4h7vloHl_meiSpceII/edit#bookmark=id.nu9tiucjoq87) outlines the phenotypes that we propose to include.  
+We will analyze a wide range of medical, social and behavioral phenotypes based on previous findings in the literature and hypothesized relationships with autozygosity. The [analysis plan](https://docs.google.com/document/d/1weNXniAY8X03ZYm1k-TmZqH4j4h7vloHl_meiSpceII/edit#bookmark=id.nu9tiucjoq87) outlines the phenotypes that we propose to include and the desired coding formats for each phenotype.  
 
 The first column in the phenotype file should be IID, then followed by the phenotypes available in your dataset. Column names for the phenotypes do not matter. Missing data should be coded as NA. For binary phenotypes, please use a binary coding of control = 0 and case = 1. For example, your phenotype file should look something like this:
 
@@ -91,6 +94,38 @@ IID   Pheno1  Pheno2   Pheno3
 
 A csv file named pheno_descriptions_STUDYNAME.csv (replace STUDYNAME) should be returned that includes a description of the phenotypes in your dataset. This should include the column name of the phenotype, which phenotype in the analysis plan it corresponds to and any derivations from the preferred coding we outline in the analysis plan google doc. Please format this csv file with quotes.
 
+## Pre-Step 5: Checks
+
+The set-up script runs checks to ensure that the input files are in the correct format and checks the software requirements. This script has 7 steps:
+
+1. Checks basic information such as the study name.
+2. Checks installation of PLINK, R and necessary R packages.
+3. Checks the genotype file formatting for compatibility with the pipeline.
+4. Estimates pairwise IBD between individuals with the same FID.
+5. Evaluates the sibling pairs by running checks for parent-offspring pairs and monozygotic twins.
+6. Checks the covariate file formatting for compatibility with the pipeline.
+7. Checks the phenotype file formatting for compatibility with the pipeline.
+
+To run through all steps in order:
+
+```
+${code_dir}0-checks.bash
+```
+
+Each step of the script can be run separately using the following as arguments:
+'config', 'requirements', 'genetics', 'rel', 'siblings', 'covariates', 'phenotypes'
+
+For example, to run only the phenotypes section:
+
+```
+${code_dir}0-checks.bash phenotypes
+```
+
+Steps 4 and 5 are included as sanity checks for derived siblings. Some cohorts which are confident in their derived pedigrees may wish to run through skipping these steps which can be done as follows:
+
+```
+${code_dir}0-checks.bash skipsib
+```
 
 ## Step 1: QC and ROH Calling
 Genotype files must first be filtered to meet the following requirements:
