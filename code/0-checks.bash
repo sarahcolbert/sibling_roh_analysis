@@ -77,7 +77,9 @@ fi
 if [ "$arg" = "genetics" ] || [ "$arg" = "all" ] || [ "$arg" = "skipsib" ]
 then
 	section_message "genetics"
-	Rscript ${project_dir}checks/code/genetic_data.R
+	Rscript ${project_dir}checks/code/genetic_data.R \
+		${data_dir}${input_prefix}.bim \
+		${data_dir}${input_prefix}.fam
 fi
 
 #Generate relatedness checks
