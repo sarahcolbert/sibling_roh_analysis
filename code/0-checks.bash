@@ -106,7 +106,7 @@ if [ "$arg" = "covariates" ] || [ "$arg" = "all" ] || [ "$arg" = "skipsib" ]
 then
 	section_message "covariates"
 	Rscript ${project_dir}checks/code/covariates.R \
-		${data_dir}${covar_file} \
+		${covar_file} \
 		${data_dir}${input_prefix}.fam
 fi
 
@@ -115,12 +115,9 @@ fi
 if [ "$arg" = "phenotypes" ] || [ "$arg" = "all" ] || [ "$arg" = "skipsib" ]
 then
 	section_message "phenotypes"
-	Rscript resources/checks/phenotypes.R \
-		${phenotypes} \
-		${covariates} \
-		${bfile_raw}.fam \
-		${phenotype_list} \
-		${updated_phenotype_file}
+	Rscript ${project_dir}checks/code/phenotypes.R \
+		${pheno_file} \
+		${covar_file}
 fi
 
 #Finish

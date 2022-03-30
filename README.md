@@ -79,7 +79,7 @@ Please reach out to us at sarah.colbert@wustl.edu or emma.c.johnson@wustl.edu if
 ### Phenotype data
 We will analyze a wide range of medical, social and behavioral phenotypes based on previous findings in the literature and hypothesized relationships with autozygosity. The [analysis plan](https://docs.google.com/document/d/1weNXniAY8X03ZYm1k-TmZqH4j4h7vloHl_meiSpceII/edit#bookmark=id.nu9tiucjoq87) outlines the phenotypes that we propose to include and the desired coding formats for each phenotype.  
 
-The first column in the phenotype file should be IID, then followed by the phenotypes available in your dataset. Column names for the phenotypes do not matter. Missing data should be coded as NA. For binary phenotypes, please use a binary coding of control = 0 and case = 1. For example, your phenotype file should look something like this:
+The first column in the phenotype file should be IID, then followed by the phenotypes available in your dataset. Column names for the phenotypes do not matter, **except for height, which should be labelled "Height" and BMI, which should be labelled "BMI"**. Missing data should be coded as NA. For binary phenotypes, please use a binary coding of control = 0 and case = 1. For example, your phenotype file should look something like this:
 
 ```
 IID   Pheno1  Pheno2   Pheno3
