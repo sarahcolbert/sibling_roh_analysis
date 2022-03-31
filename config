@@ -37,7 +37,9 @@ export plink="/path/to/plink"
 
 ## DO NOT MODIFY
 export processed_dir="${project_dir}processed_files/"
+mkdir -p ${processed_dir}
 export output_dir="${project_dir}output_${study_name}_${study_ancestry}/"
+mkdir -p ${output_dir}
 export code_dir="${project_dir}code/"
 export today=$(date "+%Y%m%d")
 export output_name="${study_name}_${study_ancestry}_${analyst_initials}_${today}"
