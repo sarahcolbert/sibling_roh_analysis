@@ -10,26 +10,7 @@ relfile <- arguments[1]
 ## read in the relatedness output from PLINK
 rel <- fread(relfile, sep=" ")
 
-
-## check for monozyotic twins and give warning if family only has MZ twins
-relMZ<-rel[which(rel$PI_HAT>0.98),]
-MZ<-nrow(relMZ)
-message("Number of monozygotic twin-pairs in sample: ", MZ)
-
-if (MZ > 0) {
-for (i in 1:nrow(relMZ)) {
-  data<-rel[which(rel$FID1==relMZ$FID1[i] | rel$FID2==relMZ$FID1[i]),]
-if(nrow(data)<2)
-	{
-	msg <-paste0("Identified family with only Monozygotic twins: Please check or remove the following families: ID ", data[1,1])
-	errorlist<-c(errorlist, msg)
-
-	warning("ERROR: ", msg)
-	}
-}
-}
-
-## check that first degree relative relationship is sibs and NOT parents (give warning if identified)
+## check that first degree relative relationship is sibs and NOT parents (give error if identified)
 relPARENTS<-rel[which(rel$Z1>0.98),]
 
 if(nrow(relPARENTS)>0)
