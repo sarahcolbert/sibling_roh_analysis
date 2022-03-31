@@ -10,6 +10,14 @@ relfile <- arguments[1]
 ## read in the relatedness output from PLINK
 rel <- fread(relfile, sep=" ")
 
+## check number of sibling pairs and families
+message("\n\nChecking number of sibling pairs and families. Please confirm these numbers are accurate.\n")
+## number of sib pairs
+message(paste0("Identified ", nrow(rel), " sibling pairs."))
+## number of families
+message(paste0("Identified ", length(unique(rel$FID1)), " families."))
+
+
 ## check that first degree relative relationship is sibs and NOT parents (give error if identified)
 relPARENTS<-rel[which(rel$Z1>0.98),]
 
