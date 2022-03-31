@@ -1,3 +1,5 @@
+source ./config
+
 ## use plink to exclude SNPs with >3% missingess or MAF < 5% AND exclude individuals with >3% missing data
 ${plink} --bfile ${data_dir}${input_prefix} --maf 0.05 --geno 0.03 --mind 0.03 --make-bed --out ${processed_dir}${input_prefix}_filtered
 
