@@ -21,9 +21,11 @@ analyst_email="sarah.colbert@wustl.edu"
 # Please put the full path to this directory
 # e.g. if the config file path is "/home/Projects/sibling_roh_analysis/config"
 #then project_dir="/home/Projects/sibling_roh_analysis/"
+# please make sure to include the forward slash at the end of the directory path
 export project_dir="/scratch/aalab/suri/projects/sibling_roh_analysis/"
 
 ## put location for directory with plink files
+# please make sure to include the forward slash at the end of the directory path
 export data_dir="/scratch/aalab/suri/data/cleaned_data/"
 ## put prefix for plink files
 export input_prefix="abcd_eur_sibs"
@@ -33,6 +35,7 @@ export covar_file="/scratch/aalab/suri/data/raw_data/abcd_covariates_eur.txt"
 export pheno_file="/scratch/aalab/suri/data/raw_data/abcd_test_phenotypes.txt"
 
 ## put the path to your plink executable file
+## i.e., the path to the directory where you have downloaded/installed plink
 export plink="/home/sarah.c/software/plink"
 
 ## DO NOT MODIFY
