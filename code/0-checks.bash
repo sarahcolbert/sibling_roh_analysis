@@ -3,7 +3,7 @@
 set -e
 source ./config
 
-mkdir ${project_dir}checks/results ${project_dir}checks/results/logs
+mkdir -p ${project_dir}checks/results ${project_dir}checks/results/logs
 
 section_01_logfile="${project_dir}checks/results/logs/log.txt"
 
