@@ -1,6 +1,6 @@
 source ./config
 
-## use plink to exclude SNPs with >3% missingess or MAF < 5% AND exclude individuals with >3% missing data
+## use plink to exclude SNPs with >3% missingess, with MAF < 5% and not on chr1-22 AND exclude individuals with >3% missing data
 ${plink} --bfile ${data_dir}${input_prefix} --chr 1-22 --maf 0.05 --geno 0.03 --mind 0.03 --make-bed --out ${processed_dir}${input_prefix}_filtered
 
 ## use plink to identify continuous ROH SNPs
