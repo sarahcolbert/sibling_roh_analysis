@@ -8,7 +8,7 @@ ch <- compareVersion(currentr, "3.3")
 if(ch == -1)
 
 {
-	stop("You are running R version ", currentr, ". Please upgrade to at least 3.3.0.")
+	stop("You are running R version ", currentr, ". Please upgrade to at least 3.3.0 before continuing.")
 }
 
 message("Checking that all required packages are present")

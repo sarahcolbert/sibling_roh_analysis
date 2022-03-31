@@ -66,7 +66,7 @@ then
     if echo ${plinkv} | grep -q '1.9' ; then
     echo "You are running ${plinkv}"
 else
-    echo "You are running ${plinkv}. Please switch to PLINK version 1.9."
+    echo "You are running ${plinkv}. Please switch to PLINK version 1.9 before continuing."
 fi
 fi
 

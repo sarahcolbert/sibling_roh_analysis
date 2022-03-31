@@ -106,14 +106,16 @@ The set-up script runs checks to ensure that the input files are in the correct 
 6. Checks the covariate file formatting for compatibility with the pipeline.
 7. Checks the phenotype file formatting for compatibility with the pipeline.
 
+Each step of the script can be run separately using the following as arguments:
+'config', 'requirements', 'genetics', 'rel', 'siblings', 'covariates', 'phenotypes'
+
+The steps should be run in order. If you are running multiple steps and encounter a warning or error at a specific step, the script will fail and subsequent steps will not be run. You should address this warning or error, then re-run the step it occurred at. Once you pass this step you may continue onto the next steps. 
+
 To run through all steps in order:
 
 ```
 bash ${code_dir}0-checks.bash
 ```
-
-Each step of the script can be run separately using the following as arguments:
-'config', 'requirements', 'genetics', 'rel', 'siblings', 'covariates', 'phenotypes'
 
 For example, to run only the phenotypes section:
 
