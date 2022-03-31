@@ -35,7 +35,7 @@ section_message () {
 	echo "$1 section"
 	echo ""
 	echo "to run this part on its own type:"
-	echo "$ ./01-check_data.sh $1"
+	echo "$ ${code_dir}0-checks.bash $1"
 	echo ""
 	echo "-----------------------------------------------"
 	echo ""
@@ -72,7 +72,7 @@ else
 fi
 fi
 
-#Check genotype file
+## check genotype file
 
 if [ "$arg" = "genetics" ] || [ "$arg" = "all" ] || [ "$arg" = "skipsib" ]
 then
@@ -82,7 +82,7 @@ then
 		${data_dir}${input_prefix}.fam
 fi
 
-#Generate relatedness checks
+## generate relatedness checks
 
 if [ "$arg" = "rel" ] || [ "$arg" = "all" ]
 then
@@ -93,7 +93,7 @@ then
 	--out ${project_dir}checks/results/relatedness
 fi
 
-#Sibling checks
+## perform sibling checks
 
 if [ "$arg" = "siblings" ] || [ "$arg" = "all" ]
 then
@@ -102,7 +102,7 @@ then
 		${project_dir}checks/results/relatedness.genome
 fi
 
-#Check covariate file
+## check covariate file
 
 if [ "$arg" = "covariates" ] || [ "$arg" = "all" ] || [ "$arg" = "skipsib" ]
 then
@@ -112,7 +112,7 @@ then
 		${data_dir}${input_prefix}.fam
 fi
 
-#Check phenotype file
+## check phenotype file
 
 if [ "$arg" = "phenotypes" ] || [ "$arg" = "all" ] || [ "$arg" = "skipsib" ]
 then
@@ -122,7 +122,7 @@ then
 		${covar_file}
 fi
 
-#Finish
+## finish checks
 
 if [ "$arg" = "all" ]
 then
