@@ -2,7 +2,6 @@ errorlist <- list()
 warninglist <- list()
 
 library(data.table)
-suppressMessages(library(matrixStats))
 
 args <- (commandArgs(TRUE));
 cov_file <- as.character(args[1]);
