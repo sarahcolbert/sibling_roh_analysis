@@ -9,7 +9,7 @@ The data requirements for the pipeline are as follows:
 
 1) Sibling data (see Pre-Step 2 for how to define siblings).
 
-2) Called genotypes in plink binary format. <strong>Imputed data is not permitted.</strong> (see Pre-Step 4 for information on input file requirements and scripts for file conversion).
+2) Called genotypes in plink binary format. <strong>Imputed data is not permitted.</strong> (see Pre-Step 4 for information on input file requirements).
 
 3) Complete covariate data (see Pre-Step 4 for information on what covariates should be included and the file format).
 
@@ -50,7 +50,7 @@ source ./config
 In  Pre-Step 5 we provide instructions for running a script that will check to make sure these and other files meet our requirements, but please first use this information to check your data to the best of your ability.
 
 ### Genotype data
-You will need genotype data in PLINK binary format. The pipeline requires the input files to satisfy the following requirements:
+You will need genotype data in PLINK binary format. **Analyses can only be run using SNPs on chromosomes 1-22. Any SNPs not on chromosomes 1-22 will be removed in step 1.** The pipeline requires the input files to satisfy the following requirements:
 
 a) PLINK binary format (.bed .bim .fam) files.
 
@@ -133,7 +133,8 @@ bash ${code_dir}0-checks.bash skipsib
 Genotype files must first be filtered to meet the following requirements:
 1) exclude SNPs with >3% missingess
 2) exclude SNPs with MAF < 5%
-3) exclude individuals with >3% missing data
+3) exclude SNPs not on chromosomes 1-22
+4) exclude individuals with >3% missing data
 
 Continuous ROH SNPs are identified using PLINK with the following parameters:
 1) homozyg-window-snp 50
