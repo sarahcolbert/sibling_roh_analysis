@@ -109,7 +109,7 @@ The set-up script runs checks to ensure that the input files are in the correct 
 To run through all steps in order:
 
 ```
-${code_dir}0-checks.bash
+bash ${code_dir}0-checks.bash
 ```
 
 Each step of the script can be run separately using the following as arguments:
@@ -118,13 +118,13 @@ Each step of the script can be run separately using the following as arguments:
 For example, to run only the phenotypes section:
 
 ```
-${code_dir}0-checks.bash phenotypes
+bash ${code_dir}0-checks.bash phenotypes
 ```
 
 Steps 4 and 5 are included as sanity checks for derived siblings. Some cohorts which are confident in their derived pedigrees may wish to run through skipping these steps as they can take a longer amount of time compared to the other checks (for example, in a sample of ~5500 individuals, these steps took ~10 CPU mins). To skip these steps you can use the code:
 
 ```
-${code_dir}0-checks.bash skipsib
+bash ${code_dir}0-checks.bash skipsib
 ```
 
 ## Step 1: QC and ROH Calling
