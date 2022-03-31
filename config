@@ -6,9 +6,9 @@
 study_name="Blank"
 
 # Please indicate the genetic ancestry of the sample
-# If more than one genotyping array was used for a single ancestry, 
+# If more than one genotyping array was used for a single ancestry,
 # please indicate this by using different numbers for each array sub-sample
-# e.g., use "eur1" and "eur2" in separate runs if you have european-ancestry samples 
+# e.g., use "eur1" and "eur2" in separate runs if you have european-ancestry samples
 # that were genotyped on two different arrays
 study_ancestry="Blank"
 
@@ -37,9 +37,7 @@ export plink="/path/to/plink"
 
 ## DO NOT MODIFY
 export processed_dir="${project_dir}processed_files/"
-mkdir ${processed_dir}
 export output_dir="${project_dir}output_${study_name}_${study_ancestry}/"
-mkdir ${output_dir}
 export code_dir="${project_dir}code/"
 export today=$(date "+%Y%m%d")
 export output_name="${study_name}_${study_ancestry}_${analyst_initials}_${today}"
