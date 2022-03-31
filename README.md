@@ -121,7 +121,7 @@ For example, to run only the phenotypes section:
 ${code_dir}0-checks.bash phenotypes
 ```
 
-Steps 4 and 5 are included as sanity checks for derived siblings. Some cohorts which are confident in their derived pedigrees may wish to run through skipping these steps as they can take a longer amount of time compared to the other checks (for example, in a sample of ~5500 individuals, these steps took ~15 mins of CPU time). To skip these steps you can use the code:
+Steps 4 and 5 are included as sanity checks for derived siblings. Some cohorts which are confident in their derived pedigrees may wish to run through skipping these steps as they can take a longer amount of time compared to the other checks (for example, in a sample of ~5500 individuals, these steps took ~10 CPU mins). To skip these steps you can use the code:
 
 ```
 ${code_dir}0-checks.bash skipsib
@@ -142,7 +142,7 @@ Continuous ROH SNPs are identified using PLINK with the following parameters:
 6) homozyg-window-missing 5
 7) homozyg-window-het 1
 
-F_GRM is calculated using the --ibc flag in GCTA. F_GRM = Fhat3 in the output.
+F_GRM is calculated using the --ibc flag in PLINK. F_GRM = Fhat3 in the output.
 
 Running the code below will perform QC and then use the QCed files to call ROHs and calculate F_GRM.
 Before running you will need to make sure that you have installed PLINK 1.9 and that you specified the location of the executable file during configuration [1-qc_and_call.bash script](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/code/1-qc_and_call.bash).
