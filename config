@@ -21,11 +21,13 @@ analyst_email="EMAIL"
 # Please put the full path to this directory
 # e.g. if the config file path is "/home/Projects/sibling_roh_analysis/config"
 # then project_dir="/home/Projects/sibling_roh_analysis/"
+# please make sure to include the forward slash at the end of the directory path
 export project_dir="/path/to/proj_dir/"
 
 ## put location for directory with plink files
+# please make sure to include the forward slash at the end of the directory path
 export data_dir="/path/to/plink/files/"
-## put prefix for plink files
+## put prefix for plink files (do not include ".fam", ".bed", etc. 
 export input_prefix="plink_name"
 ## put location for covariate file
 export covar_file="/path/to/covariates.txt"
@@ -33,6 +35,7 @@ export covar_file="/path/to/covariates.txt"
 export pheno_file="/path/to/phenotypes.txt"
 
 ## put the path to your plink executable file
+## i.e., the path to the directory where you have downloaded/installed plink
 export plink="/path/to/plink"
 
 ## DO NOT MODIFY
