@@ -86,7 +86,7 @@ fi
 
 if [ "$arg" = "rel" ] || [ "$arg" = "all" ]
 then
-	section_message "Relatedness checks"
+	section_message "rel"
 	${plink} \
 	--bfile ${data_dir}${input_prefix} \
 	--genome rel-check \
@@ -97,7 +97,7 @@ fi
 
 if [ "$arg" = "siblings" ] || [ "$arg" = "all" ]
 then
-	section_message "Sibling checks"
+	section_message "siblings"
 	Rscript ${project_dir}checks/code/siblings.R \
 		${project_dir}checks/results/relatedness.genome
 fi
