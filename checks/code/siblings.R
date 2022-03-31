@@ -3,16 +3,15 @@ warninglist <- list()
 
 require(data.table)
 
-# import argument
-
+# import arguments
 arguments <- commandArgs(trailingOnly = T)
 relfile <- arguments[1]
 
-#Read in PLINK relatedness output
+## read in the relatedness output from PLINK
 rel <- fread(relfile, sep=" ")
 
 
-#Check for monozyotic twins
+## check for monozyotic twins and give warning if family only has MZ twins
 relMZ<-rel[which(rel$PI_HAT>0.98),]
 MZ<-nrow(relMZ)
 message("Number of monozygotic twin-pairs in sample: ", MZ)
@@ -30,8 +29,7 @@ if(nrow(data)<2)
 }
 }
 
-#Check Parents
-
+## check that first degree relative relationship is sibs and NOT parents (give warning if identified)
 relPARENTS<-rel[which(rel$Z1>0.98),]
 
 if(nrow(relPARENTS)>0)
@@ -43,7 +41,7 @@ if(nrow(relPARENTS)>0)
 	}
 	}
 
-#Check for low IBD
+## check for low IBD and give error if identified
 relLOW<-rel[which(rel$PI_HAT<0.3),]
 if(nrow(relLOW)>0)
 	{
@@ -54,6 +52,8 @@ if(nrow(relLOW)>0)
 	}
 	}
 
+
+## print errors if any are identified
 message("\n\nCompleted checks\n")
 
 if(length(errorlist) > 0)
