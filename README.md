@@ -155,11 +155,9 @@ Before running you will need to make sure that you have installed PLINK 1.9 and 
 bash ${code_dir}1-qc_and_call.bash
 ```
 
-## Step 2: Calculate Froh (+ within siblings) and give descriptive statistics
+## Step 2: Calculate Froh and gather descriptive statistics
 
 Running the code below will calculate Froh for each individual and create tables that describe the sample (which will be included in the return of results).
-
-Before running you will need to make sure that you have R installed and your version of R should include the tidyverse package.
 
 ```
 Rscript ${code_dir}2-clean_calc_roh_data.R
