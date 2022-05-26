@@ -169,7 +169,7 @@ Rscript ${code_dir}2-clean_calc_froh_data.R
 This code is used to run between family models for Froh and Fhat3 both separately and together. This script will also clean the phenotype data for the between family analyses and create tables that describe the distribution of the phenotypes in the sample (which will be included in the return of results). Please check the log output after running this code so that any warnings or errors can be reported.
 
 ```
-Rscript ${code_dir}3-calc_phenos.R
+Rscript ${code_dir}3-btwn_family_analysis.R
 ```
 
 ## Step 4: Run within sibling models
