@@ -108,7 +108,7 @@ message("Starting within sibling analysis")
 
 ## create empty df to hold regression estimates
 message("Initializing within sibs analysis results dataframe")
-all_results_btwn <- data.frame(matrix(ncol = 8, nrow = 0))
+all_results_wsibs <- data.frame(matrix(ncol = 8, nrow = 0))
 
 ## make covariates df to attach to cleaned pheno df in for loop
 covars <- roh_file %>% select(IID, age, sex, froh, Fhat3)
