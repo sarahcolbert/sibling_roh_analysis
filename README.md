@@ -179,7 +179,7 @@ This code is used to run within sibling models for Froh and Fhat3 both separatel
 Rscript ${code_dir}4-within_family_analysis.R
 ```
 
-## Step 6: Return your results
+## Step 5: Return your results
 To prepare a folder with the files to be uploaded to the box link that has been sent to you, please use the following code inside the sibling_roh_analysis directory:
 ```
 tar -zcvf ${output_name}_results.tar.gz ${output_dir}
