@@ -16,7 +16,8 @@ message("Checking that all required packages are present")
 pkglist <- c(
 	"tidyverse",
 	"lmerTest",
-	"data.table"
+	"data.table",
+	"lfe"
 )
 
 index <- pkglist %in% rownames(installed.packages())

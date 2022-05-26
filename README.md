@@ -22,6 +22,7 @@ The software requirements for the pipeline are as follows:
   * [tidyverse](https://github.com/tidyverse/tidyverse)
   * [lmerTest](https://cran.r-project.org/web/packages/lmerTest/index.html)
   * [data.table](https://cran.r-project.org/web/packages/data.table/index.html)
+  * [lfe](https://cran.r-project.org/web/packages/lfe/index.html)
 * KING (if siblings are not already defined)
 
 ## Pre-Step 1: Downloading and running the pipeline
@@ -109,7 +110,7 @@ The set-up script runs checks to ensure that the input files are in the correct 
 Each step of the script can be run separately using the following as arguments:
 'config', 'requirements', 'genetics', 'rel', 'siblings', 'covariates', 'phenotypes'
 
-The steps should be run in order. If you are running multiple steps and encounter a warning or error at a specific step, the script will fail and subsequent steps will not be run. You should address this warning or error, then re-run the step it occurred at. Once you pass this step you may continue onto the next steps. 
+The steps should be run in order. If you are running multiple steps and encounter a warning or error at a specific step, the script will fail and subsequent steps will not be run. You should address this warning or error, then re-run the step it occurred at. Once you pass this step you may continue onto the next steps.
 
 To run through all steps in order:
 
@@ -156,32 +157,26 @@ bash ${code_dir}1-qc_and_call.bash
 
 ## Step 2: Calculate Froh (+ within siblings) and give descriptive statistics
 
-Running the code below will calculate Froh for each individual, then calculate Froh and F_GRM within siblings (relative to the family mean) and finally, create tables that describe the sample (which will be included in the return of results).
+Running the code below will calculate Froh for each individual and create tables that describe the sample (which will be included in the return of results).
 
 Before running you will need to make sure that you have R installed and your version of R should include the tidyverse package.
 
 ```
-Rscript ${code_dir}2-calc_froh.R
+Rscript ${code_dir}2-clean_calc_froh_data.R
 ```
 
-## Step 3: Calculate phenotypes (within siblings)
-Following the method from Clark et al., this code is used to calculate trait residuals relative to family means which will be used in the within sibling analysis. This script will also clean the phenotype data for both the within- and between-sibling analyses and create tables that describe the distribution of the phenotypes in the sample (which will be included in the return of results).
+## Step 3: Between family models
+This code is used to run between family models for Froh and Fhat3 both separately and together. This script will also clean the phenotype data for the between family analyses and create tables that describe the distribution of the phenotypes in the sample (which will be included in the return of results). Please check the log output after running this code so that any warnings or errors can be reported.
 
 ```
 Rscript ${code_dir}3-calc_phenos.R
 ```
 
-## Step 4: Run within sibling models and between family models for Froh and F_GRM separately
-Following the methods from Clark et al, this code is used to estimate the associations between Froh (and F_GRM) and all phenotypes using both within sibling and between family models. Please check the log output after running this code so that any warnings or errors can be reported. You do not need to report warnings that note the number of families was too small for analysis.
-```
-Rscript ${code_dir}4-run_froh_models.R
-Rscript ${code_dir}4-run_fgrm_models.R
-```
-
-## Step 5: Run within sibling models and between family models for both Froh and F_GRM
+## Step 4: Run within sibling models
+This code is used to run within sibling models for Froh and Fhat3 both separately and together. This script will also clean the phenotype data for the within sibling analyses and create tables that describe the distribution of the phenotypes in the sample (which will be included in the return of results). Please check the log output after running this code so that any warnings or errors can be reported.
 
 ```
-Rscript ${code_dir}5-run_multi_models.R
+Rscript ${code_dir}4-within_family_analysis.R
 ```
 
 ## Step 6: Return your results

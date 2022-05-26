@@ -26,13 +26,13 @@ export project_dir="/scratch/aalab/suri/projects/sibling_roh_analysis/"
 
 ## put location for directory with plink files
 # please make sure to include the forward slash at the end of the directory path
-export data_dir="/scratch/aalab/suri/data/cleaned_data/"
+export data_dir="/scratch/aalab/suri/data/siblings_github_test/"
 ## put prefix for plink files
-export input_prefix="abcd_eur_sibs"
+export input_prefix="abcd_eur_test"
 ## put location for covariate file
-export covar_file="/scratch/aalab/suri/data/raw_data/abcd_covariates_eur.txt"
+export covar_file="/scratch/aalab/suri/data/siblings_github_test/abcd_covariates_eur.txt"
 ## put location for phenotype file
-export pheno_file="/scratch/aalab/suri/data/raw_data/abcd_test_phenotypes.txt"
+export pheno_file="/scratch/aalab/suri/data/siblings_github_test/abcd_test_phenotypes.txt"
 
 ## put the path to your plink executable file
 ## i.e., the path to the directory where you have downloaded/installed plink
