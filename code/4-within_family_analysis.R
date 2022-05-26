@@ -141,7 +141,7 @@ for(j in 4:ncol(sibs_pheno_data)){
   se_multi_fhat3 <- summary(multi_wsibs_model)$coefficients[3,2]
   p_multi_fhat3 <- summary(multi_wsibs_model)$coefficients[3,4]
   ####### Step 6: save results
-  results <- as.data.frame(cbind(phenotype, beta_froh, se_froh, p_froh, beta_fhat3, se_fhat3, p_fhat3, beta_multi_froh, se_multi_froh, p_multi_froh, beta_multi_fhat3, se_multi_fhat3, p_multi_fhat3, type))
+  results <- as.data.frame(cbind(phenotype, beta_froh, se_froh, p_froh, beta_fhat3, se_fhat3, p_fhat3, beta_multi_froh, se_multi_froh, p_multi_froh, beta_multi_fhat3, se_multi_fhat3, p_multi_fhat3))
   all_results_wsibs <- rbind(all_results_wsibs, results)
           }
 
