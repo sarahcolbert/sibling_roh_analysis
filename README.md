@@ -162,7 +162,7 @@ Running the code below will calculate Froh for each individual and create tables
 Before running you will need to make sure that you have R installed and your version of R should include the tidyverse package.
 
 ```
-Rscript ${code_dir}2-clean_calc_froh_data.R
+Rscript ${code_dir}2-clean_calc_roh_data.R
 ```
 
 ## Step 3: Between family models
