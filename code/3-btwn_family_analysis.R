@@ -99,9 +99,11 @@ for(k in 4:num_phenos_btwn){
 
   ####### Step 2: attach covariates to df
   test3 <- merge(test2, covars, by = "IID")
+  ## read sex as factor
+  test3$sex <- as.factor(sex)
 
   ####### Step 3: regress scaled phenotypes on covariates to get residuals
-  cov_model <- lm(pheno ~ scale(age) + (scale(age))^2 + scale(sex) + scale(PC1) + scale(PC2) + scale(PC3) + scale(PC4) + scale(PC5) + scale(PC6) + scale(PC7) + scale(PC8) + scale(PC9) + scale(PC10), data = test3)
+  cov_model <- lm(pheno ~ scale(age) + (scale(age))^2 + sex + scale(PC1) + scale(PC2) + scale(PC3) + scale(PC4) + scale(PC5) + scale(PC6) + scale(PC7) + scale(PC8) + scale(PC9) + scale(PC10), data = test3)
 
   ####### Step 4: pull residuals from the model
   pheno_resids <- test3
