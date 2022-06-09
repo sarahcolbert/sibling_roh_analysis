@@ -27,6 +27,24 @@ all_data_btwn <- merge(roh_file, pheno2, by ="IID")
 id_fid_age_btwn <- all_data_btwn %>% select(IID, FID, age)
 pheno_data_btwn <- merge(id_fid_age_btwn, pheno2, by = "IID")
 
+## if trait is binary, check for N case = 500, and remove any phenos below that
+## make vector with phenotype names
+pheno_names <- colnames(pheno_data_btwn)[4:ncol(pheno_data_btwn)]
+message("Checking for phenotypes with N case < 500")
+for(s in 1:length(pheno_names)){
+  ## pull phenotype values into a vector
+  pheno_vals1 <- pheno_data_btwn[,pheno_names[s]]
+  ## remove NAs
+  pheno_vals1<-pheno_vals1[!is.na(pheno_vals1)]
+  ## test if binary, and if binary check how many cases (=1)
+  res <- ifelse(all(pheno_vals1 %in% c(0,1)), sum(pheno_vals1), NA)
+  ## if its binary and res is number, check that number isn't < 500
+  if(is.na(res)){ ## do nothing
+    }else if (res < 500){
+  message(paste(pheno_names[s], "has less than 500 cases and is being removed from analysis", sep=" "))
+  pheno_data_btwn[,pheno_names[s]] <- NULL}
+}
+
 message("Done cleaning data")
 
 ###################################
