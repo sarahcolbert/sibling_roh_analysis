@@ -39,6 +39,8 @@ The within-sibling analysis requires data on siblings. If siblings have not been
 
 Instructions for defining siblings are provided by Howe et al. [here](https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.1_Siblings).
 
+We also provide an [example script](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/code/siblings_method_2.R) from David Clark with an alternate method for defining siblings. 
+
 ## Pre-Step 3: Editing the config file
 Navigate to the sibling_roh_analysis directory and edit the config file by adding the required information. If you would like to see an example of what a completed config file might look like please refer to the "myconfig" file (but be sure to edit the "config" file and not this one). You can then run the config file using:
 
