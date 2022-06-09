@@ -3,7 +3,7 @@
 ##------------------------------------------------
 
 ## load packages
-library(tidyverse)
+library(tidyr)
 
 ## load roh data
 message(paste("Loading ",Sys.getenv("processed_dir"),Sys.getenv("input_prefix"),"_roh.hom.indiv", sep=""))
