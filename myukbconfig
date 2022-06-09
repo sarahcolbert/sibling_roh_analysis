@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# General details
+
+# Please make sure this is alphanumeric (underscores allowed but no spaces)
+study_name="UKB"
+
+# Please indicate the genetic ancestry of the sample
+# If more than one genotyping array was used for a single ancestry,
+# please indicate this by using different numbers for each array sub-sample
+# e.g., use "eur1" and "eur2" in separate runs if you have european-ancestry samples
+# that were genotyped on two different arrays
+study_ancestry="AFR"
+
+# Analyst's initials
+analyst_initials="SMCC"
+
+# Analyst's email address
+analyst_email="sarah.colbert@wustl.edu"
+
+# Please put the full path to this directory
+# e.g. if the config file path is "/home/Projects/sibling_roh_analysis/config"
+#then project_dir="/home/Projects/sibling_roh_analysis/"
+# please make sure to include the forward slash at the end of the directory path
+export project_dir="/scratch/aalab/suri/projects/sibling_roh_analysis/"
+
+## put location for directory with plink files
+# please make sure to include the forward slash at the end of the directory path
+export data_dir="/scratch/aalab/suri/data/siblings_github_test/"
+## put prefix for plink files
+export input_prefix="ukb_afr_test"
+## put location for covariate file
+export covar_file="/scratch/aalab/suri/data/siblings_github_test/ukb_covariates_afr.txt"
+## put location for phenotype file
+export pheno_file="/scratch/aalab/suri/data/siblings_github_test/ukb_test_phenotypes.txt"
+
+## put the path to your plink executable file
+## i.e., the path to the directory where you have downloaded/installed plink
+export plink="/home/sarah.c/software/plink"
+
+## DO NOT MODIFY
+export processed_dir="${project_dir}processed_files/"
+mkdir -p ${processed_dir}
+export output_dir="${project_dir}output_${study_name}_${study_ancestry}/"
+mkdir -p ${output_dir}
+export code_dir="${project_dir}code/"
+export today=$(date "+%Y%m%d")
+export output_name="${study_name}_${study_ancestry}_${analyst_initials}_${today}"
