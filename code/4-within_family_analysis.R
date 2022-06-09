@@ -3,7 +3,7 @@
 ###################################
 
 ## load packages
-library(tidyr)
+library(tidyverse)
 library(lmerTest)
 library(lfe)
 
