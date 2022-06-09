@@ -63,7 +63,7 @@ c) FIDs should be common between siblings (but unique between sets of siblings) 
 
 ### Covariate data
 A covariate file should be provided containing the following columns:
-IID, age (defined as 2022 minus birth year), sex (male = 1, female = 0), first 10 genomic principal components. Please only include one row per individual, duplicate rows should not exist in the covariate file.
+IID, age (defined as 2022 minus birth year), sex (male = 1, female = 0), first 10 genomic principal components. Please only include one row per individual. Duplicate rows should not exist in the covariate file, but will be removed in step 2 if they do exist.
 
 
 Column names should exactly match the example below:
