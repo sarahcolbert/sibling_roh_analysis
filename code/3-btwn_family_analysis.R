@@ -92,8 +92,8 @@ for(k in 4:num_phenos_btwn){
   test2 <- pheno_data_btwn %>% select(FID, IID, colnames(pheno_data_btwn)[k]) %>% drop_na()
 
   ####### Step 1: assesses if trait is binary or continuous
-  ## if binary need to scale
-  test2$pheno <- ifelse(all(test2[,3] %in% c(0,1)), test2[,3]*(1/var(test2[,3])), test2[,3])
+  ## make pheno column
+  test2$pheno <- test2[,3]
   ## name type based on if binary or continuous
   type <- ifelse(all(test2[,3] %in% c(0,1)), "binary", "continuous")
 
