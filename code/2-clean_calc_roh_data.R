@@ -17,7 +17,8 @@ message(paste("Done loading ",Sys.getenv("processed_dir"),Sys.getenv("input_pref
 
 ## load covariates
 message(paste("Loading ",(Sys.getenv("covar_file")), sep=""))
-covar_data <- read.table(paste(Sys.getenv("covar_file")), header = TRUE)
+covar_data1 <- read.table(paste(Sys.getenv("covar_file")), header = TRUE) %>% distinct()
+covar_data <- covar_data1[!duplicated(covar_data1$IID), ]
 message(paste("Done loading ",(Sys.getenv("covar_file")), sep=""))
 
 ##------------------------------------------------
