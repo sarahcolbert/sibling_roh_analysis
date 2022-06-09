@@ -45,7 +45,7 @@ for(s in 1:length(pheno_names)){
   ## if its binary and res is number, check that number isn't < 500
   if(is.na(res)){ ## do nothing
     }else if (res < 500){
-  message(paste(pheno_names[s], "has less than 500 cases and is being removed from analysis", sep=" "))
+  message(paste("WARNING:", pheno_names[s], "has less than 500 cases and is being removed from analysis", sep=" "))
   pheno_data_wsibs[,pheno_names[s]] <- NULL}
 }
 
