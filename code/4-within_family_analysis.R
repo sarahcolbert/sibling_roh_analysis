@@ -104,7 +104,7 @@ if(all(test2[,4] %in% c(0,1))){
   sd_phen <- sd(test2[,4])}
 
 ## gather descriptive info into df
-pheno_name <- paste(colnames(test2)[4])
+pheno_name <- paste(colnames(pheno_data_wsibs)[k])
 pheno_descrip <- cbind(pheno_name, sample_size, nfams, ncase, ncontrols, mean_phen, median_phen, sd_phen, mean_age, sd_age)
 wsibs_pheno_descrip <- rbind(wsibs_pheno_descrip, pheno_descrip)
 

@@ -83,7 +83,7 @@ if(all(test2[,4] %in% c(0,1))){
   median_phen <- median(test2[,4])
   sd_phen <- sd(test2[,4])}
 
-pheno_name <- paste(colnames(test2)[4])
+pheno_name <- paste(colnames(pheno_data_btwn)[k])
 pheno_descrip <- cbind(pheno_name, sample_size, ncase, ncontrols, mean_phen, median_phen, sd_phen, mean_age, sd_age)
 btwn_pheno_descrip <- rbind(btwn_pheno_descrip, pheno_descrip)
 }
