@@ -9,7 +9,7 @@ The data requirements for the pipeline are as follows:
 
 1) Sibling data (see Pre-Step 2 for how to define siblings).
 
-2) Called genotypes in plink binary format. <strong>Imputed data is not permitted.</strong> (see Pre-Step 4 for information on input file requirements).
+2) Imputed and non-imputed genotype data in plink binary format. (see Pre-Step 4 for information on input file requirements).
 
 3) Complete covariate data (see Pre-Step 4 for information on what covariates should be included and the file format).
 
@@ -39,7 +39,7 @@ The within-sibling analysis requires data on siblings. If siblings have not been
 
 Instructions for defining siblings are provided by Howe et al. [here](https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.1_Siblings).
 
-We also provide an [example script](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/code/siblings_method_2.R) from David Clark with an alternate method for defining siblings. 
+We also provide an [example script](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/code/siblings_method_2.R) from David Clark with an alternate method for defining siblings.
 
 ## Pre-Step 3: Editing the config file
 Navigate to the sibling_roh_analysis directory and edit the config file by adding the required information. If you would like to see an example of what a completed config file might look like please refer to the "myconfig" file (but be sure to edit the "config" file and not this one). You can then run the config file using:
@@ -52,14 +52,25 @@ source ./config
 
 In  Pre-Step 5 we provide instructions for running a script that will check to make sure these and other files meet our requirements, but please first use this information to check your data to the best of your ability.
 
-### Genotype data
-You will need genotype data in PLINK binary format. **Analyses can only be run using SNPs on chromosomes 1-22. Any SNPs not on chromosomes 1-22 will be removed in step 1.** The pipeline requires the input files to satisfy the following requirements:
+### Non-imputed genotype data
+You will need non-imputed genotype data in PLINK binary format. **Analyses can only be run using SNPs on chromosomes 1-22. Any SNPs not on chromosomes 1-22 will be removed in step 1.** The pipeline requires the input files to satisfy the following requirements:
 
 a) PLINK binary format (.bed .bim .fam) files.
 
 b) The first two columns must contain family IDs (FID) and individual IDs (IIDs).
 
 c) FIDs should be common between siblings (but unique between sets of siblings) and IIDs should be unique for each individual.
+
+### Imputed genotype data
+Imputed data should meet the same requirements as non-imputed data, with a few additional requirements:
+
+a) must be filtered to INFO > 0.6
+
+b) must be filtered to MAF > 0.01
+
+c) FID and IID values must be identical to those in the non-imputed genotype data. If they do not match, the R scripts will not run.
+
+If your imputed data is in VCF or BGEN format, Howe et. al. [provide information](https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.2_ImputedGenotypeData) for how to convert these files to the plink binary format.
 
 ### Covariate data
 A covariate file should be provided containing the following columns:

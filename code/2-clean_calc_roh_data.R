@@ -25,9 +25,12 @@ message(paste("Done loading ",(Sys.getenv("covar_file")), sep=""))
 ## Make dataset with all data for all individuals
 ##------------------------------------------------
 
+## subset Fhat3 df to only individuals also in froh df
+fhat3_data2 <- fhat3_data1 %>% filter(IID %in% roh_data1$IID)
+
 ## add covariate data to roh and Fhat3 dfs
 message("Merging roh, fhat3 and covariate data")
-roh_fhat3 <- merge(roh_data1, fhat3_data1, by = c("IID","FID"))
+roh_fhat3 <- merge(roh_data1, fhat3_data2, by = c("IID","FID"))
 roh_df1 <- merge(roh_fhat3, covar_data, by = "IID")
 message("Done merging data")
 

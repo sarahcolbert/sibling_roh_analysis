@@ -27,8 +27,10 @@ export project_dir="/path/to/proj_dir/"
 ## put location for directory with plink files
 # please make sure to include the forward slash at the end of the directory path
 export data_dir="/path/to/plink/files/"
-## put prefix for plink files (do not include ".fam", ".bed", etc. 
+## put prefix for NON-IMPUTED plink files (do not include ".fam", ".bed", etc.
 export input_prefix="plink_name"
+## put prefix for IMPUTED (already QCed) plink files 
+export imputed_prefix="plink_name_imputed"
 ## put location for covariate file
 export covar_file="/path/to/covariates.txt"
 ## put location for phenotype file
