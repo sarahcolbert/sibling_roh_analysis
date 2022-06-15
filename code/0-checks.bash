@@ -77,7 +77,9 @@ then
 	section_message "genetics"
 	Rscript ${project_dir}checks/code/genetic_data.R \
 		${data_dir}${input_prefix}.bim \
-		${data_dir}${input_prefix}.fam
+		${data_dir}${input_prefix}.fam \
+		${data_dir}${imputed_prefix}.bim \
+		${data_dir}${imputed_prefix}.fam
 fi
 
 ## generate relatedness checks
