@@ -68,7 +68,7 @@ a) must be filtered to INFO > 0.6
 
 b) must be filtered to MAF > 0.01
 
-c) FID and IID values must be identical to those in the non-imputed genotype data. If they do not match, the R scripts will not run.
+c) FID and IID values must be identical to those in the non-imputed genotype data. If they do not match, you will receive an error during the 'genetics' check. 
 
 If your imputed data is in VCF or BGEN format, Howe et. al. [provide information](https://github.com/LaurenceHowe/SiblingGWAS/wiki/0.2_ImputedGenotypeData) for how to convert these files to the plink binary format.
 
