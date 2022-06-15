@@ -159,9 +159,9 @@ Continuous ROH SNPs are identified using PLINK with the following parameters:
 6) homozyg-window-missing 5
 7) homozyg-window-het 1
 
-F_GRM is calculated using the --ibc flag in PLINK. F_GRM = Fhat3 in the output.
+Fhat3 is calculated using the --ibc flag in PLINK. 
 
-Running the code below will perform QC and then use the QCed files to call ROHs and calculate F_GRM.
+Running the code below will perform QC on the _non-imputed data_ and then use the QCed _non-imputed_ files to call ROHs and the provided _imputed_ files to calculate Fhat3.
 Before running you will need to make sure that you have installed PLINK 1.9 and that you specified the location of the executable file during configuration [1-qc_and_call.bash script](https://github.com/sarahcolbert/sibling_roh_analysis/blob/main/code/1-qc_and_call.bash).
 
 ```
