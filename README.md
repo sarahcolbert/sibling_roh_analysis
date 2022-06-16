@@ -53,7 +53,7 @@ source ./config
 In  Pre-Step 5 we provide instructions for running a script that will check to make sure these and other files meet our requirements, but please first use this information to check your data to the best of your ability.
 
 ### Non-imputed genotype data
-You will need non-imputed genotype data in PLINK binary format. **Analyses can only be run using SNPs on chromosomes 1-22. Any SNPs not on chromosomes 1-22 will be removed in step 1.** The pipeline requires the input files to satisfy the following requirements:
+You will need non-imputed genotype data in PLINK binary format for all F<sub>ROH</sub> analyses. **Analyses can only be run using SNPs on chromosomes 1-22. Any SNPs not on chromosomes 1-22 will be removed in step 1.** The pipeline requires the input files to satisfy the following requirements:
 
 a) PLINK binary format (.bed .bim .fam) files.
 
@@ -62,7 +62,7 @@ b) The first two columns must contain family IDs (FID) and individual IDs (IIDs)
 c) FIDs should be common between siblings (but unique between sets of siblings) and IIDs should be unique for each individual.
 
 ### Imputed genotype data
-Imputed data should meet the same requirements as non-imputed data, with a few additional requirements:
+Imputed data will be needed to calculate Fhat3. Imputed data should meet the same requirements as non-imputed data, with a few additional requirements:
 
 a) must be filtered to INFO > 0.6
 
