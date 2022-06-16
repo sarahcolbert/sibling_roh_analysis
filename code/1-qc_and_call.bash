@@ -12,4 +12,4 @@ ${plink} --bfile ${processed_dir}${input_prefix}_variant_qc --mind 0.03 --make-b
 ${plink} --bfile ${processed_dir}${input_prefix}_filtered --homozyg-window-snp 50 --homozyg-snp 50  --homozyg-kb 1500  --homozyg-gap 1000  --homozyg-density 50 --homozyg-window-missing 5 --homozyg-window-het 1 --out ${processed_dir}${input_prefix}_roh
 
 ## use plink to calculate Fhat3 from imputed data
-${plink} --bfile ${data_dir}${imputed_prefix} --autosome --ibc --out ${processed_dir}${input_prefix}_ibc
+${plink} --bfile ${data_dir}${imputed_prefix} --maf 0.01 --autosome --ibc --out ${processed_dir}${input_prefix}_ibc
