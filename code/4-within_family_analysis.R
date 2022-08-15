@@ -142,9 +142,9 @@ for(j in 4:ncol(sibs_pheno_data)){
   test2$FID <- as.factor(test2$FID)
   test2$sex <- as.factor(test2$sex)
   ####### Step 4: run regression using lfe package
-  froh_wsibs_model <- felm(formula(paste(colnames(sibs_pheno_data)[j],'~ froh + scale(age) + (scale(age))^2 + sex | FID')), data = test2)
-  fhat3_wsibs_model <- felm(formula(paste(colnames(sibs_pheno_data)[j],'~ Fhat3 + scale(age) + (scale(age))^2 + sex | FID')), data = test2)
-  multi_wsibs_model <- felm(formula(paste(colnames(sibs_pheno_data)[j],'~ froh + Fhat3 + scale(age) + (scale(age))^2 + sex | FID')), data = test2)
+  froh_wsibs_model <- felm(formula(paste(colnames(sibs_pheno_data)[j],'~ froh + scale(age) + (scale(age))^2 + sex | FID | 0 | FID')), data = test2)
+  fhat3_wsibs_model <- felm(formula(paste(colnames(sibs_pheno_data)[j],'~ Fhat3 + scale(age) + (scale(age))^2 + sex | FID | 0 | FID')), data = test2)
+  multi_wsibs_model <- felm(formula(paste(colnames(sibs_pheno_data)[j],'~ froh + Fhat3 + scale(age) + (scale(age))^2 + sex | FID | 0 | FID')), data = test2)
   ####### Step 5: save values
   phenotype <- colnames(sibs_pheno_data)[j]
   beta_froh <- summary(froh_wsibs_model)$coefficients[2,1]
