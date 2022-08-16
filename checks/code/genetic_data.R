@@ -82,7 +82,7 @@ if(any(duplicated(bim2[,2])))
   	warning("ERROR: ", msg)
   }
 ## check # of SNPs
-message("Checking non-imputed bim file: ", bim_file2)
+message("Checking imputed bim file: ", bim_file2)
   bim <- as.data.frame(fread(bim_file2, h=F))
   message("Number of SNPs: ", nrow(bim2))
   ## give warning if bim file has < 1.5 mil SNPs which might suggest mix up
